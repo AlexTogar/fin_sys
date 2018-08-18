@@ -18,7 +18,7 @@
       <div class="input-group-prepend"><span class="icon"><%= octicon "key" %></span></div>
       <% if @minimum_password_length %>
       <% end %><br />
-      <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password (#{@minimum_password_length} characters minimum)" %>
+      <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password (#{@minimum_password_length} symbols minimum)" %>
     </div>
   </div>
 
