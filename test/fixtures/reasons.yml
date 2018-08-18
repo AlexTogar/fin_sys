@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  reason: MyString
+  often: 1
+  user: 1
+  deleted: false
+
+two:
+  reason: MyString
+  often: 1
+  user: 1
+  deleted: false

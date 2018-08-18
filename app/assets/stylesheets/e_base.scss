@@ -1,0 +1,33 @@
+
+$width-svg: 30px;
+$heigth-svg: 30px;
+$bg-icon: #ced4da;
+
+
+body {
+  span.icon svg {
+    width: $width-svg;
+    height: $heigth-svg;
+  }
+
+  span.icon {
+    margin: 0 auto;
+    padding: 4px;
+    top:4px;
+    background-color: $bg-icon;
+    border-bottom-left-radius: 3px;
+    border-top-left-radius: .25rem;
+  }
+
+  .page-header {
+    font-size: 30px;
+  }
+
+  @media all and(min-width: 1080px) {
+    .jumbotron {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+  }
+
+}
