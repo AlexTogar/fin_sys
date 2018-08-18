@@ -10,11 +10,11 @@ $ ->
   $("a").click (e) -> #воизбежание перехода по ссылке с классом .off
     e.preventDefault()
 
-   $("a:not(.off)").click (e) -> #реакция на нажатие ссылки, не содержащей класс .off
-   e.preventDefault() #при нажтии на кнопку не выполнять переход по указанному url
-   path = this.href
-   console.log "mailto or # not included"
-   $("body").fadeOut(delay)
-   console.log "fadeout"
-   $(location).attr('href', path)
-#   setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
+  $("a:not(.off)").click (e) -> #реакция на нажатие ссылки, не содержащей класс .off
+    e.preventDefault() #при нажтии на кнопку не выполнять переход по указанному url
+    path = this.href
+    console.log "mailto or # not included"
+    $("body").fadeOut(delay)
+    console.log "fadeout"
+    $(location).attr('href', path)
+  #  setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
