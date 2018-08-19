@@ -1,13 +1,24 @@
 
+
 $width-svg: 30px;
 $heigth-svg: 30px;
 $bg-icon: #ced4da;
 $my-gray: rgba(0,0,0,.5);
 $my-black-gray: rgba(0,0,0,.7);
+$my-gray-nav: rgba(0,0,0,0.15);
+$my-brand-primary: #007bff;
+$jumbotron-color: #e9ecef;
 $brand-text-success: lighten(#155724,20%);
 $brand-text-danger: red;
 
 body {
+
+  .bg-my {
+    background-color: lighten($jumbotron-color,3%) !important
+  }
+  .my-brand {
+
+  }
   //.help-alert {
   //  min-height: 70px;
   //}
@@ -41,7 +52,7 @@ body {
   .jumbotron {
     padding-top: 30px;
     padding-bottom: 30px;
-
+    margin-top: 10px !important;
     h2 {
       margin-bottom: 0;
     }
