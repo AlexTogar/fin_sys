@@ -4,6 +4,14 @@
 delay = 200
 
 $ ->
+
+
+  $(".close").click (e)->
+    e.stopPropagation()
+    $(".alert").slideUp(delay*2.5).delay(0).fadeOut(delay*2.5)
+    console.log("fadeout")
+
+
   setTimeout (-> $(".alert").slideUp(delay*2.5).delay(0).fadeOut(delay*2.5)), 5000
 
   $("body").css display: "none" #Удалить body

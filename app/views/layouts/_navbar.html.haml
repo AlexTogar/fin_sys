@@ -42,7 +42,7 @@
     %ul.navbar-right.navbar-nav
       - if user_signed_in?
         %li.nav-item
-          %a.nav-link.off.no-hover{:href => "#"}
+          %a.nav-link.off.no-hover.self{:href => "#"}
             %span.you You:
             = current_user.email
 
@@ -62,4 +62,4 @@
         %li.nav-item
           %a.nav-link{:href => new_user_registration_path}
             %span.icon-nav= octicon "person"
-            Registraion
+            Registration

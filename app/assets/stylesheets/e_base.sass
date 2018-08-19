@@ -8,19 +8,29 @@ $my-gray-nav: rgba(0, 0, 0, 0.15)
 $my-brand-primary: #007bff
 $jumbotron-color: #e9ecef
 $my-brand-danger: #721c24
-
-
 $brand-text-success: lighten(#155724, 20%)
-$brand-text-danger: red
 
 body
+
+
+  #error_explanation
+    color: $my-brand-danger !important
+    h2
+      font-size: 20px !important
+
   .bg-my
     background-color: lighten($jumbotron-color, 3%) !important
 
   .my-brand
 
+  @media all and (max-width: 991px)
+    .self
+      border-top: solid 1px $my-gray !important
+
+
   .alert
     margin-top: 10px
+    margin-bottom: 10px
 
   .you
     color: #333

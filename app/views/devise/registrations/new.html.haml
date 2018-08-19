@@ -1,0 +1,25 @@
+.jumbotron
+  .page-header
+    %h2.text-primary SIGN UP
+  = form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+    .error-msg= devise_error_messages!
+    .form-group
+      .field.input-group
+        .input-group-prepend
+          %span.icon= octicon "mail"
+        = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email"
+    .form-group.del_margin
+      .field.input-group
+        .input-group-prepend
+          %span.icon= octicon "key"
+        = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password (#{@minimum_password_length} symbols minimum)"
+    .form-group
+      .field.input-group
+        .input-group-prepend
+          %span.icon= octicon "key"
+        = f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "Password confirmation"
+    .form-group
+      .input-group
+        .input-group-prepend
+          %span.icon= octicon "home"
+        = f.submit "Sign up", class: "form-control btn btn-primary"
