@@ -1,0 +1,65 @@
+%nav.navbar.navbar-expand-lg.navbar-light.bg-light.bg-my
+  %a.navbar-brand.my-brand{:href => root_path} FINANCE SYSTEM
+  %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
+    %span.navbar-toggler-icon
+  #navbarSupportedContent.collapse.navbar-collapse
+    %ul.navbar-nav.mr-auto
+
+      %li.nav-item
+        %a.nav-link{:href => base_main_tab_path}
+          %span.icon-nav
+            =octicon "list-unordered"
+            Main table
+
+      %li.nav-item
+        %a.nav-link{:href => base_join_path}
+          %span.icon-nav
+            =octicon "organization"
+            Join the group
+
+      %li.nav-item
+        %a.nav-link{:href => base_graph_path}
+          %span.icon-nav
+            =octicon "graph"
+            Graphics
+
+
+      / <li class="nav-item active">
+      / <a class="nav-link off" href="#">Home <span class="sr-only">(current)</span></a>
+      / </li>
+      / <li class="nav-item dropdown">
+      / <a class="nav-link dropdown-toggle off" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      / Dropdown
+      / </a>
+      / <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+      / <a class="dropdown-item off" href="#">Action</a>
+      / <a class="dropdown-item off" href="#">Another action</a>
+      / <div class="dropdown-divider"></div>
+      / <a class="dropdown-item off" href="#">Something else here</a>
+      / </div>
+      / </li>
+
+    %ul.navbar-right.navbar-nav
+      - if user_signed_in?
+        %li.nav-item
+          %a.nav-link.off.no-hover{:href => "#"}
+            %span.you You:
+            = current_user.email
+
+        %li.nav-item
+          %a.nav-link{"data-method" => "delete", :href => destroy_user_session_path}
+            %span.icon-nav
+              = octicon "sign-out"
+            Sign out
+
+      - else
+        %li.nav-item
+          %a.nav-link{:href => new_user_session_path}
+            %span.icon-nav
+              = octicon "sign-in"
+            Sign in
+
+        %li.nav-item
+          %a.nav-link{:href => new_user_registration_path}
+            %span.icon-nav= octicon "person"
+            Registraion

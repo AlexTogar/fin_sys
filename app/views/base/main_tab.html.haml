@@ -1,0 +1,14 @@
+.page-header
+  %br
+  %h3 Hello, here will be main table
+
+%table.table.table-hover.table-bordered
+  %thead.bg-primary{style: "color:white"}
+    %tr
+      %td Причины
+  %tbody
+    - Reason.all.each do |x|
+      %tr
+        %td= x.reason
+
+%p The end :)
