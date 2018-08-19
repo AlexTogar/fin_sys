@@ -6,31 +6,49 @@
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link off" href="#">Home <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link off" href="#">Link</a>
-      </li>
-      <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle off" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Dropdown
-        </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item off" href="#">Action</a>
-          <a class="dropdown-item off" href="#">Another action</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item off" href="#">Something else here</a>
-        </div>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled off" href="#">Disabled</a>
-      </li>
+
+      <!--      <li class="nav-item active">-->
+      <!--        <a class="nav-link off" href="#">Home <span class="sr-only">(current)</span></a>-->
+      <!--      </li>-->
+
+
+      <!--      <li class="nav-item dropdown">-->
+      <!--        <a class="nav-link dropdown-toggle off" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+      <!--          Dropdown-->
+      <!--        </a>-->
+      <!--        <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+      <!--          <a class="dropdown-item off" href="#">Action</a>-->
+      <!--          <a class="dropdown-item off" href="#">Another action</a>-->
+      <!--          <div class="dropdown-divider"></div>-->
+      <!--          <a class="dropdown-item off" href="#">Something else here</a>-->
+      <!--        </div>-->
+      <!--      </li>-->
     </ul>
     <ul class="navbar-right navbar-nav">
-      <li class="nav-item"><a class="nav-link" href="<%= destroy_user_session_path %>" data-method="delete">Sign Out</a></li>
-      <li class="nav-item"><a class="nav-link" href="<%= new_user_session_path %>">Sign In</a></li>
-      <li class="nav-item"><a class="nav-link" href="<%= new_user_registration_path %>">Registraion</a></li>
+      <% if user_signed_in? %>
+        <li class="nav-item">
+          <a href="#" class="nav-link off no-hover"><span class="you">You: </span><%= current_user.email %></a></li>
+
+
+        <li class="nav-item">
+          <a class="nav-link" href="<%= destroy_user_session_path %>" data-method="delete">
+            <span class="icon-nav"> <%= octicon "sign-out" %></span> Sign out
+          </a>
+        </li>
+
+      <% else %>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= new_user_session_path %>">
+            <span class="icon-nav"> <%= octicon "sign-in" %></span> Sign in
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" href="<%= new_user_registration_path %>">
+            <span class="icon-nav"><%= octicon "person" %></span> Registraion
+          </a>
+        </li>
+      <% end %>
 
     </ul>
   </div>

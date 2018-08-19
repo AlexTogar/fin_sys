@@ -4,6 +4,8 @@
 delay = 200
 
 $ ->
+  setTimeout (-> $(".alert").slideUp(delay*2.5).delay(0).fadeOut(delay*2.5)), 5000
+
   $("body").css display: "none" #Удалить body
   $("body").fadeIn(delay) #Проявить body
 
