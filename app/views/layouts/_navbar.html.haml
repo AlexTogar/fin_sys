@@ -1,6 +1,9 @@
 - if current_user
   %nav.navbar.navbar-expand-lg.navbar-light.bg-light.bg-my
-    %a.navbar-brand.my-brand{:href => root_path} FINANCE SYSTEM
+    %a.navbar-brand.my-brand{:href => root_path}
+      %span.logo-icon= octicon "ruby"
+      FINSYS
+
     %button.navbar-toggler{"aria-controls" => "navbarSupportedContent", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarSupportedContent", "data-toggle" => "collapse", :type => "button"}
       %span.navbar-toggler-icon
     #navbarSupportedContent.collapse.navbar-collapse
@@ -51,14 +54,14 @@
             %a.nav-link{"data-method" => "delete", :href => destroy_user_session_path}
               %span.icon-nav
                 = octicon "sign-out"
-              Sign out
+                Sign out
 
         - else
           %li.nav-item
             %a.nav-link.self{:href => new_user_session_path}
               %span.icon-nav
                 = octicon "sign-in"
-              Sign in
+                Sign in
 
           %li.nav-item
             %a.nav-link{:href => new_user_registration_path}
