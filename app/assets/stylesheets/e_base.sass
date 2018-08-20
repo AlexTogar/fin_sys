@@ -1,3 +1,4 @@
+@import "css/bootstrap"
 $width-svg: 25px
 $heigth-svg: 25px
 $bg-icon: #ced4da
@@ -35,10 +36,13 @@ body
   height: 100%
   font-family: benton-sans
 
+  .input-group
+    @extend .input-group-lg
+
   .logo
     text-align: center
     margin-top: 30px
-    margin-bottom: 30px
+    margin-bottom: 20px
     font-size: 60px
     font-family: herald-gotic
     color: white
@@ -93,7 +97,7 @@ body
     background-color: white !important
     input
       border-color: $my-brand-primary
-
+      font-size: 17px !important
     .btn-primary
       background-image: -webkit-linear-gradient(left bottom,rgba(159,88,150,0) 0, lighten( $my-black-brand-primary,10%) 100%) !important
 
@@ -104,6 +108,7 @@ body
     width: $width-svg
     height: $heigth-svg
     fill: $my-black-brand-primary
+    margin-top: 5px
 
 
   h2 svg
@@ -128,7 +133,7 @@ body
 
 
   .input-group-prepend
-    height: 38px
+    height: 48px
 
   .page-header
     padding-bottom: 20px
