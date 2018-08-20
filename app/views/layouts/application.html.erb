@@ -20,7 +20,7 @@
 
 </head>
 <body>
-
+<%=  before_action :authenticate_user! %>
 <%= render partial: './layouts/navbar' %>
 
 <div class="container">
