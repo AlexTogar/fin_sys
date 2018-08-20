@@ -1,4 +1,7 @@
 %body.before-login
+  .logo
+    %span.logo-icon=octicon "ruby"
+    FINSYS
   .jumbotron
     .page-header
       %h2.text-primary SIGN UP
@@ -24,3 +27,6 @@
           .input-group-prepend
             %span.icon= octicon "home"
           = f.submit "Sign up", class: "form-control btn btn-primary"
+    .jumbotron-footer
+      Already have an account?
+      %a{href: new_user_session_path} Sign In

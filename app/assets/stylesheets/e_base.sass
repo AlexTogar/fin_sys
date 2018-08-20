@@ -14,6 +14,12 @@ $brand-text-success: lighten(#155724, 20%)
 @font-face
   font-family: benton-sans
   src: local("benton-sans"), font_url("bsl.otf")
+
+@font-face
+  font-family: herald-gotic
+  src: local("helrald-gotic"), font_url("hgb.ttf")
+
+
 html
   height: 100%
 
@@ -24,10 +30,29 @@ html
 
 
 body
+
+
   height: 100%
   font-family: benton-sans
 
-  .navbar
+  .logo
+    text-align: center
+    margin-top: 30px
+    margin-bottom: 30px
+    font-size: 60px
+    font-family: herald-gotic
+    color: white
+    .logo-icon svg
+      width: 60px
+      height: 60px
+      margin-bottom: 17px
+      fill: white
+
+  .jumbotron-footer
+    margin-top: 40px
+    text-align: center
+    padding-top: 10px
+    border-top: solid 1px lighten($my-brand-primary, 30%)
 
   .octicon
     width: 16px
