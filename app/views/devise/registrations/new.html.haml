@@ -10,17 +10,17 @@
       .form-group
         .field.input-group
           .input-group-prepend
-            %span.icon= octicon "mail"
+            %span.icon= octicon "person"
           = f.email_field :email, autofocus: true, autocomplete: "email", class: "form-control", placeholder: "Email"
       .form-group.del_margin
         .field.input-group
           .input-group-prepend
-            %span.icon= octicon "key"
+            %span.icon= octicon "lock"
           = f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password (#{@minimum_password_length} symbols minimum)"
       .form-group
         .field.input-group
           .input-group-prepend
-            %span.icon= octicon "key"
+            %span.icon= octicon "lock"
           = f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "Password confirmation"
       .form-group
         .input-group
