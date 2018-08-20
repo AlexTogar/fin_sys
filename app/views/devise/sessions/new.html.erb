@@ -1,19 +1,21 @@
+
+<body class="before-login">
 <div class="jumbotron">
   <div class="page-header">
-    <h2 class="text-primary">LOG IN </h2>
+    <h3 class="text-primary">Log in to your account</h3>
   </div>
 
   <%= form_for(resource, as: resource_name, class: "", url: session_path(resource_name)) do |f| %>
     <div class="form-group">
       <div class="field input-group">
-        <div class="input-group-prepend"><span class="icon"><%= octicon "mail" %></span></div>
+        <div class="input-group-prepend"><span class="icon"><%= octicon "person" %></span></div>
         <%= f.email_field :email, autofocus: true, autocompleate: "off", class: "form-control", placeholder: "Email" %>
       </div>
     </div>
 
     <div class="form-group">
       <div class="field input-group">
-        <div class="input-group-prepend"><span class="icon"><%= octicon "key" %></span></div>
+        <div class="input-group-prepend"><span class="icon"><%= octicon "lock" %></span></div>
         <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Password" %>
 
       </div>
@@ -41,6 +43,6 @@
 
 </div>
 
-
+</body>
 
 
