@@ -1,5 +1,5 @@
-$width-svg: 30px
-$heigth-svg: 30px
+$width-svg: 27px
+$heigth-svg: 27px
 $bg-icon: #ced4da
 
 $my-gray: rgba(0, 0, 0, 0.5)
@@ -11,6 +11,9 @@ $my-brand-danger: #721c24
 $brand-text-success: lighten(#155724, 20%)
 
 body
+
+  .navbar
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.15) !important
 
   .octicon
     width: 16px
@@ -30,7 +33,6 @@ body
     .self
       border-top: solid 1px $my-gray !important
 
-
   .alert
     margin-top: 10px
     margin-bottom: 10px
@@ -49,6 +51,7 @@ body
     padding-top: 30px
     padding-bottom: 30px
     margin-top: 10px !important
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.15)
 
     h2
       margin-bottom: 0
@@ -66,9 +69,16 @@ body
     margin: 0 auto
     padding: 4px
     top: 4px
-    background-color: $bg-icon
+    //background-color: $bg-icon
+    background-color: $jumbotron-color
+    border-bottom: solid 1px $bg-icon
+    border-top: solid 1px $bg-icon
+    border-left: solid 1px $bg-icon
     border-bottom-left-radius: 3px
     border-top-left-radius: .25rem
+
+  .input-group-prepend
+    height: 38px
 
   .page-header
     font-size: 30px
