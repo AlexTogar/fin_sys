@@ -16,9 +16,10 @@ ActiveRecord::Schema.define(version: 2018_08_18_171242) do
   enable_extension "plpgsql"
 
   create_table "reasons", force: :cascade do |t|
+    t.bigint "user"
     t.string "reason"
     t.integer "often"
-    t.integer "user"
+    t.boolean "local"
     t.boolean "deleted"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

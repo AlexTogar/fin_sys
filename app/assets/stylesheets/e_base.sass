@@ -40,15 +40,25 @@ html
   background-image: -webkit-linear-gradient(right top, rgba(159, 88, 150, 0) 0, lighten ($my-black-brand-primary, 10%) 100%) !important
 
 body
+  //background-color: #f1f1f1
 
   nav
+    color: $my-black-brand-primary
+    background-image: -webkit-linear-gradient(right top, $my-brand-primary 0%,  $my-black-brand-primary 100%)
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+    border-bottom: 3px solid
+    border-image: -webkit-linear-gradient(right top, rgba(43,214,255,0.7) 0%, $my-black-brand-primary  100%)
+    border-image-slice: 1
+
+    .navbar-toogler-icon
+
     *
-      color: rgba(255, 255, 255, .9) !important
       font-weight: 800
     .logo-icon svg
       width: 30px
       height: 30px
-      fill: white
+      fill: $my-black-brand-primary
       margin-bottom: 9px
     margin-bottom: 10px
 
@@ -60,6 +70,7 @@ body
     margin-top: 30px
     margin-bottom: 20px
     font-size: 60px
+    letter-spacing: .15em
     font-family: herald-gotic
     color: white
     .logo-icon svg
@@ -93,6 +104,7 @@ body
   .my-brand
     font-family: herald-gotic
     font-weight: 800
+    letter-spacing: .15em
     font-size: 30px
     color: white
 
@@ -112,10 +124,7 @@ body
   .icon-nav
     svg
       margin-bottom: 2px
-      fill: white
-
-  .nav-link *
-    color: white
+      fill: $my-black-brand-primary
 
   input
     border-color: $my-brand-primary !important
@@ -201,4 +210,5 @@ body
       .nav-item a
         padding-right: 10px
         padding-left: 10px
+
 
