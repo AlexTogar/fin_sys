@@ -1,0 +1,23 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sum: 
+  description: MyText
+  reason: 
+  score: 
+  user: 
+  local: false
+  debt_sum: 
+  debtor: MyString
+  deleted: false
+
+two:
+  sum: 
+  description: MyText
+  reason: 
+  score: 
+  user: 
+  local: false
+  debt_sum: 
+  debtor: MyString
+  deleted: false

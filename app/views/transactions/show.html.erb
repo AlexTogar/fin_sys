@@ -1,0 +1,41 @@
+<div class="page-header">
+  <%= link_to transactions_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_transaction_path(@transaction), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show transaction</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Sum:</dt>
+  <dd><%= @transaction.sum %></dd>
+
+  <dt>Description:</dt>
+  <dd><%= @transaction.description %></dd>
+
+  <dt>Reason:</dt>
+  <dd><%= @transaction.reason %></dd>
+
+  <dt>Score:</dt>
+  <dd><%= @transaction.score %></dd>
+
+  <dt>User:</dt>
+  <dd><%= @transaction.user %></dd>
+
+  <dt>Local:</dt>
+  <dd><%= @transaction.local %></dd>
+
+  <dt>Debt sum:</dt>
+  <dd><%= @transaction.debt_sum %></dd>
+
+  <dt>Debtor:</dt>
+  <dd><%= @transaction.debtor %></dd>
+
+  <dt>Deleted:</dt>
+  <dd><%= @transaction.deleted %></dd>
+
+</dl>
