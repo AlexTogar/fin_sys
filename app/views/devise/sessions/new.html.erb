@@ -1,10 +1,9 @@
-
 <body class="before-login">
 <div class="logo"><span class="logo-icon"><%= octicon "ruby" %></span> FINSYS</div>
 
 <div class="jumbotron">
   <div class="page-header">
-    <h3 class="text-primary">Log in to your account</h3>
+    <h3 class="text-primary gradient">Log in to your account</h3>
   </div>
 
   <%= form_for(resource, as: resource_name, class: "", url: session_path(resource_name)) do |f| %>
@@ -38,13 +37,13 @@
         <div class="input-group-prepend">
           <span class="icon"><%= octicon "sign-in" %></span>
         </div>
-        <%= f.submit "Log in", class: "form-control btn btn-primary" %>
+        <%= f.submit "Log in", class: "form-control btn btn-primary gradient" %>
       </div>
     </div>
   <% end %>
 
   <div class="jumbotron-footer">
-    New to FS? <a href="<%=new_user_registration_path %>">Sign Up</a>
+    New to FS? <a href="<%= new_user_registration_path %>">Sign Up</a>
   </div>
 
 </div>

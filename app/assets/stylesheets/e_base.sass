@@ -6,11 +6,23 @@ $bg-icon: #ced4da
 $my-gray: rgba(0, 0, 0, 0.5)
 $my-black-gray: rgba(0, 0, 0, 0.7)
 $my-gray-nav: rgba(0, 0, 0, 0.15)
-$my-black-brand-primary: darken(#007bff, 30%)
+
 $my-brand-primary: #007bff
+$my-black-brand-primary: darken($my-brand-primary, 15%)
+
+$my-bg-black-brand-primary: darken($my-brand-primary, 30%)
 
 $jumbotron-color: #e9ecef
-$my-brand-danger: #721c24
+
+$my-brand-danger: #dc3545
+$my-black-brand-danger: darken($my-brand-danger, 10%)
+
+$my-brand-warning: #ffc107
+$my-black-brand-warning: darken($my-brand-warning, 5%)
+
+$my-brand-success: #28a745
+$my-black-brand-success: darken($my-brand-success, 10%)
+
 $brand-text-success: lighten(#155724, 20%)
 @font-face
   font-family: benton-sans
@@ -20,22 +32,18 @@ $brand-text-success: lighten(#155724, 20%)
   font-family: herald-gotic
   src: local("helrald-gotic"), font_url("hgb.ttf")
 
-
 html
   height: 100%
 
 .before-login
-  background-color: $my-black-brand-primary
-
-  background-image: -webkit-linear-gradient(right top,rgba(159,88,150,0) 0, lighten ($my-black-brand-primary,10%) 100%) !important
-
+  background-color: $my-bg-black-brand-primary
+  background-image: -webkit-linear-gradient(right top, rgba(159, 88, 150, 0) 0, lighten ($my-black-brand-primary, 10%) 100%) !important
 
 body
 
-
   nav
     *
-      color: rgba(255,255,255,.9) !important
+      color: rgba(255, 255, 255, .9) !important
       font-weight: 800
     .logo-icon svg
       width: 30px
@@ -46,8 +54,6 @@ body
 
   height: 100%
   font-family: benton-sans, Sans-Serif
-
-
 
   .logo
     text-align: center
@@ -62,11 +68,8 @@ body
       margin-bottom: 17px
       fill: white
 
-
-
   .little-logo
     font-size: 30px
-
 
   .jumbotron-footer
     margin-top: 40px
@@ -85,7 +88,7 @@ body
 
   .bg-my
     background-color: $my-brand-primary !important
-    background-image: -webkit-linear-gradient(right top,rgba(159,88,150,0) 0, lighten( $my-black-brand-primary,10%) 100%) !important
+    background-image: -webkit-linear-gradient(right top, rgba(159, 88, 150, 0) 0, lighten($my-bg-black-brand-primary, 10%) 100%) !important
 
   .my-brand
     font-family: herald-gotic
@@ -115,9 +118,32 @@ body
     color: white
 
   input
-    border-color: $my-brand-primary
+    border-color: $my-brand-primary !important
     font-size: 16px !important
     font-family: Sans-Serif
+
+  .text-primary.gradient
+    background-image: -webkit-linear-gradient(right top, $my-brand-primary 0%,  $my-black-brand-primary 100%) !important
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
+  .text-danger.gradient
+    background-image: -webkit-linear-gradient(right top, $my-brand-danger 0%,  $my-black-brand-danger 100%) !important
+    -webkit-background-clip: text
+    -webkit-text-fill-color: transparent
+
+  .bg-primary.gradient, .btn-primary.gradient, .alert-primary.gradient
+    background-image: -webkit-linear-gradient(right top, $my-brand-primary 0%,  $my-black-brand-primary 100%) !important
+
+  .bg-danger.gradient, .btn-danger.gradient, .alert-danger.gradient
+    background-image: -webkit-linear-gradient(right top, $my-brand-danger 0%,  $my-black-brand-danger 100%) !important
+
+  .bg-warning.gradient, .btn-warning.gradient, .alert-warning.gradient
+    background-image: -webkit-linear-gradient(right top, $my-brand-warning 0%,  $my-black-brand-warning 100%) !important
+
+  .bg-success.gradient, .btn-success.gradient, .alert-success.gradient
+    background-image: -webkit-linear-gradient(right top, $my-brand-success 0%,  $my-black-brand-success 100%) !important
+
 
   .jumbotron
     padding-top: 30px
@@ -126,7 +152,6 @@ body
     background-color: white
 
     .btn-primary
-      background-image: -webkit-linear-gradient(right top,rgba(159,88,150,0) 0, lighten( $my-black-brand-primary,10%) 100%) !important
       font-family: benton-sans
     h2
       margin-bottom: 0
@@ -136,7 +161,6 @@ body
     height: $heigth-svg
     fill: $my-black-brand-primary
     margin-top: 1px
-
 
   h2 svg
     width: $width-svg
@@ -155,9 +179,6 @@ body
     border-bottom-left-radius: 3px
     border-top-left-radius: .25rem
     border-color: $my-brand-primary
-
-
-
 
   .input-group-prepend
     height: 38px

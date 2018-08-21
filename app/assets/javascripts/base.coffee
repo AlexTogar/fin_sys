@@ -4,15 +4,13 @@
 delay = 200
 
 $ ->
-
-
   $(".close").click (e)->
     e.stopPropagation()
-    $(".alert").slideUp(delay*2.5).delay(0).fadeOut(delay*2.5)
+    $(".alert").slideUp(delay * 2.5).delay(0).fadeOut(delay * 2.5)
     console.log("fadeout")
 
 
-  setTimeout (-> $(".alert").slideUp(delay*2.5).delay(0).fadeOut(delay*2.5)), 5000
+  setTimeout (-> $(".alert").slideUp(delay * 2.5).delay(0).fadeOut(delay * 2.5)), 5000
 
   $("body").css display: "none" #Удалить body
   $("body").fadeIn(delay) #Проявить body
@@ -27,4 +25,4 @@ $ ->
     $("body").fadeOut(delay)
     console.log "fadeout"
     $(location).attr('href', path)
-  #  setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
+#  setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
