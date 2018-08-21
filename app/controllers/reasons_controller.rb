@@ -11,6 +11,7 @@ class ReasonsController < ApplicationController
   # GET /reasons/1
   # GET /reasons/1.json
   def show
+    redirect_to reasons_path
   end
 
   # GET /reasons/new
@@ -43,7 +44,7 @@ class ReasonsController < ApplicationController
   def update
     respond_to do |format|
       if @reason.update(reason_params)
-        format.html { redirect_to @reason, notice: 'Reason was successfully updated.' }
+        format.html { redirect_to reasons_path, notice: 'Reason was successfully updated.' }
         format.json { render :show, status: :ok, location: @reason }
       else
         format.html { render :edit }

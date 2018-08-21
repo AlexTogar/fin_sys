@@ -1,5 +1,5 @@
 <div class="page-header">
-  <%%= link_to new_<%= singular_table_name %>_path, class: 'btn btn-primary' do %>
+  <%%= link_to new_<%= singular_table_name %>_path, class: 'btn btn-outline-primary' do %>
     <span class="glyphicon glyphicon-plus"></span>
     New <%= human_name %>
   <%% end %>
@@ -8,14 +8,13 @@
 
 <div class="table-responsive">
   <table class="table table-bordered table-hover">
-    <thead class="bg-primary">
+    <thead class="thead-dark">
       <tr>
     <% attributes.each do |attribute| -%>
         <th><%= attribute.human_name %></th>
     <% end -%>
-        <th></th>
-        <th></th>
-        <th></th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
 
@@ -24,8 +23,8 @@
     <% attributes.each do |attribute| -%>
         <td><%%= <%= singular_table_name %>.<%= attribute.name %> %></td>
     <% end -%>
-        <td><%%= link_to 'Edit', edit_<%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
-        <td><%%= link_to 'Destroy', <%= singular_table_name %>, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><span class="table-icon primary"></span> <%%= link_to 'Edit', edit_<%= singular_table_name %>_path(<%= singular_table_name %>) %></td>
+        <td><span class="table-icon danger"></span> <%%= link_to 'Destroy', <%= singular_table_name %>, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <%% end %>
     </tbody>
   </table>
