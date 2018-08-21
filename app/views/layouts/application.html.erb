@@ -25,7 +25,8 @@
 
 <%= render partial: './layouts/navbar' %>
 
-<div class="main-part">
+
+<div <% if current_user %>class="main-part" <%end %>>
   <div class="container">
 
     <% flash.each do |name, msg| %>
