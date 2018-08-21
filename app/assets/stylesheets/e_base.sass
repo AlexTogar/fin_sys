@@ -43,10 +43,11 @@ body
   //background-color: #f1f1f1
 
   nav
-    color: $my-black-brand-primary
-    background-image: -webkit-linear-gradient(right top, $my-brand-primary 0%,  $my-black-brand-primary 100%)
-    -webkit-background-clip: text
-    -webkit-text-fill-color: transparent
+    .nav-link
+      color: $my-black-brand-primary !important
+    .navbar-brand
+      color: $my-black-brand-primary !important
+
     border-bottom: 3px solid
     border-image: -webkit-linear-gradient(right top, rgba(43,214,255,0.7) 0%, $my-black-brand-primary  100%)
     border-image-slice: 1
@@ -60,6 +61,7 @@ body
       height: 30px
       fill: $my-black-brand-primary
       margin-bottom: 9px
+
     margin-bottom: 10px
 
   height: 100%
@@ -97,20 +99,19 @@ body
     h2
       font-size: 20px !important
 
-  .bg-my
-    background-color: $my-brand-primary !important
-    background-image: -webkit-linear-gradient(right top, rgba(159, 88, 150, 0) 0, lighten($my-bg-black-brand-primary, 10%) 100%) !important
-
   .my-brand
     font-family: herald-gotic
     font-weight: 800
     letter-spacing: .15em
     font-size: 30px
-    color: white
+    color: $my-black-brand-primary
 
   @media all and (max-width: 991px)
+    .nav-link
+
+      border-top: 2px solid lighten($my-gray, 87%)
     .self
-      border-top: solid 1px white
+      border-top: 2px solid lighten($my-brand-primary, 30%)
 
   .alert
     margin-top: 10px
