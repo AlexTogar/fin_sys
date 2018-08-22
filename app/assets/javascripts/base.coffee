@@ -25,10 +25,25 @@ $ ->
     $("body").fadeOut(delay)
     console.log "fadeout"
     $(location).attr('href', path)
-#  setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
+  #  setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
 
+  flag = false
   $(".btn-details").click ->
     $(".details").slideToggle(delay)
+    if flag == false
+      flag = true
+    else
+      flag = false
+
+    if !flag
+      console.log("pusto")
+      $(".down").css("display", "inline-block")
+      $(".up").css("display","none")
+    else
+      console.log("ne pusto")
+      $(".up").css("display", "inline-block")
+      $(".down").css("display", "none")
+
 
   $("#submit_new_transaction").click (e) ->
     e.preventDefault()
