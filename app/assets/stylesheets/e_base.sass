@@ -196,7 +196,7 @@ body
     height: 38px
 
   .page-header
-    padding-bottom: 20px
+    padding-bottom: 0px
     text-align: center
     h3
       font-size: 24px
@@ -242,8 +242,39 @@ body
     opacity: 0
 
   .my-form
+    max-width: 500px
+    margin: 0 auto
     .form-group
       margin-bottom: 3px
+    .btn-details
+      text-align: center
+      margin-top: 10px
+    input[type="submit"]
+      margin-top: 19px
+  .btn-details
+    .icon-nav svg
+      fill: $my-black-gray
+
+  .btn-group
+    margin-bottom: 25px
+    margin-top: 25px
+    width: 100%
+    label
+      width: 50% !important
+    input[type="radio"]
+      display: none !important
+
+    .btn-warning.active
+      -webkit-box-shadow: 0 0 0 3px  rgba(0,123,255,.25) !important
+      border-color: $my-black-brand-primary
+
+  
+  .details
+    display: none
+
+
+  input[type="submit"]
+    width: 100%
 
 //.my-table
   //

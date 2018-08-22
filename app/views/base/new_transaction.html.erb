@@ -6,14 +6,36 @@
 
   <div class="form-group">
     <small for="reason" class="control-label my-label">Sum</small>
-    <select  class="form-control js-input" name="reason" id="reason" placeholder="Reason" required>
-      <option value="Other">Other</option>
+    <select class="form-control js-input" name="reason" id="reason" placeholder="Reason" required>
+      <option value="Other">Reason</option>
     </select>
   </div>
 
   <div class="form-group">
     <small for="sum" class="control-label my-label">Sum</small>
-    <input type="text" class="form-control js-input" pattern="([1-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" placeholder="Sum" required>
+    <input type="text" class="form-control js-input" pattern="([0-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" placeholder="Sum" required>
   </div>
+
+  <div class="btn-details">Details <span class="icon-nav"><%= octicon "triangle-down" %></span>
+  </div>
+
+  <div class="details">
+    <div class="form-group">
+      <small for="sum" class="control-label my-label">Description</small>
+      <input type="text" class="form-control js-input" name="description" id="description" placeholder="Description">
+    </div>
+
+    <div class="btn-group" data-toggle="buttons">
+      <label class="btn btn-primary active local_p">
+        <input type="radio" name="local_p" id="local_p" autocomplete="off" checked>Personal
+      </label>
+      <label class="btn btn-outline-primary local_j">
+        <input type="radio" name="local_j" id="local_j" autocomplete="off">Joint
+      </label>
+    </div>
+
+  </div>
+
+  <input type="submit" class="btn btn-primary gradient" id="submit_new_transaction" value="Add transaction">
 
 </form>

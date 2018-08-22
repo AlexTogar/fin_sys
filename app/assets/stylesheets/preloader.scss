@@ -1,0 +1,40 @@
+@import "e_base";
+.btn-details {
+  margin-top: 15px;
+  /* Прячем часть линий, выходящие за пределы блока */
+  overflow: hidden;
+  /* Выравниваем заголовок по центру, можно указать left, right для выравнивания влево или вправо */
+  text-align: center;
+  /* Размер заголовка */
+  font-size: 18px;
+  color: $my-black-gray;
+  cursor: pointer;
+  
+}
+.btn-details:before,
+.btn-details:after {
+  /* Свойство content необходимо указывать хотя бы пустое, иначе псевдоэлементы не отобразятся */
+  content: "";
+  /* Свойства линий, выравнивание по центру по вертикали */
+  display: inline-block;
+  vertical-align: middle;
+  /* Ширина - 100% и указываем толщину линии */
+  width: 100%;
+  height: 2px;
+  /* Цвет линии */
+  background-color: $my-gray-nav;
+  /* Возможность для пседоэлементов изменить позицию линии */
+  position: relative;
+}
+.btn-details:before {
+  /* Ставим левую линию слева от текста, смещая ее на 100% влево */
+  margin-left: -100%;
+  /* Отступ линии от заголовка */
+  left: -14px;
+}
+.btn-details:after {
+  /* Ставим правую линию справа от текста, смещая ее на 100% вправо */
+  margin-right: -100%;
+  /* Отступ линии от заголовка */
+  right: -14px;
+}

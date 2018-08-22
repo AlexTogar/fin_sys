@@ -26,3 +26,20 @@ $ ->
     console.log "fadeout"
     $(location).attr('href', path)
 #  setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
+
+  $(".btn-details").click ->
+    $(".details").slideToggle(delay)
+
+  $("#submit_new_transaction").click (e) ->
+    e.preventDefault()
+
+  $(".local_p").click ->
+    jQuery(this).removeClass("btn-outline-primary")
+    jQuery(this).addClass("btn-primary")
+    $(".local_j").removeClass("btn-primary")
+    $(".local_j").addClass("btn-outline-primary")
+  $(".local_j").click ->
+    jQuery(this).removeClass("btn-outline-primary")
+    jQuery(this).addClass("btn-primary")
+    $(".local_p").removeClass("btn-primary")
+    $(".local_p").addClass("btn-outline-primary")
