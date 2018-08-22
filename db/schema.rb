@@ -29,7 +29,6 @@ ActiveRecord::Schema.define(version: 2018_08_21_230703) do
     t.integer "sum"
     t.text "description"
     t.bigint "reason"
-    t.bigint "score"
     t.bigint "user"
     t.boolean "local"
     t.integer "debt_sum"

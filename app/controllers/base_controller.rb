@@ -10,4 +10,8 @@ class BaseController < ApplicationController
 
   def join
   end
+
+  def new_transaction
+
+  end
 end

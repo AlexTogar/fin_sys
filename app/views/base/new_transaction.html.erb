@@ -1,0 +1,19 @@
+<div class="page-header">
+  <h3>New Transaction</h3>
+</div>
+
+<form action="../base/new_transaction" method="get" class="my-form">
+
+  <div class="form-group">
+    <small for="reason" class="control-label my-label">Sum</small>
+    <select  class="form-control js-input" name="reason" id="reason" placeholder="Reason" required>
+      <option value="Other">Other</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <small for="sum" class="control-label my-label">Sum</small>
+    <input type="text" class="form-control js-input" pattern="([1-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" placeholder="Sum" required>
+  </div>
+
+</form>

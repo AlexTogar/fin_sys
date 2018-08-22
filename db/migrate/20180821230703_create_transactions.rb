@@ -4,7 +4,6 @@ class CreateTransactions < ActiveRecord::Migration[5.2]
       t.integer :sum
       t.text :description
       t.bigint :reason
-      t.bigint :score
       t.bigint :user
       t.boolean :local
       t.integer :debt_sum
