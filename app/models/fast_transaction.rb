@@ -1,0 +1,2 @@
+class FastTransaction < ApplicationRecord
+end

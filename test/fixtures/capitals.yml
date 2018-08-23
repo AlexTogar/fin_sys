@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  sum: 1
+  user: 
+  local: false
+  deleted: false
+
+two:
+  sum: 1
+  user: 
+  local: false
+  deleted: false

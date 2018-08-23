@@ -1,0 +1,13 @@
+<div class="page-header">
+  <%= link_to fast_transactions_path, class: 'btn btn-outline-primary' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to @fast_transaction, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    Show
+  <% end %>
+  <h1>Editing fast_transaction</h1>
+</div>
+
+<%= render 'form' %>

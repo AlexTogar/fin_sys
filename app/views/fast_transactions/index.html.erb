@@ -1,0 +1,37 @@
+<div class="page-header">
+  <%= link_to new_fast_transaction_path, class: 'btn btn-outline-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Fast transaction
+  <% end %>
+  <h1>Listing fast_transactions</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+            <th>Sum</th>
+            <th>Reason</th>
+            <th>Often</th>
+            <th>User</th>
+            <th>Local</th>
+            <th>Deleted</th>
+            <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @fast_transactions) do |fast_transaction| %>
+            <td><%= fast_transaction.sum %></td>
+            <td><%= fast_transaction.reason %></td>
+            <td><%= fast_transaction.often %></td>
+            <td><%= fast_transaction.user %></td>
+            <td><%= fast_transaction.local %></td>
+            <td><%= fast_transaction.deleted %></td>
+            <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_fast_transaction_path(fast_transaction) %></td>
+        <td><span class="table-icon danger"></span> <%= link_to 'Destroy', fast_transaction, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

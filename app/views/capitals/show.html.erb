@@ -1,0 +1,26 @@
+<div class="page-header">
+  <%= link_to capitals_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_capital_path(@capital), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show capital</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Sum:</dt>
+  <dd><%= @capital.sum %></dd>
+
+  <dt>User:</dt>
+  <dd><%= @capital.user %></dd>
+
+  <dt>Local:</dt>
+  <dd><%= @capital.local %></dd>
+
+  <dt>Deleted:</dt>
+  <dd><%= @capital.deleted %></dd>
+
+</dl>

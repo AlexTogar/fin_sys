@@ -1,0 +1,37 @@
+<div class="page-header">
+  <%= link_to new_destination_path, class: 'btn btn-outline-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Destination
+  <% end %>
+  <h1>Listing destinations</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+            <th>Name</th>
+            <th>Sum</th>
+            <th>End date</th>
+            <th>Portion sum</th>
+            <th>Description</th>
+            <th>Deleted</th>
+            <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @destinations) do |destination| %>
+            <td><%= destination.name %></td>
+            <td><%= destination.sum %></td>
+            <td><%= destination.end_date %></td>
+            <td><%= destination.portion_sum %></td>
+            <td><%= destination.description %></td>
+            <td><%= destination.deleted %></td>
+            <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_destination_path(destination) %></td>
+        <td><span class="table-icon danger"></span> <%= link_to 'Destroy', destination, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

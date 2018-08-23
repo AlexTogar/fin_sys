@@ -1,0 +1,35 @@
+<div class="page-header">
+  <%= link_to new_plan_table_path, class: 'btn btn-outline-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Plan table
+  <% end %>
+  <h1>Listing plan_tables</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+            <th>Data</th>
+            <th>Date begin</th>
+            <th>Date end</th>
+            <th>Local</th>
+            <th>Deleted</th>
+            <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @plan_tables) do |plan_table| %>
+            <td><%= plan_table.data %></td>
+            <td><%= plan_table.date_begin %></td>
+            <td><%= plan_table.date_end %></td>
+            <td><%= plan_table.local %></td>
+            <td><%= plan_table.deleted %></td>
+            <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_plan_table_path(plan_table) %></td>
+        <td><span class="table-icon danger"></span> <%= link_to 'Destroy', plan_table, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

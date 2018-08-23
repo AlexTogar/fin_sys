@@ -1,0 +1,2 @@
+class PlanTable < ApplicationRecord
+end

@@ -1,0 +1,32 @@
+<div class="page-header">
+  <%= link_to fast_transactions_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_fast_transaction_path(@fast_transaction), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show fast_transaction</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Sum:</dt>
+  <dd><%= @fast_transaction.sum %></dd>
+
+  <dt>Reason:</dt>
+  <dd><%= @fast_transaction.reason %></dd>
+
+  <dt>Often:</dt>
+  <dd><%= @fast_transaction.often %></dd>
+
+  <dt>User:</dt>
+  <dd><%= @fast_transaction.user %></dd>
+
+  <dt>Local:</dt>
+  <dd><%= @fast_transaction.local %></dd>
+
+  <dt>Deleted:</dt>
+  <dd><%= @fast_transaction.deleted %></dd>
+
+</dl>

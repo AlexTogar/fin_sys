@@ -1,0 +1,29 @@
+<div class="page-header">
+  <%= link_to notices_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_notice_path(@notice), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show notice</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Text:</dt>
+  <dd><%= @notice.text %></dd>
+
+  <dt>User:</dt>
+  <dd><%= @notice.user %></dd>
+
+  <dt>Destination:</dt>
+  <dd><%= @notice.destination %></dd>
+
+  <dt>Tran:</dt>
+  <dd><%= @notice.tran %></dd>
+
+  <dt>Deleted:</dt>
+  <dd><%= @notice.deleted %></dd>
+
+</dl>

@@ -1,0 +1,35 @@
+<div class="page-header">
+  <%= link_to new_notice_path, class: 'btn btn-outline-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Notice
+  <% end %>
+  <h1>Listing notices</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+            <th>Text</th>
+            <th>User</th>
+            <th>Destination</th>
+            <th>Transaction</th>
+            <th>Deleted</th>
+            <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @notices) do |notice| %>
+            <td><%= notice.text %></td>
+            <td><%= notice.user %></td>
+            <td><%= notice.destination %></td>
+            <td><%= notice.tran %></td>
+            <td><%= notice.deleted %></td>
+            <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_notice_path(notice) %></td>
+        <td><span class="table-icon danger"></span> <%= link_to 'Destroy', notice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

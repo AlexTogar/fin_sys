@@ -1,0 +1,13 @@
+<div class="page-header">
+  <%= link_to plan_tables_path, class: 'btn btn-outline-primary' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to @plan_table, class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-info-sign"></span>
+    Show
+  <% end %>
+  <h1>Editing plan_table</h1>
+</div>
+
+<%= render 'form' %>

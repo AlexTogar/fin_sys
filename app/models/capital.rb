@@ -1,0 +1,2 @@
+class Capital < ApplicationRecord
+end

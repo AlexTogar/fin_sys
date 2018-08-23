@@ -1,0 +1,29 @@
+<div class="page-header">
+  <%= link_to plan_tables_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_plan_table_path(@plan_table), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show plan_table</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>Data:</dt>
+  <dd><%= @plan_table.data %></dd>
+
+  <dt>Date begin:</dt>
+  <dd><%= @plan_table.date_begin %></dd>
+
+  <dt>Date end:</dt>
+  <dd><%= @plan_table.date_end %></dd>
+
+  <dt>Local:</dt>
+  <dd><%= @plan_table.local %></dd>
+
+  <dt>Deleted:</dt>
+  <dd><%= @plan_table.deleted %></dd>
+
+</dl>

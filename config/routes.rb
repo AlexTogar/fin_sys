@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  resources :destinations
+  resources :capitals
+  resources :notices
+  resources :fast_transactions
+  resources :plan_tables
   resources :transactions
   default_url_options :host => "localhost:3000"
   resources :reasons
