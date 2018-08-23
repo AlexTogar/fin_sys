@@ -2,7 +2,7 @@
   <h3>New Transaction</h3>
 </div>
 
-<form action="../base/new_transaction" method="get" class="my-form">
+<form action="../base/response_on_new_transaction" method="get" class="my-form">
 
   <div class="form-group">
     <small for="reason" class="control-label my-label">Sum</small>
@@ -30,10 +30,10 @@
 
     <div class="btn-group" data-toggle="buttons">
       <label class="btn btn-primary active local_p">
-        <input type="radio" name="local_p" id="local_p" autocomplete="off" checked>Personal
+        <input type="radio" name="local" id="local_p" autocomplete="off" checked>Personal
       </label>
       <label class="btn btn-outline-primary local_j">
-        <input type="radio" name="local_j" id="local_j" autocomplete="off">Joint
+        <input type="radio" name="local" id="local_j" autocomplete="off">Joint
       </label>
     </div>
 
@@ -54,14 +54,14 @@
 <table class="table table-hover table-bordered"  >
   <thead class="bg-primary" style="color: white">
   <tr>
-    <td>Plase</td>
-    <td>for</td>
-    <td>last</td>
-    <td>transactions</td>
+    <td>Sum</td>
+    <td>Reason</td>
+    <td>Description</td>
+    <td>Local</td>
   </tr>
   </thead>
   <tbody>
-  <tr>
+  <tr class = "response">
     <td>1</td>
     <td>cont</td>
     <td>cont</td>

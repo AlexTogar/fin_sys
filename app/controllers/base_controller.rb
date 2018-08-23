@@ -11,7 +11,10 @@ class BaseController < ApplicationController
   def join
   end
 
-  def new_transaction
-
+  def response_on_new_transaction
+    @data = params
+    respond_to do |x|
+      x.json {render :json => @data.to_json}
+    end
   end
 end

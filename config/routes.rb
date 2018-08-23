@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get 'base/join'
   get 'base/_navbar'
   get 'base/new_transaction'
+  get 'base/response_on_new_transaction'
   devise_for :users
 
 

@@ -47,14 +47,33 @@ $ ->
 
   $("#submit_new_transaction").click (e) ->
     e.preventDefault()
+    $form = $(this).parent("form")
+#    data =  {reason: "r1", description: "d1", sum: "s1", local: "l1"}
+    $.ajax
+      url: "../base/response_on_new_transaction",
+      data: $form.serialize(),
+      dataType: "json",
+      type: "GET",
+      success: (data) ->
+        #trash
+        $(".response").addClass "table-success"
+        $($("table .response").children("td")[0]).html data.sum
+        $($("table .response").children("td")[1]).html data.reason
+        $($("table .response").children("td")[2]).html data.description
+        $($("table .response").children("td")[3]).html data.local
+
+
+
+
+
 
   $(".local_p").click ->
-    jQuery(this).removeClass("btn-outline-primary")
-    jQuery(this).addClass("btn-primary")
+    $(this).removeClass("btn-outline-primary")
+    $(this).addClass("btn-primary")
     $(".local_j").removeClass("btn-primary")
     $(".local_j").addClass("btn-outline-primary")
   $(".local_j").click ->
-    jQuery(this).removeClass("btn-outline-primary")
-    jQuery(this).addClass("btn-primary")
+    $(this).removeClass("btn-outline-primary")
+    $(this).addClass("btn-primary")
     $(".local_p").removeClass("btn-primary")
     $(".local_p").addClass("btn-outline-primary")
