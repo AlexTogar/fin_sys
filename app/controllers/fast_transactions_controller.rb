@@ -1,5 +1,6 @@
 class FastTransactionsController < ApplicationController
   before_action :set_fast_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /fast_transactions
   # GET /fast_transactions.json

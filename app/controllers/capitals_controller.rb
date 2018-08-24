@@ -1,5 +1,6 @@
 class CapitalsController < ApplicationController
   before_action :set_capital, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /capitals
   # GET /capitals.json
