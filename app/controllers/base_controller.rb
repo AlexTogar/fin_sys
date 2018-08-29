@@ -6,9 +6,14 @@ class BaseController < ApplicationController
   end
 
   def main_tab
+
   end
 
   def join
+  end
+
+  def new_transaction
+
   end
 
   def response_on_new_transaction

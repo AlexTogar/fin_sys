@@ -56,6 +56,7 @@ $ ->
       type: "GET",
       success: (data) ->
         #trash
+        console.log data
         $(".response").addClass "table-success"
         $($("table .response").children("td")[0]).html data.sum
         $($("table .response").children("td")[1]).html data.reason
