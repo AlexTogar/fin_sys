@@ -2,12 +2,16 @@
 
 one:
   reason: MyString
+  sign: false
   often: 1
-  user: 1
+  local: false
+  user: 
   deleted: false
 
 two:
   reason: MyString
+  sign: false
   often: 1
-  user: 1
+  local: false
+  user: 
   deleted: false

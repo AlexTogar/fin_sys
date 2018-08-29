@@ -15,8 +15,10 @@ class ReasonsTest < ApplicationSystemTestCase
     click_on "New Reason"
 
     fill_in "Deleted", with: @reason.deleted
+    fill_in "Local", with: @reason.local
     fill_in "Often", with: @reason.often
     fill_in "Reason", with: @reason.reason
+    fill_in "Sign", with: @reason.sign
     fill_in "User", with: @reason.user
     click_on "Create Reason"
 
@@ -29,8 +31,10 @@ class ReasonsTest < ApplicationSystemTestCase
     click_on "Edit", match: :first
 
     fill_in "Deleted", with: @reason.deleted
+    fill_in "Local", with: @reason.local
     fill_in "Often", with: @reason.often
     fill_in "Reason", with: @reason.reason
+    fill_in "Sign", with: @reason.sign
     fill_in "User", with: @reason.user
     click_on "Update Reason"
 

@@ -7,27 +7,31 @@
 </div>
 
 <div class="table-responsive">
-  <table class="table my-table table-bordered">
-    <thead class = "thead-dark">
-    <tr>
-      <th>Reason</th>
-      <th>Often</th>
-      <th>User</th>
-      <th>Deleted</th>
-      <th>Edit</th>
-      <th>Delete</th>
-    </tr>
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+            <th>Reason</th>
+            <th>Sign</th>
+            <th>Often</th>
+            <th>Local</th>
+            <th>User</th>
+            <th>Deleted</th>
+            <th>Edit</th>
+        <th>Delete</th>
+      </tr>
     </thead>
 
     <tbody>
-    <%= content_tag_for(:tr, @reasons) do |reason| %>
-      <td><%= reason.reason %></td>
-      <td><%= reason.often %></td>
-      <td><%= reason.user %></td>
-      <td><%= reason.deleted %></td>
-      <td><span class="table-icon primary"><%= octicon "pencil" %></span> <%= link_to 'Edit', edit_reason_path(reason) %></td>
-      <td><span class="table-icon danger"><%= octicon "x" %></span> <%= link_to 'Destroy', reason, method: :delete, data: {confirm: 'Are you sure?'}, class: "text-danger" %></td>
-    <% end %>
+      <%= content_tag_for(:tr, @reasons) do |reason| %>
+            <td><%= reason.reason %></td>
+            <td><%= reason.sign %></td>
+            <td><%= reason.often %></td>
+            <td><%= reason.local %></td>
+            <td><%= reason.user %></td>
+            <td><%= reason.deleted %></td>
+            <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_reason_path(reason) %></td>
+        <td><span class="table-icon danger"></span> <%= link_to 'Destroy', reason, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
     </tbody>
   </table>
 </div>

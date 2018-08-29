@@ -1,5 +1,4 @@
 class ReasonsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_reason, only: [:show, :edit, :update, :destroy]
 
   # GET /reasons
@@ -11,7 +10,6 @@ class ReasonsController < ApplicationController
   # GET /reasons/1
   # GET /reasons/1.json
   def show
-    redirect_to reasons_path
   end
 
   # GET /reasons/new
@@ -44,7 +42,7 @@ class ReasonsController < ApplicationController
   def update
     respond_to do |format|
       if @reason.update(reason_params)
-        format.html { redirect_to reasons_path, notice: 'Reason was successfully updated.' }
+        format.html { redirect_to @reason, notice: 'Reason was successfully updated.' }
         format.json { render :show, status: :ok, location: @reason }
       else
         format.html { render :edit }
@@ -71,6 +69,6 @@ class ReasonsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def reason_params
-      params.require(:reason).permit(:reason, :often, :user, :deleted)
+      params.require(:reason).permit(:reason, :sign, :often, :local, :user, :deleted)
     end
 end

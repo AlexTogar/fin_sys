@@ -17,7 +17,7 @@ class ReasonsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create reason" do
     assert_difference('Reason.count') do
-      post reasons_url, params: { reason: { deleted: @reason.deleted, often: @reason.often, reason: @reason.reason, user: @reason.user } }
+      post reasons_url, params: { reason: { deleted: @reason.deleted, local: @reason.local, often: @reason.often, reason: @reason.reason, sign: @reason.sign, user: @reason.user } }
     end
 
     assert_redirected_to reason_url(Reason.last)
@@ -34,7 +34,7 @@ class ReasonsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update reason" do
-    patch reason_url(@reason), params: { reason: { deleted: @reason.deleted, often: @reason.often, reason: @reason.reason, user: @reason.user } }
+    patch reason_url(@reason), params: { reason: { deleted: @reason.deleted, local: @reason.local, often: @reason.often, reason: @reason.reason, sign: @reason.sign, user: @reason.user } }
     assert_redirected_to reason_url(@reason)
   end
 
