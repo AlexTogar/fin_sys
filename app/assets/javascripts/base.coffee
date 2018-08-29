@@ -7,7 +7,8 @@ $ ->
   $("#sum").focus ->
     this.value = ""
   $("#sum").focusout ->
-    this.value = "0"
+    if this.value == ""
+      this.value = "0"
 
   $(".close").click (e)->
     e.stopPropagation()
