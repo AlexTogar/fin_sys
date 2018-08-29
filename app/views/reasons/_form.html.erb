@@ -15,13 +15,13 @@
   <div class="form-group">
     <%= f.label :reason, class: "control-label" %>
     <div class="">
-      <%= f.text_field :reason, class: "form-control" %>
+      <%= f.text_field :reason, class: "form-control", required: "required", autofocus: "autofocus" %>
     </div>
   </div>
   <div class="form-group">
-    <%= f.label :sign, class: "control-label" %>
+    <%= f.label :sign_minus, class: "control-label" %>
     <div class="">
-      <%= f.check_box :sign, class: "form-control" %>
+      <%= f.check_box :sign, class: "form-control", checked: "checked" %>
     </div>
   </div>
   <div class="form-group disp_none">
@@ -39,7 +39,7 @@
   <div class="form-group disp_none">
     <%= f.label :user, class: "control-label" %>
     <div class="">
-      <%= f.text_field :user, class: "form-control" %>
+      <%= f.text_field :user, class: "form-control" , value: "#{current_user.id}" %>
     </div>
   </div>
   <div class="form-group disp_none">

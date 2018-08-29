@@ -3,9 +3,9 @@ class CreateReasons < ActiveRecord::Migration[5.2]
     create_table :reasons do |t|
       t.string :reason
       t.boolean :sign
-      t.integer :often , default: "0"
+      t.integer :often
       t.boolean :local
-      t.bigint :user , default: "#{current_user.id}"
+      t.bigint :user
       t.boolean :deleted
 
       t.timestamps

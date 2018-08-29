@@ -2,21 +2,25 @@
   <h3>New Transaction</h3>
 </div>
 
-<form action="../base/response_on_new_transaction" method="get" class="my-form">
+<form action="../base/response_on_new_transaction" method="get" class="my-form" remote = "true">
 
   <div class="form-group">
+
+
     <label for="reason" class="control-label">Reason</label>
     <select class="form-control js-input" name="reason" id="reason" placeholder="Reason" required>
-      <option value="Other">Reason</option>
-      <option value="Food">Food</option>
-      <option value="Transport">Transport</option>
-      <option value="Salary">Salary</option>
+      <option value="<%=Reason.find_by_reason("Other minus").id %>">Reason</option>
+      <%Reason.all.each do |x| %>
+        <% if x.deleted == false %>
+          <option value="<%=x.id %>"><%= x.reason %></option>
+        <%end %>
+      <% end %>
     </select>
   </div>
 
   <div class="form-group">
     <label for="sum" class="ocntrol-label">Sum</label>
-    <input type="text" class="form-control js-input" pattern="([0-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" placeholder="Sum" required>
+    <input type="text" class="form-control js-input" pattern="([0-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" value = "0" placeholder="Sum" required>
   </div>
 
   <div class="btn-details">Details <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
@@ -55,45 +59,26 @@
 <div class="page-header">
   <h3>Last transactions</h3>
 </div>
-<table class="table table-hover table-bordered table-striped"  >
-  <thead class="bg-primary" style="color: white">
+<table class="table table-hover table-bordered table-striped response"  >
+  <thead class="thead-dark">
   <tr>
-    <td>Sum</td>
-    <td>Reason</td>
-    <td>Description</td>
-    <td>Local</td>
+    <th>Sum</th>
+    <th>Reason</th>
+    <th>User</th>
+    <th>Date</th>
   </tr>
+
   </thead>
+
   <tbody>
-  <tr class = "response">
-    <td>1</td>
-    <td>cont</td>
-    <td>cont</td>
-    <td>cont</td>
+  <% Transaction.order("created_at DESC")[0..4].each do |tran| %>
+  <tr class="<%= 'table-success' if Reason.find(tran.reason).sign == false %> <%= 'table-danger' if Reason.find(tran.reason).sign == true %>">
+    <td><%=tran.sum %></td>
+    <td><%=Reason.find(tran.reason).reason %></td>
+    <td><%=User.find(tran.user).email %></td>
+    <td><%= tran.created_at %></td>
   </tr>
-  <tr>
-    <td>2</td>
-    <td>cont</td>
-    <td>cont</td>
-    <td>cont</td>
-  </tr>
-  <tr>
-    <td>3</td>
-    <td>cont</td>
-    <td>cont</td>
-    <td>cont</td>
-  </tr>
-  <tr>
-    <td>4</td>
-    <td>cont</td>
-    <td>cont</td>
-    <td>cont</td>
-  </tr>
-  <tr>
-    <td>5</td>
-    <td>cont</td>
-    <td>cont</td>
-    <td>cont</td>
-  </tr>
+
+  <% end %>
   </tbody>
 </table>

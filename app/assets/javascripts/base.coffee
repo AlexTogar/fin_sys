@@ -4,6 +4,11 @@
 delay = 200
 
 $ ->
+  $("#sum").focus ->
+    this.value = ""
+  $("#sum").focusout ->
+    this.value = "0"
+
   $(".close").click (e)->
     e.stopPropagation()
     $(".alert").slideUp(delay * 2.5).delay(0).fadeOut(delay * 2.5)
@@ -56,13 +61,13 @@ $ ->
       type: "GET",
       success: (data) ->
         #trash
-        console.log data
-        $(".response").addClass "table-success"
-        $($("table .response").children("td")[0]).html data.sum
-        $($("table .response").children("td")[1]).html data.reason
-        $($("table .response").children("td")[2]).html data.description
-        $($("table .response").children("td")[3]).html data.local
-
+        console.log "slideDown"
+        $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-danger" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td></tr>")
+        $("#prepend").css("display", "none")
+        $("#prepend").fadeIn()
+        if $("tbody").find("tr").length > 5
+          $("tbody tr").last().fadeOut(delay)
+          setTimeout ( -> $("tbody tr").last().remove()), delay
 
 
 
