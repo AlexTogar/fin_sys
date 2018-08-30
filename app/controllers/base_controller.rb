@@ -32,7 +32,7 @@ class BaseController < ApplicationController
     @data = {sum: params[:sum],
              reason: Reason.find(params[:reason]).reason,
              user: current_user.email,
-             date: newTransaction.created_at.to_s,
+             date: newTransaction.created_at.to_s.split("U")[0],
              sign: Reason.find(params[:reason]).sign }
 
     respond_to do |x|
