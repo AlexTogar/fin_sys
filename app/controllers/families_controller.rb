@@ -2,6 +2,8 @@
 
 class FamiliesController < ApplicationController
   before_action :set_family, only: %i[show edit update destroy]
+  before_action :authenticate_user!
+
 
   # GET /families
   # GET /families.json

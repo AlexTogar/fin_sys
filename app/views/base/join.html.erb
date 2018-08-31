@@ -2,3 +2,14 @@
   <h3>Base#join</h3>
 </div>
 <p>Find me in app/views/base/join.html.erb</p>
+<h1><%= has_family(current_user.id) %></h1>
+
+<form action="../base/test_action" class = "my-form">
+
+  <%= my_input_tag("test tag", "text", "my-class") %>
+  <%= my_toggle_tag({}) %>
+
+  <input type="submit" value="submit">
+</form>
+
+

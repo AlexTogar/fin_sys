@@ -78,10 +78,12 @@ $ ->
   $(".local_p").click ->
     $(this).removeClass("btn-outline-primary")
     $(this).addClass("btn-primary")
+    console.log "work one"
     $(".local_j").removeClass("btn-primary")
     $(".local_j").addClass("btn-outline-primary")
   $(".local_j").click ->
     $(this).removeClass("btn-outline-primary")
+    console.log "work two"
     $(this).addClass("btn-primary")
     $(".local_p").removeClass("btn-primary")
     $(".local_p").addClass("btn-outline-primary")

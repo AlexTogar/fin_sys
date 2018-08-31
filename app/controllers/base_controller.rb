@@ -2,6 +2,12 @@
 
 class BaseController < ApplicationController
   before_action :authenticate_user!
+
+  def test_action
+    @data = params
+    render json: @data
+  end
+
   def graph
     @data = Transaction.all.map { |x| [x.created_at, x.sum] }
   end
@@ -52,6 +58,4 @@ class BaseController < ApplicationController
     end
   rescue StandardError
   end
-
-
 end

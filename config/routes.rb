@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :plan_tables
   resources :transactions
   default_url_options host: 'localhost:3000'
+  get 'base/test_action'
   get 'base/graph'
   get 'base/main_tab'
   get 'base/join'
