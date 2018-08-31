@@ -12,8 +12,8 @@
       <tr>
             <th>Name</th>
             <th>Connect</th>
-            <th>User</th>
             <th>Deleted</th>
+            <th>User</th>
             <th>Edit</th>
         <th>Delete</th>
       </tr>
@@ -23,8 +23,8 @@
       <%= content_tag_for(:tr, @families) do |family| %>
             <td><%= family.name %></td>
             <td><%= family.connect %></td>
-            <td><%= family.user %></td>
             <td><%= family.deleted %></td>
+            <td><%= family.user %></td>
             <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_family_path(family) %></td>
         <td><span class="table-icon danger"></span> <%= link_to 'Destroy', family, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       <% end %>

@@ -2,19 +2,6 @@
 
 module ApplicationHelper
 
-
-  def has_family(user_id)
-    if family = User.find(user_id).family
-      return family #return family id
-    else
-      return false
-    end
-  end
-
-  def btn_success(name)
-    "<button class = 'btn btn-success'>#{name}</button>".html_safe
-  end
-
   def my_input_tag(name, type, my_class)
     html = "
         <div class='form-group'>

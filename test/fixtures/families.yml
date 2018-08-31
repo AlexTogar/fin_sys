@@ -1,13 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: 1
-  connect: 1
-  user: 
+  name: MyString
+  connect: MyString
   deleted: false
+  user: 
 
 two:
-  name: 1
-  connect: 1
-  user: 
+  name: MyString
+  connect: MyString
   deleted: false
+  user: 

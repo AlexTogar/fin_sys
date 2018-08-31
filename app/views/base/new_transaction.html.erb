@@ -73,7 +73,8 @@
   </thead>
 
   <tbody>
-  <% Transaction.order("created_at DESC")[0..4].each do |tran| %>
+  <%# Transaction.find_by_sql("select * from transactions, families, users where transactions.user = #{current_user.id} and families.user=#{current_user.id} and users.id =#{current_user.id} and families.id = users.family order by transactions.created_at desc").each do |tran| %>
+  <% Transaction.all.order("created_at DESC")[0..4].each do |tran| %>
   <tr class="<%= 'table-success' if Reason.find(tran.reason).sign == false %> <%= 'table-danger' if Reason.find(tran.reason).sign == true %>">
     <td><%=tran.sum %></td>
     <td><%=Reason.find(tran.reason).reason %></td>

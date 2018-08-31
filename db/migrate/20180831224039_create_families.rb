@@ -1,12 +1,10 @@
-# frozen_string_literal: true
-
 class CreateFamilies < ActiveRecord::Migration[5.2]
   def change
     create_table :families do |t|
-      t.integer :name
-      t.integer :connect
-      t.bigint :user
+      t.string :name
+      t.string :connect
       t.boolean :deleted
+      t.bigint :user
 
       t.timestamps
     end
