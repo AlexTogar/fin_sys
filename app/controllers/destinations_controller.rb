@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class DestinationsController < ApplicationController
-  before_action :set_destination, only: [:show, :edit, :update, :destroy]
+  before_action :set_destination, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /destinations
@@ -10,8 +12,7 @@ class DestinationsController < ApplicationController
 
   # GET /destinations/1
   # GET /destinations/1.json
-  def show
-  end
+  def show; end
 
   # GET /destinations/new
   def new
@@ -19,8 +20,7 @@ class DestinationsController < ApplicationController
   end
 
   # GET /destinations/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /destinations
   # POST /destinations.json
@@ -63,13 +63,14 @@ class DestinationsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_destination
-      @destination = Destination.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def destination_params
-      params.require(:destination).permit(:name, :sum, :end_date, :portion_sum, :description, :deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_destination
+    @destination = Destination.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def destination_params
+    params.require(:destination).permit(:name, :sum, :end_date, :portion_sum, :description, :deleted)
+  end
 end

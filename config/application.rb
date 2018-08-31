@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -10,7 +12,7 @@ module FinSys
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.2
-    config.action_view.field_error_proc = Proc.new { |html_tag, instance|
+    config.action_view.field_error_proc = proc { |html_tag, _instance|
       html_tag
     }
     # Settings in config/environments/* take precedence over those specified here.
@@ -19,4 +21,3 @@ module FinSys
     # the framework and any gems in your application.
   end
 end
-

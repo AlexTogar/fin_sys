@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class ReasonsController < ApplicationController
-  before_action :set_reason, only: [:show, :edit, :update, :destroy]
+  before_action :set_reason, only: %i[show edit update destroy]
 
   # GET /reasons
   # GET /reasons.json
@@ -9,8 +11,7 @@ class ReasonsController < ApplicationController
 
   # GET /reasons/1
   # GET /reasons/1.json
-  def show
-  end
+  def show; end
 
   # GET /reasons/new
   def new
@@ -18,8 +19,7 @@ class ReasonsController < ApplicationController
   end
 
   # GET /reasons/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /reasons
   # POST /reasons.json
@@ -62,13 +62,14 @@ class ReasonsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_reason
-      @reason = Reason.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def reason_params
-      params.require(:reason).permit(:reason, :sign, :often, :local, :user, :deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_reason
+    @reason = Reason.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def reason_params
+    params.require(:reason).permit(:reason, :sign, :often, :local, :user, :deleted)
+  end
 end

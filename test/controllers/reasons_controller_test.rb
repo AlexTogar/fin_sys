@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class ReasonsControllerTest < ActionDispatch::IntegrationTest
@@ -5,17 +7,17 @@ class ReasonsControllerTest < ActionDispatch::IntegrationTest
     @reason = reasons(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get reasons_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'should get new' do
     get new_reason_url
     assert_response :success
   end
 
-  test "should create reason" do
+  test 'should create reason' do
     assert_difference('Reason.count') do
       post reasons_url, params: { reason: { deleted: @reason.deleted, local: @reason.local, often: @reason.often, reason: @reason.reason, sign: @reason.sign, user: @reason.user } }
     end
@@ -23,22 +25,22 @@ class ReasonsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to reason_url(Reason.last)
   end
 
-  test "should show reason" do
+  test 'should show reason' do
     get reason_url(@reason)
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get edit_reason_url(@reason)
     assert_response :success
   end
 
-  test "should update reason" do
+  test 'should update reason' do
     patch reason_url(@reason), params: { reason: { deleted: @reason.deleted, local: @reason.local, often: @reason.often, reason: @reason.reason, sign: @reason.sign, user: @reason.user } }
     assert_redirected_to reason_url(@reason)
   end
 
-  test "should destroy reason" do
+  test 'should destroy reason' do
     assert_difference('Reason.count', -1) do
       delete reason_url(@reason)
     end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class NoticesController < ApplicationController
-  before_action :set_notice, only: [:show, :edit, :update, :destroy]
+  before_action :set_notice, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /notices
@@ -10,8 +12,7 @@ class NoticesController < ApplicationController
 
   # GET /notices/1
   # GET /notices/1.json
-  def show
-  end
+  def show; end
 
   # GET /notices/new
   def new
@@ -19,8 +20,7 @@ class NoticesController < ApplicationController
   end
 
   # GET /notices/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /notices
   # POST /notices.json
@@ -63,13 +63,14 @@ class NoticesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_notice
-      @notice = Notice.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def notice_params
-      params.require(:notice).permit(:text, :user, :destination, :tran, :deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_notice
+    @notice = Notice.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def notice_params
+    params.require(:notice).permit(:text, :user, :destination, :tran, :deleted)
+  end
 end

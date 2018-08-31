@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class TransactionsController < ApplicationController
-  before_action :set_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_transaction, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /transactions
@@ -10,8 +12,7 @@ class TransactionsController < ApplicationController
 
   # GET /transactions/1
   # GET /transactions/1.json
-  def show
-  end
+  def show; end
 
   # GET /transactions/new
   def new
@@ -19,8 +20,7 @@ class TransactionsController < ApplicationController
   end
 
   # GET /transactions/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /transactions
   # POST /transactions.json
@@ -63,13 +63,14 @@ class TransactionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_transaction
-      @transaction = Transaction.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def transaction_params
-      params.require(:transaction).permit(:sum, :description, :reason, :user, :local, :debt_sum, :debtor, :deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_transaction
+    @transaction = Transaction.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def transaction_params
+    params.require(:transaction).permit(:sum, :description, :reason, :user, :local, :debt_sum, :debtor, :deleted)
+  end
 end

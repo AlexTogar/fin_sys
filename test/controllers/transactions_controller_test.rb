@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class TransactionsControllerTest < ActionDispatch::IntegrationTest
@@ -5,17 +7,17 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     @transaction = transactions(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get transactions_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'should get new' do
     get new_transaction_url
     assert_response :success
   end
 
-  test "should create transaction" do
+  test 'should create transaction' do
     assert_difference('Transaction.count') do
       post transactions_url, params: { transaction: { debt_sum: @transaction.debt_sum, debtor: @transaction.debtor, deleted: @transaction.deleted, description: @transaction.description, local: @transaction.local, reason: @transaction.reason, score: @transaction.score, sum: @transaction.sum, user: @transaction.user } }
     end
@@ -23,22 +25,22 @@ class TransactionsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to transaction_url(Transaction.last)
   end
 
-  test "should show transaction" do
+  test 'should show transaction' do
     get transaction_url(@transaction)
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get edit_transaction_url(@transaction)
     assert_response :success
   end
 
-  test "should update transaction" do
+  test 'should update transaction' do
     patch transaction_url(@transaction), params: { transaction: { debt_sum: @transaction.debt_sum, debtor: @transaction.debtor, deleted: @transaction.deleted, description: @transaction.description, local: @transaction.local, reason: @transaction.reason, score: @transaction.score, sum: @transaction.sum, user: @transaction.user } }
     assert_redirected_to transaction_url(@transaction)
   end
 
-  test "should destroy transaction" do
+  test 'should destroy transaction' do
     assert_difference('Transaction.count', -1) do
       delete transaction_url(@transaction)
     end

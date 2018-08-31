@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class PlanTablesController < ApplicationController
-  before_action :set_plan_table, only: [:show, :edit, :update, :destroy]
+  before_action :set_plan_table, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /plan_tables
@@ -10,8 +12,7 @@ class PlanTablesController < ApplicationController
 
   # GET /plan_tables/1
   # GET /plan_tables/1.json
-  def show
-  end
+  def show; end
 
   # GET /plan_tables/new
   def new
@@ -19,8 +20,7 @@ class PlanTablesController < ApplicationController
   end
 
   # GET /plan_tables/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /plan_tables
   # POST /plan_tables.json
@@ -63,13 +63,14 @@ class PlanTablesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_plan_table
-      @plan_table = PlanTable.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def plan_table_params
-      params.require(:plan_table).permit(:data, :date_begin, :date_end, :local, :deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_plan_table
+    @plan_table = PlanTable.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def plan_table_params
+    params.require(:plan_table).permit(:data, :date_begin, :date_end, :local, :deleted)
+  end
 end

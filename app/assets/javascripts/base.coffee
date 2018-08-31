@@ -61,7 +61,8 @@ $ ->
       dataType: "json",
       type: "GET",
       success: (data) ->
-        #trash
+
+        $("#sum").val "#{data.sum}"
         console.log "slideDown"
         $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-danger" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td></tr>")
         $("#prepend").css("display", "none")

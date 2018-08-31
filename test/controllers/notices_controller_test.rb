@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class NoticesControllerTest < ActionDispatch::IntegrationTest
@@ -5,17 +7,17 @@ class NoticesControllerTest < ActionDispatch::IntegrationTest
     @notice = notices(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get notices_url
     assert_response :success
   end
 
-  test "should get new" do
+  test 'should get new' do
     get new_notice_url
     assert_response :success
   end
 
-  test "should create notice" do
+  test 'should create notice' do
     assert_difference('Notice.count') do
       post notices_url, params: { notice: { deleted: @notice.deleted, destination: @notice.destination, text: @notice.text, transaction: @notice.transaction, user: @notice.user } }
     end
@@ -23,22 +25,22 @@ class NoticesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to notice_url(Notice.last)
   end
 
-  test "should show notice" do
+  test 'should show notice' do
     get notice_url(@notice)
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     get edit_notice_url(@notice)
     assert_response :success
   end
 
-  test "should update notice" do
+  test 'should update notice' do
     patch notice_url(@notice), params: { notice: { deleted: @notice.deleted, destination: @notice.destination, text: @notice.text, transaction: @notice.transaction, user: @notice.user } }
     assert_redirected_to notice_url(@notice)
   end
 
-  test "should destroy notice" do
+  test 'should destroy notice' do
     assert_difference('Notice.count', -1) do
       delete notice_url(@notice)
     end

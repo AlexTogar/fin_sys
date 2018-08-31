@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class FastTransactionsController < ApplicationController
-  before_action :set_fast_transaction, only: [:show, :edit, :update, :destroy]
+  before_action :set_fast_transaction, only: %i[show edit update destroy]
   before_action :authenticate_user!
 
   # GET /fast_transactions
@@ -10,8 +12,7 @@ class FastTransactionsController < ApplicationController
 
   # GET /fast_transactions/1
   # GET /fast_transactions/1.json
-  def show
-  end
+  def show; end
 
   # GET /fast_transactions/new
   def new
@@ -19,8 +20,7 @@ class FastTransactionsController < ApplicationController
   end
 
   # GET /fast_transactions/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /fast_transactions
   # POST /fast_transactions.json
@@ -63,13 +63,14 @@ class FastTransactionsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_fast_transaction
-      @fast_transaction = FastTransaction.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def fast_transaction_params
-      params.require(:fast_transaction).permit(:sum, :reason, :often, :user, :local, :deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_fast_transaction
+    @fast_transaction = FastTransaction.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def fast_transaction_params
+    params.require(:fast_transaction).permit(:sum, :reason, :often, :user, :local, :deleted)
+  end
 end
