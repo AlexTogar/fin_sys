@@ -2,6 +2,7 @@
 
 class ReasonsController < ApplicationController
   before_action :set_reason, only: %i[show edit update destroy]
+  before_action :authenticate_user!
 
   # GET /reasons
   # GET /reasons.json

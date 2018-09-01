@@ -65,4 +65,18 @@ class BaseController < ApplicationController
     end
   rescue StandardError
   end
+
+  def create_new_reason
+    reason = params[:reason]
+    sign = params[:sign]
+    often = 0
+    local = params[:local]
+    user = current_user.id
+    deleted = false
+
+    Reason.new(reason: reason,sign: sign,often: often,local: local,user: user,deleted: deleted)
+
+    redirect_to base_new_reason_path
+  end
+
 end

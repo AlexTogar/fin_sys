@@ -88,15 +88,18 @@ $ ->
 
 
 
-  $(".local_p").click ->
+  $(".btn-group label").click ->
+    $label1 = ($($(this).parent(".btn-group")).children("label")[0])
+    $label2 = ($($(this).parent(".btn-group")).children("label")[1])
+    console.log "this: #{this}, $this: #{$(this)}"
+    console.log "label1 = #{$label1}"
+    console.log "label2 = #{$label2}"
     $(this).removeClass("btn-outline-primary")
     $(this).addClass("btn-primary")
-    console.log "work one"
-    $(".local_j").removeClass("btn-primary")
-    $(".local_j").addClass("btn-outline-primary")
-  $(".local_j").click ->
-    $(this).removeClass("btn-outline-primary")
-    console.log "work two"
-    $(this).addClass("btn-primary")
-    $(".local_p").removeClass("btn-primary")
-    $(".local_p").addClass("btn-outline-primary")
+    if $label1 == this
+      $($label2).removeClass("btn-primary")
+      $($label2).addClass("btn-outline-primary")
+    else
+      $($label1).removeClass("btn-primary")
+      $($label1).addClass("btn-outline-primary")
+

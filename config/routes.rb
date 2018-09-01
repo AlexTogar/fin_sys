@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   get 'base/new_transaction'
   get 'base/response_on_new_transaction'
   get 'base/new_family'
+  get 'base/new_reason'
+  get 'base/create_new_reason'
   devise_for :users
 
   root to: 'base#new_transaction'
