@@ -74,17 +74,17 @@ $ ->
 
 
 
-  $("#submit_new_family").click (e) ->
-    e.preventDefault()
-    $form = $(this).parent("form")
-    $.ajax
-      url: "../base/new_family",
-      data: $form.serialize(),
-      dataType: "json",
-      type: "get"
-      success: (data) ->
-        console.log "#{data}"
-        location.reload()
+#  $("#submit_new_family").click (e) ->
+#    e.preventDefault()
+#    $form = $(this).parent("form")
+#    $.ajax
+#      url: "../base/new_family",
+#      data: $form.serialize(),
+#      dataType: "json",
+#      type: "get"
+#      success: (data) ->
+#        console.log "#{data}"
+#        location.reload()
 
 
 

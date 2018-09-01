@@ -2,15 +2,15 @@
   <h3>New Transaction</h3>
 </div>
 
-<form action="../base/response_on_new_transaction" method="get" class="my-form" remote = "true">
+<form action="../base/response_on_new_transaction" method="get" class="my-form" >
 
   <div class="form-group">
 
 
     <label for="reason" class="control-label">Reason</label>
-    <select class="form-control js-input" name="reason" id="reason" placeholder="Reason" required>
+    <select class="form-control js-input" name="reason" id="reason"  required>
       <option value="<%=Reason.find_by_reason("Other minus").id %>">Reason</option>
-      <%Reason.all.each do |x| %>
+      <%get_records("reasons").each do |x| %>
         <% if x.deleted == false %>
           <option value="<%=x.id %>"><%= x.reason %></option>
         <%end %>
@@ -61,7 +61,7 @@
 </div>
 
 <div class="table-responsive">
-<table class="table table-hover table-bordered"  >
+<table class="table table-hover table-bordered" >
   <thead class="thead-dark">
   <tr>
     <th>Sum</th>
@@ -74,7 +74,7 @@
 
   <tbody>
   <%# Transaction.find_by_sql("select * from transactions, families, users where transactions.user = #{current_user.id} and families.user=#{current_user.id} and users.id =#{current_user.id} and families.id = users.family order by transactions.created_at desc").each do |tran| %>
-  <% Transaction.all.order("created_at DESC")[0..4].each do |tran| %>
+  <% get_records("transactions")[0..4].each do |tran| %>
   <tr class="<%=  Reason.find(tran.reason).sign == false ? 'table-success' : 'table-warning' %>">
     <td><%=tran.sum %></td>
     <td><%=Reason.find(tran.reason).reason %></td>

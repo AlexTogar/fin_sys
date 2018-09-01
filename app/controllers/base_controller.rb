@@ -21,16 +21,25 @@ class BaseController < ApplicationController
     connect = params[:connect]
     user = current_user.id
     deleted = false
-    new_Family = Family.new(name: name, connect: connect, user: user, deleted: deleted)
-    new_Family.save
+    action = params[:my_action]
+    if action == "true"
 
-    User.update(current_user.id, family: new_Family.id)
+      if family_size = Family.find_by_sql("select * from families where name = #{name} and connect = #{connect}") == nil
+        new_Family = Family.new(name: name, connect: connect, user: user, deleted: deleted)
+        new_Family.save
+        User.update(current_user.id, family: new_Family.id)
+        redirect_to base_join_path, notice: "The group was created successfully"
+      else
+        redirect_to base_join_path, notice: "Error, select other name of connection password"
+      end
 
-    @data = {response: "success"}
-    respond_to do |x|
-      x.json { render json: @data.to_json }
+    else
+      family_connect = Family.find_by_sql("select * from families where name = #{name} and connect = #{connect}")
+      User.update(current_user.id, :family => family_connect.id)
+      redirect_to base_join_path, notice: "The connection successfully completed"
+
     end
-  rescue StandardError
+
   end
 
   def new_transaction; end
@@ -67,6 +76,7 @@ class BaseController < ApplicationController
   end
 
   def create_new_reason
+    begin
     reason = params[:reason]
     sign = params[:sign]
     often = 0
@@ -78,6 +88,10 @@ class BaseController < ApplicationController
     newReason.save
 
     redirect_to base_new_reason_path , notice: 'Reason was successfully created.'
+    rescue
+      redirect_to base_new_reason_path, notice: "Error, reason cannot be added"
+    end
+
   end
 
 end
