@@ -74,9 +74,10 @@ class BaseController < ApplicationController
     user = current_user.id
     deleted = false
 
-    Reason.new(reason: reason,sign: sign,often: often,local: local,user: user,deleted: deleted)
+    newReason = Reason.new(reason: reason,sign: sign,often: often,local: local,user: user,deleted: deleted)
+    newReason.save
 
-    redirect_to base_new_reason_path
+    redirect_to base_new_reason_path , notice: 'Reason was successfully created.'
   end
 
 end
