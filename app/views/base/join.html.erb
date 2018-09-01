@@ -1,15 +1,33 @@
-<div class="page-header">
-  <h3>Base#join</h3>
+<div class="main-div">
+  <% if has_family %>
+    <div class="page-header">
+      <h3>Your group</h3>
+    </div>
+
+
+
+
+
+
+
+
+  <% else %>
+
+
+
+    <div class="page-header">
+      <h6 class="text-danger">You are not a member of the group</h6>
+      <h3>Create group!</h3>
+    </div>
+
+    <form class="my-form" action="../base/new_family" method="get" remote="true">
+      <%= my_input_tag("Group name", "name", "text", "") %>
+      <%= my_input_tag("Connect code", "connect", "text", "") %>
+      <input type="submit" class="form-control btn btn-primary" value="Create group" id="submit_new_family">
+    </form>
+
+
+
+
+  <% end %>
 </div>
-<p>Find me in app/views/base/join.html.erb</p>
-<h1><%= has_family(current_user.id) %></h1>
-
-<form action="../base/test_action" class = "my-form">
-
-  <%= my_input_tag("test tag", "text", "my-class") %>
-  <%= my_toggle_tag({}) %>
-
-  <input type="submit" value="submit">
-</form>
-
-

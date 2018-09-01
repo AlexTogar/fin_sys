@@ -23,6 +23,13 @@ class BaseController < ApplicationController
     deleted = false
     new_Family = Family.new(name: name, connect: connect, user: user, deleted: deleted)
     new_Family.save
+
+    User.update(current_user.id, family: new_Family.id)
+
+    @data = {response: "success"}
+    respond_to do |x|
+      x.json { render json: @data.to_json }
+    end
   rescue StandardError
   end
 

@@ -5,7 +5,8 @@ delay = 200
 
 $ ->
   $("#sum").focus ->
-    this.value = ""
+    if this.value == "0"
+      this.value = ""
   $("#sum").focusout ->
     if this.value == ""
       this.value = "0"
@@ -64,7 +65,7 @@ $ ->
 
         $("#sum").val "#{data.sum}"
         console.log "slideDown"
-        $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-danger" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td></tr>")
+        $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td></tr>")
         $("#prepend").css("display", "none")
         $("#prepend").fadeIn()
         if $("tbody").find("tr").length > 5
@@ -72,6 +73,18 @@ $ ->
           setTimeout ( -> $("tbody tr").last().remove()), delay
 
 
+
+  $("#submit_new_family").click (e) ->
+    e.preventDefault()
+    $form = $(this).parent("form")
+    $.ajax
+      url: "../base/new_family",
+      data: $form.serialize(),
+      dataType: "json",
+      type: "get"
+      success: (data) ->
+        console.log "#{data}"
+        location.reload()
 
 
 

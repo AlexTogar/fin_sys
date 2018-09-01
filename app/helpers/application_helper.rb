@@ -2,11 +2,11 @@
 
 module ApplicationHelper
 
-  def my_input_tag(name, type, my_class)
+  def my_input_tag(name, html_name, type, my_class)
     html = "
         <div class='form-group'>
-          <label for='#{name}' class='control-label'>#{name.capitalize}</label>
-          <input type='#{type}' class='form-control js-input #{my_class}' name='#{name}' id='#{name}' placeholder='#{name.capitalize}'>
+          <label for='#{html_name}' class='control-label'>#{name.capitalize}</label>
+          <input type='#{type}' class='form-control js-input #{my_class}' name='#{html_name}' id='#{html_name}' placeholder='#{name.capitalize}'>
         </div>
     "
     html.html_safe
