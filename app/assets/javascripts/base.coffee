@@ -99,8 +99,29 @@ $ ->
       type: "get"
       success: (data) ->
         location.reload()
-#        console.log "success"
-#        $tr =  $($("#t#{tran_id}").parent("td")).parent("tr")
-#        $tr.fadeOut(delay)
-#        setTimeout ( -> $tr.remove()), delay
+
+
+  $(".btn-group button").click -> #toggle - 3 button on new_transaction_page
+    switch $(this).attr("id")
+      when "b1"
+        $(".new-debt").fadeOut delay
+        $(".fast-tran").fadeOut delay
+        setTimeout ( -> $(".new-tran").fadeIn delay), delay
+        $(".h3-header").animate opacity: "0", delay
+        setTimeout ( -> $(".h3-header").html "New Transaction"), delay
+        $(".h3-header").animate opacity: "1", delay
+      when "b2"
+        $(".new-tran").fadeOut delay
+        $(".fast-tran").fadeOut delay
+        setTimeout ( -> $(".new-debt").fadeIn delay), delay
+        $(".h3-header").animate opacity: "0", delay
+        setTimeout ( -> $(".h3-header").html "New Debt"), delay
+        $(".h3-header").animate opacity: "1", delay
+      else
+        $(".new-tran").fadeOut delay
+        $(".new-debt").fadeOut delay
+        setTimeout ( -> $(".fast-tran").fadeIn delay), delay
+        $(".h3-header").animate opacity: "0", delay
+        setTimeout ( -> $(".h3-header").html "Fast Transaction") , delay
+        $(".h3-header").animate opacity: "1", delay
 

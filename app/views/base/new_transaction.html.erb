@@ -1,53 +1,72 @@
 <div class="page-header">
-  <h3>New Transaction</h3>
+  <h3 class = "h3-header">New Transaction</h3>
+
+  <div class="btn-group " role="group" aria-label="Basic example">
+    <button type="button" class="btn btn-outline-primary " id = "b1">New transaction</button>
+    <button type="button" class="btn btn-outline-primary " id = "b2">New debt</button>
+    <button type="button" class="btn btn-outline-primary " id = "b3">Fast transaction</button>
+  </div>
 </div>
 
-<form action="../base/response_on_new_transaction" method="get" class="my-form" >
-
-  <div class="form-group">
 
 
-    <label for="reason" class="control-label">Reason</label>
-    <select class="form-control js-input" name="reason" id="reason"  required>
-      <% get_records(table_name: "reasons").each do |x| %>
-          <option value="<%=x.id %>"><%= x.reason %></option>
-      <% end %>
-    </select>
-  </div>
-
-  <div class="form-group">
-    <label for="sum" class="ocntrol-label">Sum</label>
-    <input type="text" class="form-control js-input" pattern="([0-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" value = "0" placeholder="Sum" required>
-  </div>
-
-  <div class="btn-details">Details <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
-  </div>
-
-  <div class="details">
+<div class="new-tran">
+  <form action="../base/response_on_new_transaction" method="get" class="my-form">
 
     <div class="form-group">
-      <label for="description" class="control-label">Description</label>
-      <input type="text" class="form-control js-input" name="description" id="description" placeholder="Description">
+
+
+      <label for="reason" class="control-label">Reason</label>
+      <select class="form-control js-input" name="reason" id="reason" required>
+        <% get_records(table_name: "reasons").each do |x| %>
+          <option value="<%= x.id %>"><%= x.reason %></option>
+        <% end %>
+      </select>
     </div>
-    
+
     <div class="form-group">
-      <label for="local" class="control-label">Local</label>
-    <div class="btn-group" data-toggle="buttons">
-      <label class="btn btn-primary active local_p">
-        <input type="radio" name="local" id="local_p" autocomplete="off" value = "true" checked>Personal
-      </label>
-      <label class="btn btn-outline-primary local_j">
-        <input type="radio" name="local" id="local_j" autocomplete="off" value = "false">Joint
-      </label>
+      <label for="sum" class="ocntrol-label">Sum</label>
+      <input type="text" class="form-control js-input" pattern="([0-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" value="0" placeholder="Sum" required>
     </div>
 
+    <div class="btn-details">Details
+      <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
     </div>
-  </div>
 
-  <input type="submit" class="btn btn-primary gradient" id="submit_new_transaction" value="Add transaction">
+    <div class="details">
 
-</form>
+      <div class="form-group">
+        <label for="description" class="control-label">Description</label>
+        <input type="text" class="form-control js-input" name="description" id="description" placeholder="Description">
+      </div>
 
+      <div class="form-group">
+        <label for="local" class="control-label">Local</label>
+        <div class="btn-group" data-toggle="buttons">
+          <label class="btn btn-primary active local_p">
+            <input type="radio" name="local" id="local_p" autocomplete="off" value="true" checked>Personal
+          </label>
+          <label class="btn btn-outline-primary local_j">
+            <input type="radio" name="local" id="local_j" autocomplete="off" value="false">Joint
+          </label>
+        </div>
+
+      </div>
+    </div>
+
+    <input type="submit" class="btn btn-primary gradient" id="submit_new_transaction" value="Add transaction">
+
+  </form>
+</div>
+
+<div class="new-debt">
+  <h1 align="center">new debt</h1>
+</div>
+
+
+<div class="fast-tran">
+  <h1 align="center">fast tran</h1>
+</div>
 
 
 <br>
