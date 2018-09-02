@@ -4,7 +4,7 @@
 
 <form action="../base/create_new_reason" method="get" class="my-form">
   <%= my_input_tag("Reason", "reason", "text","") %>
-  <%= my_toggle_tag(toggle_name: "Sign", name_one: "expense", name_two: "profit", active_one: true) %>
-  <%= my_toggle_tag(toggle_name: "Local" , name_one: "Personal", name_two: "Joint",active_one: true) %>
+  <%= my_toggle_tag(toggle_name: "Sign", name_one: "expense", name_two: "profit", active_one: true, toggle_name_html: "sign") %>
+  <%= my_toggle_tag(toggle_name: "Local" , name_one: "Personal", name_two: "Joint",active_one: true, toggle_name_html: "local") %>
   <input type="submit" value="Create new reason" class="form-control btn btn-primary gradient">
 </form>

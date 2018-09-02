@@ -24,19 +24,23 @@ class BaseController < ApplicationController
     action = params[:my_action]
     if action == "true"
 
-      if family_size = Family.find_by_sql("select * from families where name = #{name} and connect = #{connect}") == nil
+      if family_size = Family.find_by_sql("select * from families where name = '#{name}' ").size == 0
         new_Family = Family.new(name: name, connect: connect, user: user, deleted: deleted)
         new_Family.save
         User.update(current_user.id, family: new_Family.id)
         redirect_to base_join_path, notice: "The group was created successfully"
       else
-        redirect_to base_join_path, notice: "Error, select other name of connection password"
+        redirect_to base_join_path, notice: "This name is already taken, choose another"
       end
 
     else
-      family_connect = Family.find_by_sql("select * from families where name = #{name} and connect = #{connect}")
-      User.update(current_user.id, :family => family_connect.id)
-      redirect_to base_join_path, notice: "The connection successfully completed"
+      if Family.exists?(name: name, connect: connect )
+        family_connect = Family.find_by_sql("select * from families where name = '#{name}' and connect = '#{connect}' ")[0]
+        User.update(current_user.id, family: family_connect.id)
+        redirect_to base_join_path, notice: "The connection successfully completed"
+      else
+        redirect_to base_join_path, notice: "Invalid name or connection password"
+      end
 
     end
 
@@ -92,6 +96,13 @@ class BaseController < ApplicationController
       redirect_to base_new_reason_path, notice: "Error, reason cannot be added"
     end
 
+  end
+
+  def leave_the_group
+
+    User.update(current_user.id, family: nil)
+
+    redirect_to base_join_path, notice: "You have successfully exited the group"
   end
 
 end

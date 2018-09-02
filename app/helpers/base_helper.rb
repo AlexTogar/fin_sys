@@ -10,13 +10,16 @@ module BaseHelper
     end
   end
 
-  def get_records (table_name)
+  def get_records (params)
+    table_name = params[:table_name]
+    add_condition = params[:add_condition]
+
     table_class = table_name.singularize.capitalize
 
     if has_family
-       eval(table_class).find_by_sql("select * from #{table_name}, users where users.family = #{has_family} and #{table_name}.user = users.id")
+       eval(table_class).find_by_sql("select * from #{table_name}, users where users.family = #{has_family} and #{table_name}.user = users.id and #{table_name}.deleted = false #{add_condition}")
     else
-       eval(table_class).find_by_sql("select * from #{table_name} where #{table_name}.user = #{current_user.id}")
+       eval(table_class).find_by_sql("select * from #{table_name} where #{table_name}.user = #{current_user.id} and #{table_name}.deleted = false #{add_condition}")
     end
 
   end

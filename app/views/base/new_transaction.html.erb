@@ -9,11 +9,8 @@
 
     <label for="reason" class="control-label">Reason</label>
     <select class="form-control js-input" name="reason" id="reason"  required>
-      <option value="<%=Reason.find_by_reason("Other minus").id %>">Reason</option>
-      <%get_records("reasons").each do |x| %>
-        <% if x.deleted == false %>
+      <% get_records(table_name: "reasons").each do |x| %>
           <option value="<%=x.id %>"><%= x.reason %></option>
-        <%end %>
       <% end %>
     </select>
   </div>
@@ -74,7 +71,7 @@
 
   <tbody>
   <%# Transaction.find_by_sql("select * from transactions, families, users where transactions.user = #{current_user.id} and families.user=#{current_user.id} and users.id =#{current_user.id} and families.id = users.family order by transactions.created_at desc").each do |tran| %>
-  <% get_records("transactions")[0..4].each do |tran| %>
+  <% get_records(table_name: "transactions", add_condition: "order by transactions.created_at DESC")[0..4].each do |tran| %>
   <tr class="<%=  Reason.find(tran.reason).sign == false ? 'table-success' : 'table-warning' %>">
     <td><%=tran.sum %></td>
     <td><%=Reason.find(tran.reason).reason %></td>

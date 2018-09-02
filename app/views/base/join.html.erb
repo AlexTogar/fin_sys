@@ -3,16 +3,28 @@
     <div class="page-header">
       <h3>Your group</h3>
     </div>
-
-
-
-
-
-
+    <div class="body">
+      <table class="table table-bordered table-hover table-users">
+        <thead class="thead-dark">
+        <th>
+          Groupmates email
+        </th>
+        </thead>
+        <tbody>
+        <% User.find_by_sql("select * from users where family = #{has_family}").each do |user| %>
+          <tr>
+            <td><%= user.email %> <span class="text-danger span-you"><%="You" if current_user.id == user.id %></span></td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+      <form action="../base/leave_the_group">
+        <input type="submit" class="btn btn-warning" value="Leave the group">
+      </form>
+    </div>
 
 
   <% else %>
-
 
 
     <div class="page-header">
@@ -23,11 +35,9 @@
     <form class="my-form" action="../base/new_family" method="get">
       <%= my_input_tag("Group name", "name", "text", "") %>
       <%= my_input_tag("Connect code", "connect", "text", "") %>
-      <%= my_toggle_tag(toggle_name: "Action", name_one: "Create new", name_two: "To join another", toggle_name_html: "my_action")  %>
+      <%= my_toggle_tag(toggle_name: "Action", name_one: "Create new", name_two: "To join another", toggle_name_html: "my_action") %>
       <input type="submit" class="form-control btn btn-primary gradient" value="Run the selected" id="submit_new_family">
     </form>
-
-
 
 
   <% end %>

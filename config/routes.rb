@@ -20,6 +20,7 @@ Rails.application.routes.draw do
   get 'base/new_family'
   get 'base/new_reason'
   get 'base/create_new_reason'
+  get 'base/leave_the_group'
   devise_for :users
 
   root to: 'base#new_transaction'
