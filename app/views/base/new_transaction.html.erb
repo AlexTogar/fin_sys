@@ -65,6 +65,7 @@
     <th>Reason</th>
     <th>User</th>
     <th>Date</th>
+    <th class="text-warning">Delete</th>
   </tr>
 
   </thead>
@@ -77,6 +78,7 @@
     <td><%=Reason.find(tran.reason).reason %></td>
     <td><%=User.find(tran.user).email %></td>
     <td><%= tran.created_at.to_s.split("U")[0] %></td>
+    <td><button id = "t<%=tran.id%>" class = "delete-transaction btn btn-outline-danger"><span class="icon-nav"><%=octicon "x" %></span></button></td>
   </tr>
 
   <% end %>

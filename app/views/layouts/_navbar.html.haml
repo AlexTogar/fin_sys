@@ -19,7 +19,7 @@
           %a.nav-link{:href => base_join_path}
             %span.icon-nav
               =octicon "organization"
-              Join the group
+              =has_family ? "Group" : "Join the group"
 
         %li.nav-item
           %a.nav-link{:href => base_graph_path}

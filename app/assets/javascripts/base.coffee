@@ -73,21 +73,6 @@ $ ->
           setTimeout ( -> $("tbody tr").last().remove()), delay
 
 
-
-#  $("#submit_new_family").click (e) ->
-#    e.preventDefault()
-#    $form = $(this).parent("form")
-#    $.ajax
-#      url: "../base/new_family",
-#      data: $form.serialize(),
-#      dataType: "json",
-#      type: "get"
-#      success: (data) ->
-#        console.log "#{data}"
-#        location.reload()
-
-
-
   $(".btn-group label").click ->
     $label1 = ($($(this).parent(".btn-group")).children("label")[0])
     $label2 = ($($(this).parent(".btn-group")).children("label")[1])
@@ -102,4 +87,18 @@ $ ->
     else
       $($label1).removeClass("btn-primary")
       $($label1).addClass("btn-outline-primary")
+
+
+  $(".delete-transaction").click ->
+    tran_id = String($(this).attr("id"))[1..String($(this).attr("id").size)]
+    $.ajax
+      url: "../base/delete_transaction",
+      data: {tran_id: tran_id},
+      dataType: "json",
+      type: "get"
+      success: (data) ->
+        console.log "success"
+        $tr =  $($("#t#{tran_id}").parent("td")).parent("tr")
+        $tr.fadeOut(delay)
+        setTimeout ( -> $tr.remove()), delay
 
