@@ -22,6 +22,7 @@ Rails.application.routes.draw do
   get 'base/create_new_reason'
   get 'base/leave_the_group'
   get 'base/delete_transaction'
+  get 'base/new_debt'
   devise_for :users
 
   root to: 'base#new_transaction'

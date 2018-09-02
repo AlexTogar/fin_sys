@@ -53,6 +53,8 @@ class BaseController < ApplicationController
 
   def response_on_new_transaction
 
+    if fast_tran = params[:fast_tran] == nil
+
       begin
         sum = eval(params[:sum].to_s)
       rescue
@@ -83,6 +85,10 @@ class BaseController < ApplicationController
       end
 
 
+    else #if fast_tran != nil
+
+
+    end
 
   end
 
@@ -120,6 +126,39 @@ class BaseController < ApplicationController
   def delete_transaction
     tran_id = params[:tran_id]
     Transaction.update(tran_id, deleted: "true")
+  end
+
+  def new_debt
+    # debt_sum = params[:debt_sum]
+    # debtor = params[:debtor]
+    # you_debtor = params[:you_debtor]
+    # sum = debt_sum
+    # description = params[:description]
+    # if you_debtor
+    #   if !Reason.exists?(:reason => "Your debt", :user => current_user.id)
+    #     reasonNew = Reason.new(reason: "Your debt", user: current_user.id, sign: true, local: true, deleted: false)
+    #     reasonNew.save
+    #     reason = reasonNew.id
+    #   else
+    #     reason = Reason.find(:reason => "Your debt", :user => current_user.id).id
+    #   end
+    # else
+    #   if !Reason.exists?(reason: "Debt to you", user: current_user.id)
+    #     reasonNew = Reason.new(reason: "Debt to you", user: current_user.id, sign: false, local: true, deleted: false)
+    #     reasonNew.save
+    #     reason = reasonNew.id
+    #   else
+    #     reason = Reason.find(:reason => "Your debt", :user => current_user.id).id
+    #   end
+
+    # end
+    #
+    # user = current_user.id
+    # local = true
+    # deleted = false
+    #
+    # Transaction.new(sum: sum, description: description, reason: reason, user: user, local: local, debt_sum: debt_sum, debtor: debtor, you_debtor: you_debtor, deleted: deleted).save
+    # redirect_to base_new_transaction_path, notice: "Transaction was successfully created"
   end
 
 end

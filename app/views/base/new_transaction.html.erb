@@ -59,13 +59,32 @@
   </form>
 </div>
 
-<div class="new-debt">
-  <h1 align="center">new debt</h1>
+<div class="new-debt disp_none">
+  <form action="../base/new_debt" class="my-form" method="get">
+    <%= my_toggle_tag(toggle_name: "You debtor?", toggle_name_html: "you_debtor", name_one: "No", name_two: "Yes") %>
+    <%= my_input_tag("Name", "debtor", "text", "") %>
+    <%= my_input_tag("Sum", "debt_sum", "number", "") %>
+    <%= my_input_tag("Description", "description", "text", "") %>
+    <input type="submit" class="btn btn-primary gradient form-control" value ="Add">
+  </form>
 </div>
 
 
-<div class="fast-tran">
-  <h1 align="center">fast tran</h1>
+<div class="fast-tran disp_none">
+  <form action="../base/response_on_new_transaction" class="my-form" method="get">
+
+    <div class="form-group">
+      <label for="fast_tran">Fast transaction</label>
+
+    <select name="fast_tran" id="fast_tran" class="form-control">
+      <%= get_records(table_name: "fast_transactions") do |x| %>
+        <option value="<%= x.id%>"><%= x.name %></option>
+      <% end %>
+    </select>
+    </div>
+
+    <input type="submit" class="btn btn-primary gradient form-control" value ="Add">
+  </form>
 </div>
 
 
