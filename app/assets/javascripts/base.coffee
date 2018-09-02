@@ -65,7 +65,7 @@ $ ->
 
         $("#sum").val "#{data.sum}"
         console.log "slideDown"
-        $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td></tr>")
+        $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td><td><button id='t#{data.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
         $("#prepend").css("display", "none")
         $("#prepend").fadeIn()
         if $("tbody").find("tr").length > 5
@@ -89,7 +89,8 @@ $ ->
       $($label1).addClass("btn-outline-primary")
 
 
-  $(".delete-transaction").click ->
+  $(document).delegate '.delete-transaction', 'click',-> #для динамически сгенерированных delete-transaction кнопок
+    console.log "delete_transaction clicked"
     tran_id = String($(this).attr("id"))[1..String($(this).attr("id").size)]
     $.ajax
       url: "../base/delete_transaction",
@@ -97,8 +98,9 @@ $ ->
       dataType: "json",
       type: "get"
       success: (data) ->
-        console.log "success"
-        $tr =  $($("#t#{tran_id}").parent("td")).parent("tr")
-        $tr.fadeOut(delay)
-        setTimeout ( -> $tr.remove()), delay
+        location.reload()
+#        console.log "success"
+#        $tr =  $($("#t#{tran_id}").parent("td")).parent("tr")
+#        $tr.fadeOut(delay)
+#        setTimeout ( -> $tr.remove()), delay
 

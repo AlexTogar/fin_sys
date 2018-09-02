@@ -74,7 +74,9 @@ class BaseController < ApplicationController
                reason: Reason.find(params[:reason]).reason,
                user: current_user.email,
                date: newTransaction.created_at.to_s.split('U')[0],
-               sign: Reason.find(params[:reason]).sign}
+               sign: Reason.find(params[:reason]).sign,
+               id: newTransaction.id
+      }
 
       respond_to do |x|
         x.json {render json: @data.to_json}
