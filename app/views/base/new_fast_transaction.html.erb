@@ -1,0 +1,22 @@
+<div class="page-header">
+  <h3>New fast transaction</h3>
+</div>
+
+<form action="../base/create_new_fast_transaction" class="my-form" method="get">
+  <%=my_input_tag("Name","name","text","") %>
+  <%=my_input_tag("Sum","sum","text","") %>
+
+  <div class="form-group">
+
+
+    <label for="reason" class="control-label">Reason</label>
+    <select class="form-control js-input" name="reason" id="reason" required>
+      <% get_records(table_name: "reasons").each do |x| %>
+        <option value="<%= x.id %>"><%= x.reason %></option>
+      <% end %>
+    </select>
+  </div>
+
+  <%= my_toggle_tag(toggle_name: "Local", name_one: "Personal", name_two: "Joint", toggle_name_html: "local") %>
+  <input type="submit" value="Create new fast transaction" class="btn btn-primary gradient form-control">
+</form>

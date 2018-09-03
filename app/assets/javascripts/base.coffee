@@ -52,7 +52,7 @@ $ ->
       $(".down").css("display", "none")
 
 
-  $("#submit_new_transaction").click (e) ->
+  $(".submit_new_transaction").click (e) ->
     e.preventDefault()
     $form = $(this).parent("form")
 #    data =  {reason: "r1", description: "d1", sum: "s1", local: "l1"}

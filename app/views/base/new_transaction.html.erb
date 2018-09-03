@@ -54,7 +54,7 @@
       </div>
     </div>
 
-    <input type="submit" class="btn btn-primary gradient" id="submit_new_transaction" value="Add transaction">
+    <input type="submit" class="btn btn-primary gradient submit_new_transaction" value="Add transaction">
 
   </form>
 </div>
@@ -77,13 +77,13 @@
       <label for="fast_tran">Fast transaction</label>
 
     <select name="fast_tran" id="fast_tran" class="form-control">
-      <%= get_records(table_name: "fast_transactions") do |x| %>
+      <% get_records(table_name: "fast_transactions").each do |x| %>
         <option value="<%= x.id%>"><%= x.name %></option>
       <% end %>
     </select>
     </div>
 
-    <input type="submit" class="btn btn-primary gradient form-control" value ="Add">
+    <input type="submit" class="btn btn-primary gradient form-control submit_new_transaction" value ="Add">
   </form>
 </div>
 
