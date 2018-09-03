@@ -2,6 +2,10 @@
 
 module BaseHelper
 
+  def my_time (s)
+    s.scan(/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/)[0]
+  end
+
   def has_family
     if family = User.find(current_user.id).family
        family # return family id

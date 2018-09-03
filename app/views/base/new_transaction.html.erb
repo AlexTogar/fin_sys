@@ -63,7 +63,7 @@
   <form action="../base/new_debt" class="my-form" method="get">
     <%= my_toggle_tag(toggle_name: "You debtor?", toggle_name_html: "you_debtor", name_one: "No", name_two: "Yes") %>
     <%= my_input_tag("Name", "debtor", "text", "") %>
-    <%= my_input_tag("Sum", "debt_sum", "number", "") %>
+    <%= my_input_tag("Sum", "debt_sum", "text", "") %>
     <%= my_input_tag("Description", "description", "text", "") %>
     <input type="submit" class="btn btn-primary gradient form-control" value ="Add">
   </form>
@@ -92,10 +92,10 @@
 <br>
 
 <div class="page-header">
-  <h3>Last transactions</h3>
+  <h3>Last 5 transactions</h3>
 </div>
 
-<div class="table-responsive">
+<div class="table-responsive"  id = "table-last-tran">
 <table class="table table-hover table-bordered" >
   <thead class="thead-dark">
   <tr>
@@ -115,7 +115,7 @@
     <td><%=tran.sum %></td>
     <td><%=Reason.find(tran.reason).reason %></td>
     <td><%=User.find(tran.user).email %></td>
-    <td><%= tran.created_at.to_s.split("U")[0] %></td>
+    <td class="time"><%= my_time(tran.created_at.to_s) %></td>
     <td><button id = "t<%=tran.id%>" class = "delete-transaction btn btn-outline-danger"><span class="icon-nav">X</span></button></td>
   </tr>
 
