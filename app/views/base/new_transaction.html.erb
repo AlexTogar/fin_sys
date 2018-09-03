@@ -1,10 +1,10 @@
 <div class="page-header">
-  <h3 class = "h3-header">New Transaction</h3>
+  <h3 class="h3-header">New Transaction</h3>
 
   <div class="btn-group " role="group" aria-label="Basic example">
-    <button type="button" class="btn btn-outline-primary active" id = "b1">New tran</button>
-    <button type="button" class="btn btn-outline-primary " id = "b2">New debt</button>
-    <button type="button" class="btn btn-outline-primary " id = "b3">Fast tran</button>
+    <button type="button" class="btn btn-outline-primary active" id="b1">New tran</button>
+    <button type="button" class="btn btn-outline-primary " id="b2">New debt</button>
+    <button type="button" class="btn btn-outline-primary " id="b3">Fast tran</button>
   </div>
 </div>
 
@@ -65,7 +65,7 @@
     <%= my_input_tag("Name", "debtor", "text", "") %>
     <%= my_input_tag("Sum", "debt_sum", "text", "") %>
     <%= my_input_tag("Description", "description", "text", "") %>
-    <input type="submit" class="btn btn-primary gradient form-control" value ="Add">
+    <input type="submit" class="btn btn-primary gradient form-control" value="Add">
   </form>
 </div>
 
@@ -76,14 +76,15 @@
     <div class="form-group">
       <label for="fast_tran">Fast transaction</label>
 
-    <select name="fast_tran" id="fast_tran" class="form-control">
-      <% get_records(table_name: "fast_transactions").each do |x| %>
-        <option value="<%= x.id%>"><%= x.name %></option>
-      <% end %>
-    </select>
+      <select name="fast_tran" id="fast_tran" class="form-control">
+        <% get_records(table_name: "fast_transactions").each do |x| %>
+          <option value="<%= x.id %>"><%= x.name %></option>
+        <% end %>
+      </select>
     </div>
+    <a href="<%= base_new_fast_transaction_path %>">new fast transaction -></a>
 
-    <input type="submit" class="btn btn-primary gradient form-control submit_new_transaction" value ="Add">
+    <input type="submit" class="btn btn-primary gradient form-control submit_new_transaction" value="Add">
   </form>
 </div>
 
@@ -95,31 +96,41 @@
   <h3>Last 5 transactions</h3>
 </div>
 
-<div class="table-responsive"  id = "table-last-tran">
-<table class="table table-hover table-bordered" >
-  <thead class="thead-dark">
-  <tr>
-    <th>Sum</th>
-    <th>Reason</th>
-    <th>User</th>
-    <th>Date</th>
-    <th class="text-warning">Delete</th>
-  </tr>
+<div class="table-responsive" id="table-last-tran">
+  <table class="table table-hover table-bordered">
+    <thead class="thead-dark">
+    <tr>
+      <th>Sum</th>
+      <th>Reason</th>
+      <th>User</th>
+      <th>Date</th>
+      <th class="text-warning">Delete</th>
+    </tr>
 
-  </thead>
+    </thead>
 
-  <tbody>
-  <%# Transaction.find_by_sql("select * from transactions, families, users where transactions.user = #{current_user.id} and families.user=#{current_user.id} and users.id =#{current_user.id} and families.id = users.family order by transactions.created_at desc").each do |tran| %>
-  <% get_records(table_name: "transactions", add_condition: "order by transactions.created_at DESC")[0..4].each do |tran| %>
-  <tr class="<%=  Reason.find(tran.reason).sign == false ? 'table-success' : 'table-warning' %>">
-    <td><%=tran.sum %></td>
-    <td><%=Reason.find(tran.reason).reason %></td>
-    <td><%=User.find(tran.user).email %></td>
-    <td class="time"><%= my_time(tran.created_at.to_s) %></td>
-    <td><button id = "t<%=tran.id%>" class = "delete-transaction btn btn-outline-danger"><span class="icon-nav">X</span></button></td>
-  </tr>
+    <tbody>
 
-  <% end %>
-  </tbody>
-</table>
+    <% if @transactions.size > 0 %>
+      <% @transactions.each do |tran| %>
+        <tr class="<%= Reason.find(tran.reason).sign == false ? 'table-success' : 'table-warning' %>">
+          <td><%= tran.sum %></td>
+          <td><%= Reason.find(tran.reason).reason %></td>
+          <td><%= User.find(tran.user).email %></td>
+          <td class="time"><%= my_time(tran.created_at.to_s) %></td>
+          <td>
+            <button id="t<%= tran.id %>" class="delete-transaction btn btn-outline-danger">
+              <span class="icon-nav">X</span></button>
+          </td>
+        </tr>
+
+      <% end %>
+
+    <% else %>
+      <tr id = "no-tran">
+        <td colspan="5" class="no-tran">No transactions</td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
 </div>

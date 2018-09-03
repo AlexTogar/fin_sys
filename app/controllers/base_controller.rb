@@ -2,9 +2,8 @@
 
 class BaseController < ApplicationController
   before_action :authenticate_user!
-  def my_time (s)
-    s.scan(/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/)[0]
-  end
+  include BaseHelper
+
 
   def test_action
     @data = params
@@ -51,7 +50,8 @@ class BaseController < ApplicationController
 
   end
 
-  def new_transaction;
+  def new_transaction
+    @transactions = get_records(table_name: "transactions", add_condition: "order by transactions.created_at DESC")[0..4]
   end
 
   def response_on_new_transaction
