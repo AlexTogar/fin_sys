@@ -104,6 +104,10 @@ $ ->
   $(".btn-group button").click -> #toggle - 3 button on new_transaction_page
     switch $(this).attr("id")
       when "b1"
+        $(this).addClass("active")
+        $("#b2").removeClass("active")
+        $("#b3").removeClass("active")
+
         $(".new-debt").fadeOut delay
         $(".fast-tran").fadeOut delay
         setTimeout ( -> $(".new-tran").fadeIn delay), delay
@@ -111,6 +115,10 @@ $ ->
         setTimeout ( -> $(".h3-header").html "New Transaction"), delay
         $(".h3-header").animate opacity: "1", delay
       when "b2"
+        $(this).addClass("active")
+        $("#b1").removeClass("active")
+        $("#b3").removeClass("active")
+
         $(".new-tran").fadeOut delay
         $(".fast-tran").fadeOut delay
         setTimeout ( -> $(".new-debt").fadeIn delay), delay
@@ -118,6 +126,10 @@ $ ->
         setTimeout ( -> $(".h3-header").html "New Debt"), delay
         $(".h3-header").animate opacity: "1", delay
       else
+        $(this).addClass("active")
+        $("#b1").removeClass("active")
+        $("#b2").removeClass("active")
+
         $(".new-tran").fadeOut delay
         $(".new-debt").fadeOut delay
         setTimeout ( -> $(".fast-tran").fadeIn delay), delay

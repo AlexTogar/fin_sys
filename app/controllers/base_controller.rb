@@ -116,7 +116,7 @@ class BaseController < ApplicationController
 
     User.update(current_user.id, family: nil)
 
-    if User.exists?(family: current_family)
+    if !User.exists?(family: current_family)
       Family.find(current_user.family).destroy
     end
 
