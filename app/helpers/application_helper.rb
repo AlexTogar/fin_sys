@@ -2,6 +2,8 @@
 
 module ApplicationHelper
 
+
+
   def my_input_tag(name, html_name, type, my_class)
     html = "
         <div class='form-group'>

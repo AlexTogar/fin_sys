@@ -2,9 +2,7 @@
 
 module BaseHelper
 
-  def my_time (s)
-    s.scan(/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/)[0]
-  end
+
 
   def has_family
     if family = User.find(current_user.id).family
@@ -27,7 +25,10 @@ module BaseHelper
        eval(table_class).find_by_sql("select * from #{table_name} where #{table_name}.user = #{current_user.id} and #{table_name}.deleted = false #{add_condition}")
     end
 
+  end
 
+  def my_time(s)
+    s.scan(/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/)[0]
   end
 
 end

@@ -2,6 +2,9 @@
 
 class BaseController < ApplicationController
   before_action :authenticate_user!
+  def my_time (s)
+    s.scan(/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/)[0]
+  end
 
   def test_action
     @data = params
@@ -75,7 +78,7 @@ class BaseController < ApplicationController
       @data = {sum: sum,
                reason: Reason.find(params[:reason]).reason,
                user: current_user.email,
-               date: newTransaction.created_at.to_s.split('U')[0].split("+")[0],
+               date: my_time(newTransaction.created_at.to_s),
                sign: Reason.find(params[:reason]).sign,
                id: newTransaction.id
       }
@@ -103,7 +106,7 @@ class BaseController < ApplicationController
       @data = {sum: fast_tran.sum,
                reason: Reason.find(fast_tran.reason).reason,
                user: User.find(fast_tran.user).email,
-               date: newTransaction.created_at.to_s.split('U')[0].split("+")[0],
+               date: my_time(newTransaction.created_at.to_s),
                sign: Reason.find(fast_tran.reason).sign,
                id: newTransaction.id
       }
