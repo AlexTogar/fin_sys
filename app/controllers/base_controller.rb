@@ -59,7 +59,7 @@ class BaseController < ApplicationController
     if fast_tran == nil
 
       begin
-        sum = eval(params[:sum].to_s)
+        sum = eval(params[:sum].to_s).to_i
       rescue
         sum = 0 # если не заработает html валидатор
       end
@@ -69,7 +69,6 @@ class BaseController < ApplicationController
           reason: params[:reason],
           user: current_user.id,
           local: params[:local],
-          debt_sum: 0, debtor: '',
           deleted: false
       )
 
@@ -97,7 +96,6 @@ class BaseController < ApplicationController
           reason: fast_tran.reason,
           user: fast_tran.user,
           local: fast_tran.local,
-          debt_sum: 0, debtor: '',
           deleted: false
       )
 
@@ -160,7 +158,7 @@ class BaseController < ApplicationController
     name = params[:name]
     reason = params[:reason]
     begin
-      sum = eval(params[:sum]).to_s
+      sum = eval(params[:sum].to_s).to_i
     rescue
       sum = 0
     end
@@ -180,36 +178,21 @@ class BaseController < ApplicationController
   end
 
   def new_debt
-    # debt_sum = params[:debt_sum]
-    # debtor = params[:debtor]
-    # you_debtor = params[:you_debtor]
-    # sum = debt_sum
-    # description = params[:description]
-    # if you_debtor
-    #   if !Reason.exists?(:reason => "Your debt", :user => current_user.id)
-    #     reasonNew = Reason.new(reason: "Your debt", user: current_user.id, sign: true, local: true, deleted: false)
-    #     reasonNew.save
-    #     reason = reasonNew.id
-    #   else
-    #     reason = Reason.find(:reason => "Your debt", :user => current_user.id).id
-    #   end
-    # else
-    #   if !Reason.exists?(reason: "Debt to you", user: current_user.id)
-    #     reasonNew = Reason.new(reason: "Debt to you", user: current_user.id, sign: false, local: true, deleted: false)
-    #     reasonNew.save
-    #     reason = reasonNew.id
-    #   else
-    #     reason = Reason.find(:reason => "Your debt", :user => current_user.id).id
-    #   end
+    sum = params[:sum]
+    you_debtor = params[:you_debtor]
+    debtor = params[:debtor]
+    reason = params[:reason]
+    description = params[:description]
+    user = current_user.id
+    local = params[:local]
+    deleted = false
+    you_debtor ? sign = true : sign = false
+    debtNew = Debt.new(sum: sum, you_debtor: you_debtor, debtor:debtor, description: description, user: user, local: local, deleted: deleted, sign: sign)
+    debtNew.save
 
-    # end
-    #
-    # user = current_user.id
-    # local = true
-    # deleted = false
-    #
-    # Transaction.new(sum: sum, description: description, reason: reason, user: user, local: local, debt_sum: debt_sum, debtor: debtor, you_debtor: you_debtor, deleted: deleted).save
-    # redirect_to base_new_transaction_path, notice: "Transaction was successfully created"
+    redirect_to base_new_transaction_path, notice: "Debt was successfully created"
+
+
   end
 
 end

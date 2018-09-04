@@ -2,14 +2,20 @@
 
 one:
   you_debtor: false
+  user: 
   sum: 1
+  sign: false
   debtor: MyString
+  description: MyString
   local: false
   deleted: false
 
 two:
   you_debtor: false
+  user: 
   sum: 1
+  sign: false
   debtor: MyString
+  description: MyString
   local: false
   deleted: false

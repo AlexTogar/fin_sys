@@ -16,8 +16,11 @@ class DebtsTest < ApplicationSystemTestCase
 
     fill_in "Debtor", with: @debt.debtor
     fill_in "Deleted", with: @debt.deleted
+    fill_in "Description", with: @debt.description
     fill_in "Local", with: @debt.local
+    fill_in "Sign", with: @debt.sign
     fill_in "Sum", with: @debt.sum
+    fill_in "User", with: @debt.user
     fill_in "You Debtor", with: @debt.you_debtor
     click_on "Create Debt"
 
@@ -31,8 +34,11 @@ class DebtsTest < ApplicationSystemTestCase
 
     fill_in "Debtor", with: @debt.debtor
     fill_in "Deleted", with: @debt.deleted
+    fill_in "Description", with: @debt.description
     fill_in "Local", with: @debt.local
+    fill_in "Sign", with: @debt.sign
     fill_in "Sum", with: @debt.sum
+    fill_in "User", with: @debt.user
     fill_in "You Debtor", with: @debt.you_debtor
     click_on "Update Debt"
 

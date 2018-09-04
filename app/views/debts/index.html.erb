@@ -11,8 +11,11 @@
     <thead class="thead-dark">
       <tr>
             <th>You debtor</th>
+            <th>User</th>
             <th>Sum</th>
+            <th>Sign</th>
             <th>Debtor</th>
+            <th>Description</th>
             <th>Local</th>
             <th>Deleted</th>
             <th>Edit</th>
@@ -23,8 +26,11 @@
     <tbody>
       <%= content_tag_for(:tr, @debts) do |debt| %>
             <td><%= debt.you_debtor %></td>
+            <td><%= debt.user %></td>
             <td><%= debt.sum %></td>
+            <td><%= debt.sign %></td>
             <td><%= debt.debtor %></td>
+            <td><%= debt.description %></td>
             <td><%= debt.local %></td>
             <td><%= debt.deleted %></td>
             <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_debt_path(debt) %></td>

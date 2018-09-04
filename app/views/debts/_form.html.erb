@@ -19,15 +19,33 @@
     </div>
   </div>
   <div class="form-group">
+    <%= f.label :user, class: "control-label" %>
+    <div class="">
+      <%= f.text_field :user, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
     <%= f.label :sum, class: "control-label" %>
     <div class="">
       <%= f.number_field :sum, class: "form-control" %>
     </div>
   </div>
   <div class="form-group">
+    <%= f.label :sign, class: "control-label" %>
+    <div class="">
+      <%= f.check_box :sign, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
     <%= f.label :debtor, class: "control-label" %>
     <div class="">
       <%= f.text_field :debtor, class: "form-control" %>
+    </div>
+  </div>
+  <div class="form-group">
+    <%= f.label :description, class: "control-label" %>
+    <div class="">
+      <%= f.text_field :description, class: "form-control" %>
     </div>
   </div>
   <div class="form-group">

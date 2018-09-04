@@ -72,6 +72,27 @@ $ ->
           $("tbody tr").last().fadeOut(delay)
           setTimeout ( -> $("tbody tr").last().remove()), delay
 
+  $(".submit_new_debt").click (e) ->
+    e.preventDefault()
+    $form = $(this).parent("form")
+    #    data =  {reason: "r1", description: "d1", sum: "s1", local: "l1"}
+    $.ajax
+      url: "../base/new_debt",
+      data: $form.serialize(),
+      dataType: "json",
+      type: "GET",
+      success: (data) ->
+        $("#no-tran").remove()
+        $("#sum").val "#{data.sum}"
+        console.log "slideDown"
+        $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td><td><button id='t#{data.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+        $("#prepend").css("display", "none")
+        $("#prepend").fadeIn()
+        if $("tbody").find("tr").length > 5
+          $("tbody tr").last().fadeOut(delay)
+          setTimeout ( -> $("tbody tr").last().remove()), delay
+
+
 
   $(".btn-group label").click ->
     $label1 = ($($(this).parent(".btn-group")).children("label")[0])

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_04_171410) do
+ActiveRecord::Schema.define(version: 2018_09_04_181045) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,8 +26,11 @@ ActiveRecord::Schema.define(version: 2018_09_04_171410) do
 
   create_table "debts", force: :cascade do |t|
     t.boolean "you_debtor"
+    t.bigint "user"
     t.integer "sum", default: 0
+    t.boolean "sign", default: true
     t.string "debtor", default: "unspecified"
+    t.string "description", default: ""
     t.boolean "local"
     t.boolean "deleted", default: false
     t.datetime "created_at", null: false

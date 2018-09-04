@@ -26,7 +26,7 @@
 
     <div class="form-group">
       <label for="sum" class="ocntrol-label">Sum</label>
-      <input type="text" class="form-control js-input" pattern="([0-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" value="0" placeholder="Sum" required>
+      <input type="text" class="form-control js-input" pattern="([0-9]* *\/*\**\+*-*\(*\)*\.*)*" name="sum" id="sum" value="0" placeholder="for example: 560*8+1000/3" required>
     </div>
 
     <div class="btn-details">Details
@@ -61,10 +61,17 @@
 
 <div class="new-debt disp_none">
   <form action="../base/new_debt" class="my-form" method="get">
-    <%= my_toggle_tag(toggle_name: "You debtor?", toggle_name_html: "you_debtor", name_one: "No", name_two: "Yes") %>
+    <%= my_toggle_tag(toggle_name: "You debtor?", toggle_name_html: "you_debtor", name_one: "No", name_two: "Yes",active_one: "false") %>
     <%= my_input_tag("Name", "debtor", "text", "") %>
     <%= my_input_tag("Sum", "debt_sum", "text", "") %>
-    <%= my_input_tag("Description", "description", "text", "") %>
+
+    <div class="btn-details">Details
+      <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
+    </div>
+    <div class="details">
+      <%= my_input_tag("Description", "description", "text", "") %>
+      <%= my_toggle_tag(toggle_name: "Local", toggle_name_html: "local", name_one: "Personal", name_two: "Joint") %>
+    </div>
     <input type="submit" class="btn btn-primary gradient form-control" value="Add">
   </form>
 </div>
@@ -127,7 +134,7 @@
       <% end %>
 
     <% else %>
-      <tr id = "no-tran">
+      <tr id="no-tran">
         <td colspan="5" class="no-tran">No transactions</td>
       </tr>
     <% end %>
