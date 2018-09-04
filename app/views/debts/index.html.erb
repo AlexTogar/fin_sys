@@ -1,0 +1,35 @@
+<div class="page-header">
+  <%= link_to new_debt_path, class: 'btn btn-outline-primary' do %>
+    <span class="glyphicon glyphicon-plus"></span>
+    New Debt
+  <% end %>
+  <h1>Listing debts</h1>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-bordered table-hover">
+    <thead class="thead-dark">
+      <tr>
+            <th>You debtor</th>
+            <th>Sum</th>
+            <th>Debtor</th>
+            <th>Local</th>
+            <th>Deleted</th>
+            <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <%= content_tag_for(:tr, @debts) do |debt| %>
+            <td><%= debt.you_debtor %></td>
+            <td><%= debt.sum %></td>
+            <td><%= debt.debtor %></td>
+            <td><%= debt.local %></td>
+            <td><%= debt.deleted %></td>
+            <td><span class="table-icon primary"></span> <%= link_to 'Edit', edit_debt_path(debt) %></td>
+        <td><span class="table-icon danger"></span> <%= link_to 'Destroy', debt, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      <% end %>
+    </tbody>
+  </table>
+</div>

@@ -1,0 +1,29 @@
+<div class="page-header">
+  <%= link_to debts_path, class: 'btn btn-default' do %>
+    <span class="glyphicon glyphicon-list-alt"></span>
+    Back
+  <% end %>
+  <%= link_to edit_debt_path(@debt), class: 'btn btn-primary' do %>
+    <span class="glyphicon glyphicon-pencil"></span>
+    Edit
+  <% end %>
+  <h1>Show debt</h1>
+</div>
+
+<dl class="dl-horizontal">
+  <dt>You debtor:</dt>
+  <dd><%= @debt.you_debtor %></dd>
+
+  <dt>Sum:</dt>
+  <dd><%= @debt.sum %></dd>
+
+  <dt>Debtor:</dt>
+  <dd><%= @debt.debtor %></dd>
+
+  <dt>Local:</dt>
+  <dd><%= @debt.local %></dd>
+
+  <dt>Deleted:</dt>
+  <dd><%= @debt.deleted %></dd>
+
+</dl>

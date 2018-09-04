@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  you_debtor: false
+  sum: 1
+  debtor: MyString
+  local: false
+  deleted: false
+
+two:
+  you_debtor: false
+  sum: 1
+  debtor: MyString
+  local: false
+  deleted: false
