@@ -49,10 +49,10 @@ module ApplicationHelper
           <label for=' #{toggle_name} ' class=' control-label '> #{toggle_name.capitalize}</label>
           <div class=' btn-group ' data-toggle=' buttons '>
             <label class='#{my_class_label} btn btn-primary   #{class_one} '>
-              <input class = '#{my_class_input}' type='radio' name='#{toggle_name_html}' id=' #{class_one}' autocomplete=' off ' value = '#{ active_one == true ? "true" : "false"}' #{"checked" if active_one == true}>#{name_one.capitalize}
+              <input class = '#{my_class_input}' type='radio' name='#{toggle_name_html}' id=' #{class_one}' autocomplete=' off ' value = '#{ active_one == true ? "true" : "false"}' checked>#{name_one.capitalize}
             </label>
             <label class='#{my_class_label} btn btn-outline-primary #{"active" if active_one == false }  #{class_two}'>
-              <input class = '#{my_class_input}' type='radio' name='#{toggle_name_html}' id=' #{class_two}' autocomplete=' off ' value = '#{ active_one == true ? "false" : "true"}' #{"checked" if active_one == false}>#{name_two.capitalize}
+              <input class = '#{my_class_input}' type='radio' name='#{toggle_name_html}' id=' #{class_two}' autocomplete=' off ' value = '#{ active_one == true ? "false" : "true"}' >#{name_two.capitalize}
             </label>
           </div>
         </div>

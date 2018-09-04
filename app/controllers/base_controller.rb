@@ -127,9 +127,13 @@ class BaseController < ApplicationController
       deleted = false
 
       newReason = Reason.new(reason: reason, sign: sign, often: often, local: local, user: user, deleted: deleted)
-      newReason.save
+      if Reason.exists?(reason: reason, user: user)
+        redirect_to base_new_reason_path, notice: "Reason already exists"
+      else
+        newReason.save
+        redirect_to base_new_reason_path, notice: 'Reason was successfully created.'
+      end
 
-      redirect_to base_new_reason_path, notice: 'Reason was successfully created.'
     rescue
       redirect_to base_new_reason_path, notice: "Error, reason cannot be added"
     end
@@ -167,8 +171,8 @@ class BaseController < ApplicationController
     deleted = false
 
     begin
-    newFastTran = FastTransaction.new(name: name, reason: reason, sum: sum, user: user, local: local, deleted: deleted)
-    newFastTran.save
+      newFastTran = FastTransaction.new(name: name, reason: reason, sum: sum, user: user, local: local, deleted: deleted)
+      newFastTran.save
     rescue
       redirect_to base_new_fast_transaction_path, notice: "Fast transaction cannot be created"
     end
@@ -178,20 +182,28 @@ class BaseController < ApplicationController
   end
 
   def new_debt
-    sum = params[:sum]
-    you_debtor = params[:you_debtor]
-    debtor = params[:debtor]
-    reason = params[:reason]
-    description = params[:description]
-    user = current_user.id
-    local = params[:local]
-    deleted = false
-    you_debtor ? sign = true : sign = false
-    debtNew = Debt.new(sum: sum, you_debtor: you_debtor, debtor:debtor, description: description, user: user, local: local, deleted: deleted, sign: sign)
-    debtNew.save
 
-    redirect_to base_new_transaction_path, notice: "Debt was successfully created"
+    begin
+      sum = eval(params[:sum].to_s).to_i
+    rescue
+      sum = 0 # если не заработает html валидатор
+    end
 
+    begin
+      you_debtor = params[:you_debtor]
+      debtor = params[:debtor]
+      reason = params[:reason]
+      description = params[:description]
+      user = current_user.id
+      local = params[:local]
+      deleted = false
+      you_debtor ? sign = true : sign = false
+      debtNew = Debt.new(sum: sum, you_debtor: you_debtor, debtor: debtor, description: description, user: user, local: local, deleted: deleted, sign: sign)
+      debtNew.save
+      redirect_to base_new_transaction_path, notice: "Debt was successfully created"
+    rescue
+      redirect_to base_new_transaction_path, notice: "Debt canntot be added"
+    end
 
   end
 
