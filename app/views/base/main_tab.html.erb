@@ -7,24 +7,63 @@
   <div class="btn-details">Selection settings
     <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
   </div>
-  <div class="details">
-
+<!--  <div class="detail nado izmenit kak tolko dodelau)))">-->
+<div class="details">
     <div class="form-group">
       <label for="">Date interval</label>
       <div class="input-group">
-        <div class="input-group-prepend col-md-3">
+        <div class="input-group-prepend col-md-3 col-sm-4 col-4">
           <span class="input-group-text" id="">Begin date</span>
         </div>
-        <input type="date" class="form-control col-md-9" value="<%= 1.month.ago.to_date %>" name="date_begin" id="date_begin">
+        <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= 1.month.ago.to_date %>" name="date_begin" id="date_begin">
       </div>
       <div class="input-group">
-        <div class="input-group-prepend col-md-3">
+        <div class="input-group-prepend col-md-3 col-sm-4 col-4">
           <span class="input-group-text" id="">End date</span>
         </div>
-        <input type="date" class="form-control col-md-9" value="<%= Date.today() %>" name="date_end" id="date_end">
+        <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= Date.today() %>" name="date_end" id="date_end">
       </div>
     </div>
 
+    <div class="form-group">
+      <label for="user" >User</label>
+      <select name="user" id="user" class="form-control">
+        <option value="all">All users in the group</option>
+        <% get_records(table_name: "users").each do |user| %>
+          <option value="<%=user.id %>"><%= user.email %></option>
+
+        <% end %>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="type">Transaction type</label>
+      <select name="type" id="type" class="form-control">
+        <option value="all">All transactions</option>
+        <option value="personal">Personal transactions</option>
+        <option value="joint">Joint transactions</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="reason">Reason</label>
+      <select name="reason" id="reason" class="form-control">
+        <option value="all">All reasons</option>
+        <% get_records(table_name: "reasons").each do |reason| %>
+          <option value="<%=reason.id %>"><%=reason.reason %></option>
+        <% end %>
+      </select>
+    </div>
+
+    <%#= my_toggle_three_tag(toggle_name: "Sign of transaction", toggle_name_html: "sign", name_one:"All" , name_two: "Expense", name_three: "Profit", value_one:"1", value_two: "2", value_three: "3") %>
+    <div class="form-group">
+      <label for="sign">Sign of transactions</label>
+      <select name="sign" id="sign" class="form-control">
+        <option value="1">All signs</option>
+        <option value="2">Expense</option>
+        <option value="3">Profit</option>
+      </select>
+    </div>
 
   </div>
 </form>
