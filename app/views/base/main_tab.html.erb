@@ -1,26 +1,38 @@
 <div class='page-header'>
-<h3>The transaction table</h3>
+  <h3>The transaction table</h3>
 </div>
 
 
-  <form action="" method="get" class = "my-form">
-    <div class="btn-details">Selection settings
-      <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
+<form action="" method="get" class="my-form">
+  <div class="btn-details">Selection settings
+    <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
+  </div>
+  <div class="details">
+
+    <div class="form-group">
+      <label for="">Date interval</label>
+      <div class="input-group">
+        <div class="input-group-prepend col-md-3">
+          <span class="input-group-text" id="">Begin date</span>
+        </div>
+        <input type="date" class="form-control col-md-9" value="<%= 1.month.ago.to_date %>" name="date_begin" id="date_begin">
+      </div>
+      <div class="input-group">
+        <div class="input-group-prepend col-md-3">
+          <span class="input-group-text" id="">End date</span>
+        </div>
+        <input type="date" class="form-control col-md-9" value="<%= Date.today() %>" name="date_end" id="date_end">
+      </div>
     </div>
-    <div class="details">
-
-    input_tags
 
 
-
-    </div>
-  </form>
+  </div>
+</form>
 
 <div class="table-responsive">
-<table class="table table-hover table-bordered">
+  <table class="table table-hover table-bordered">
 
 
-
-</table>
+  </table>
 
 </div>
