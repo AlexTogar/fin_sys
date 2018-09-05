@@ -234,7 +234,7 @@ class BaseController < ApplicationController
         if has_family
           flag = false if User.find(x.user).family != has_family
         else
-          flag = false if x.user.to_s != current_user.id
+          flag = false if x.user != current_user.id
         end
 
       else
