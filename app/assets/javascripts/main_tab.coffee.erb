@@ -1,0 +1,33 @@
+$ ->
+
+
+  $form = $(".update-table")
+  $.ajax
+    url: "../base/update_table",
+    data: $form.serialize(),
+    dataType: "json",
+    type: "GET",
+    success: (data) ->
+      console.log data
+      for i in [0..data[0].size]
+        $(".main-table").trigger("update")
+        console.log("iteration #{i}")
+        tr = data[i]
+        $(".main-table tbody").append("<tr class = '#{"table-success" if tr.sign == false } #{"table-warning" if tr.sign == true}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+
+
+
+
+
+
+
+
+  $(".update-table input, select").change (e) ->
+    e.preventDefault()
+    console.log "you change #{$(this).attr("id")}"
+    $.ajax
+      url: "../base/update_table",
+      data: $form.serialize(),
+      dataType: "json",
+      type: "GET",
+      success: (data) ->

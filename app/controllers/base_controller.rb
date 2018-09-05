@@ -14,10 +14,11 @@ class BaseController < ApplicationController
     @data = Transaction.all.map {|x| [x.created_at, x.sum]}
   end
 
+
   def main_tab
 
-
   end
+
 
   def join;
   end
@@ -205,6 +206,39 @@ class BaseController < ApplicationController
       redirect_to base_new_transaction_path, notice: "Debt was successfully created"
     rescue
       redirect_to base_new_transaction_path, notice: "Debt canntot be added"
+    end
+
+  end
+
+
+  def update_table
+    date_begin = params[:date_begin]
+    date_end = params[:date_end]
+    user = params[:user]
+    type = params[:type]
+    reason = params[:reason]
+    sign = params[:sign]
+
+
+    records = get_records(table_name: "transactions") #here will be all needs transactions
+
+
+    i = 0
+    @data = Hash.new()
+    records.each do |tran|
+      @data[i] = {id: tran.id,
+                  sum: tran.sum,
+                  user: User.find(tran.user).email,
+                  reason: Reason.find(tran.reason).reason,
+                  description: (tran.description == "" ? "Empty" : tran.description),
+                  date: my_time(tran.created_at.to_s),
+                  sign: Reason.find(tran.reason).sign,
+                  size: records.size}
+      i = i + 1
+    end
+
+    respond_to do |x|
+      x.json{ render json: @data}
     end
 
   end

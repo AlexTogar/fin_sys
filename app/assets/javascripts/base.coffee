@@ -5,15 +5,9 @@ delay = 200
 
 $ ->
 
-  $(".table").tablesorter()
+  $(".table-five").tablesorter(headers: 4: sorter: false)
+  $(".main-table").tablesorter(headers: 5: sorter: false)
 
-
-  $("#sum").focus ->
-    if this.value == "0"
-      this.value = ""
-  $("#sum").focusout ->
-    if this.value == ""
-      this.value = "0"
 
   $(".close").click (e)->
     e.stopPropagation()
@@ -75,6 +69,9 @@ $ ->
         if $("tbody").find("tr").length > 5
           $("tbody tr").last().fadeOut(delay)
           setTimeout ( -> $("tbody tr").last().remove()), delay
+        $(".table-five").trigger("update")
+
+
 
   $(".submit_new_debt").click (e) ->
     e.preventDefault()
