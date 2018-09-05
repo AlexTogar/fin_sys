@@ -214,22 +214,43 @@ class BaseController < ApplicationController
   def update_table
     date_begin = params[:date_begin].to_time
     date_end = params[:date_end].to_time
-    user = params[:user]
-    type = params[:type]
-    reason = params[:reason]
-    sign = params[:sign]
+    user = params[:user] # all или id пользователя
+    type = params[:type] # all/personal/joint
+    reason = params[:reason] #all или id причины
+    # sign = params[:sign] # all, exspense, profit
 
     delete_condition = "transactions.deleted = false"
-    has_family ? family_condition = "users.family = #{current_user.family}" : family_condition = "transactions.user = #{current_user.id}"
+    # has_family ? family_condition = "users.family = #{current_user.family}" : family_condition = "transactions.user = #{current_user.id}"
+    # users_array = User.find_by_sql("select id from users where #{"id = " + user) if user != "all"} #{ ("or family =" + (current_user.family == nil ? "NULL" : current_user.family)) if user == "all"}").map{|x| x.id}
 
-    records = Transaction
-                  .where("transactions.created_at > ?", date_begin+1.day)
-                  .where("transactions.created_at < ?", date_end+1.day)
-                  .where(delete_condition)
-                  .where(family_condition)
+    records = []
+    start_records = Transaction
+                        .where(created_at: (date_begin + 1.day..date_end + 1.day))
+                        .where(delete_condition)
+
+    start_records.each do |x|
+      flag = true
+      if user == "all"
+        flag = false if User.find(x.user).family != has_family
+      else
+        flag = false if x.user.to_s != user
+      end
+
+      case type
+      when "personal"
+        flag = false if x.local != true
+      when "joint"
+        flag = false if x.local == true
+      end
+
+      if reason != "all"
+        flag = false if x.reason.to_s != reason
+      end
 
 
-    # records = get_records(table_name: "transactions", add_condition: " order by created_at desc") #here will be all needs transactions
+      records << x if flag
+
+    end
 
 
     i = 0
@@ -247,7 +268,7 @@ class BaseController < ApplicationController
     end
 
     respond_to do |x|
-      x.json{ render json: @data}
+      x.json {render json: @data}
     end
 
   end
