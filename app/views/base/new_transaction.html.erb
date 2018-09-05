@@ -110,7 +110,7 @@
       <th>Sum</th>
       <th>Reason</th>
       <th>User</th>
-      <th>Date</th>
+      <th class="time">Date</th>
       <th class="delete">Delete</th>
     </tr>
 
@@ -124,7 +124,7 @@
           <td><%= tran.sum %></td>
           <td><%= Reason.find(tran.reason).reason %></td>
           <td><%= User.find(tran.user).email %></td>
-          <td class="time"><%= my_time(tran.created_at.to_s) %></td>
+          <td ><%= my_time(tran.created_at.to_s) %></td>
           <td>
             <button id="t<%= tran.id %>" class="delete-transaction btn btn-outline-danger">
               <span class="icon-nav">X</span></button>

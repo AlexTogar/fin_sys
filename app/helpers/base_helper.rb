@@ -26,7 +26,7 @@ module BaseHelper
       end
     else
       if has_family
-        User.find_by_sql("select id, email from users where family = #{has_family}")
+        User.find_by_sql("select id, email from users where family = #{has_family} #{add_condition}")
       else
         return [User.find(current_user.id)] #array for use each
       end

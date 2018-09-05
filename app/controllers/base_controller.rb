@@ -220,7 +220,7 @@ class BaseController < ApplicationController
     sign = params[:sign]
 
 
-    records = get_records(table_name: "transactions") #here will be all needs transactions
+    records = get_records(table_name: "transactions", add_condition: "order by created_at desc") #here will be all needs transactions
 
 
     i = 0
