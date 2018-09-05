@@ -212,15 +212,24 @@ class BaseController < ApplicationController
 
 
   def update_table
-    date_begin = params[:date_begin]
-    date_end = params[:date_end]
+    date_begin = params[:date_begin].to_time
+    date_end = params[:date_end].to_time
     user = params[:user]
     type = params[:type]
     reason = params[:reason]
     sign = params[:sign]
 
+    delete_condition = "transactions.deleted = false"
+    has_family ? family_condition = "users.family = #{current_user.family}" : family_condition = "transactions.user = #{current_user.id}"
 
-    records = get_records(table_name: "transactions") #here will be all needs transactions
+    records = Transaction
+                  .where("transactions.created_at > ?", date_begin+1.day)
+                  .where("transactions.created_at < ?", date_end+1.day)
+                  .where(delete_condition)
+                  .where(family_condition)
+
+
+    # records = get_records(table_name: "transactions", add_condition: " order by created_at desc") #here will be all needs transactions
 
 
     i = 0

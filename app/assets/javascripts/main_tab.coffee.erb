@@ -9,14 +9,21 @@ $ ->
     type: "GET",
     success: (data) ->
       console.log data
-      for i in [0..data[0].size]
-        $(".main-table").trigger("update")
-        console.log("iteration #{i}")
-        tr = data[i]
-        $(".main-table tbody").append("<tr class = '#{"table-success" if tr.sign == false } #{"table-warning" if tr.sign == true}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
-
-
-
+      if data[0] != undefined
+        n = data[0].size
+        for i in [0..n]
+          $(".main-table").trigger("update")
+          console.log("iteration #{i}")
+          tr = data[i]
+          if tr.sign == false
+            tr_sign = "table-success"
+          else
+            tr_sign = "table-warning"
+          $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+          console.log tr.sign
+      else
+        console.log "date[0] - undefined"
+        $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
 
 
 
@@ -31,3 +38,19 @@ $ ->
       dataType: "json",
       type: "GET",
       success: (data) ->
+        $(".main-table tbody").empty()
+        if data[0] != undefined
+          n = data[0].size
+          for i in [0..n]
+            $(".main-table").trigger("update")
+            console.log("iteration #{i}")
+            tr = data[i]
+            if tr.sign == false
+              tr_sign = "table-success"
+            else
+              tr_sign = "table-warning"
+            $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+            console.log tr.sign
+        else
+          console.log "date[0] - undefined"
+          $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
