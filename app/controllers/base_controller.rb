@@ -217,7 +217,7 @@ class BaseController < ApplicationController
     user = params[:user] # all или id пользователя
     type = params[:type] # all/personal/joint
     reason = params[:reason] #all или id причины
-    # sign = params[:sign] # all, exspense, profit
+    sign = params[:sign] # all, exspense, profit
 
     delete_condition = "transactions.deleted = false"
     # has_family ? family_condition = "users.family = #{current_user.family}" : family_condition = "transactions.user = #{current_user.id}"
@@ -250,6 +250,13 @@ class BaseController < ApplicationController
 
       if reason != "all"
         flag = false if x.reason.to_s != reason
+      end
+
+      case sign
+      when "expense"
+        flag = false if Reason.find(x.reason).sign == false
+      when "profit"
+        flag = false if Reason.find(x.reason).sign == true
       end
 
 
