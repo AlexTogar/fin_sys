@@ -231,7 +231,12 @@ class BaseController < ApplicationController
     start_records.each do |x|
       flag = true
       if user == "all"
-        flag = false if User.find(x.user).family != has_family
+        if has_family
+          flag = false if User.find(x.user).family != has_family
+        else
+          flag = false if x.user.to_s != user
+        end
+
       else
         flag = false if x.user.to_s != user
       end

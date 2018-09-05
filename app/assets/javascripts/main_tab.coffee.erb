@@ -31,7 +31,6 @@ $ ->
 
   $(".update-table input, select").change (e) ->
     e.preventDefault()
-    console.log "you change #{$(this).attr("id")}"
     $.ajax
       url: "../base/update_table",
       data: $form.serialize(),
