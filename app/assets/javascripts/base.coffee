@@ -4,6 +4,14 @@
 delay = 200
 
 $ ->
+  $(".my-form #sum").val "0"
+
+  $(".my-form #sum").focus ->
+    if $(this).val() == "0"
+      $(this).val ""
+  $(".my-form #sum").focusout ->
+    if $(this).val() == ""
+      $(this).val "0"
 
   $(".table-five").tablesorter(headers: 4: sorter: false)
   $(".main-table").tablesorter(headers: 5: sorter: false)
@@ -12,7 +20,6 @@ $ ->
   $(".close").click (e)->
     e.stopPropagation()
     $(".alert").slideUp(delay * 2.5).delay(0).fadeOut(delay * 2.5)
-    console.log("fadeout")
 
 
   setTimeout (-> $(".alert").slideUp(delay * 2.5).delay(0).fadeOut(delay * 2.5)), 5000
@@ -26,9 +33,7 @@ $ ->
   $("a:not(.off)").click (e) -> #реакция на нажатие ссылки, не содержащей класс .off
     e.preventDefault() #при нажтии на кнопку не выполнять переход по указанному url
     path = this.href
-    console.log "mailto or # not included"
     $("body").fadeOut(delay)
-    console.log "fadeout"
     $(location).attr('href', path)
   #  setTimeout (-> $(location).attr('href', path)), delay #перейти по указанному адресу
 
@@ -41,11 +46,9 @@ $ ->
       flag = false
 
     if !flag
-      console.log("pusto")
       $(".down").css("display", "inline-block")
       $(".up").css("display","none")
     else
-      console.log("ne pusto")
       $(".up").css("display", "inline-block")
       $(".down").css("display", "none")
 
@@ -62,7 +65,6 @@ $ ->
       success: (data) ->
         $("#no-tran").remove()
         $("#sum").val "#{data.sum}"
-        console.log "slideDown"
         $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td><td><button id='t#{data.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
         $("#prepend").css("display", "none")
         $("#prepend").fadeIn()
@@ -85,7 +87,6 @@ $ ->
       success: (data) ->
         $("#no-tran").remove()
         $("#sum").val "#{data.sum}"
-        console.log "slideDown"
         $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td><td><button id='t#{data.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
         $("#prepend").css("display", "none")
         $("#prepend").fadeIn()
@@ -98,9 +99,6 @@ $ ->
   $(".btn-group label").click ->
     $label1 = ($($(this).parent(".btn-group")).children("label")[0])
     $label2 = ($($(this).parent(".btn-group")).children("label")[1])
-    console.log "this: #{this}, $this: #{$(this)}"
-    console.log "label1 = #{$label1}"
-    console.log "label2 = #{$label2}"
     $(this).removeClass("btn-outline-primary")
     $(this).addClass("btn-primary")
     if $label1 == this
@@ -112,7 +110,6 @@ $ ->
 
 
   $(document).delegate '.delete-transaction', 'click',-> #для динамически сгенерированных delete-transaction кнопок
-    console.log "delete_transaction clicked"
     tran_id = String($(this).attr("id"))[1..String($(this).attr("id").size)]
     $.ajax
       url: "../base/delete_transaction",

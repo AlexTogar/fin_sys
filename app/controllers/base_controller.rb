@@ -227,7 +227,7 @@ class BaseController < ApplicationController
     start_records = Transaction
                         .where(created_at: (date_begin + 1.day..date_end + 1.day))
                         .where(delete_condition)
-
+                        .order(:created_at => "desc")
     start_records.each do |x|
       flag = true
       if user == "all"
