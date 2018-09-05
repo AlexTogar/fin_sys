@@ -14,7 +14,9 @@ class BaseController < ApplicationController
     @data = Transaction.all.map {|x| [x.created_at, x.sum]}
   end
 
-  def main_tab;
+  def main_tab
+
+
   end
 
   def join;

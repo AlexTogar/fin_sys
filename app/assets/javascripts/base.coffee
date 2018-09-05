@@ -4,6 +4,10 @@
 delay = 200
 
 $ ->
+
+  $(".table").tablesorter()
+
+
   $("#sum").focus ->
     if this.value == "0"
       this.value = ""

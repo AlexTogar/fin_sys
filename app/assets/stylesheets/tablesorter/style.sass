@@ -1,0 +1,24 @@
+@import "../e_base.sass"
+
+table.tablesorter
+  thead tr .header
+    background-repeat: no-repeat
+    background-position: center right
+    cursor: pointer
+  tbody tr.odd td
+    background-color: #F0F0F6
+  thead tr
+    .headerSortUp
+
+      margin-bottom: 1px
+      border-radius: 3px !important
+      &:after
+        content: "▼"
+    .headerSortDown
+      margin-bottom: 1px !important
+      &:after
+        content: "▲"
+
+
+
+
