@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_04_181045) do
+ActiveRecord::Schema.define(version: 2018_09_06_181306) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -18,10 +18,10 @@ ActiveRecord::Schema.define(version: 2018_09_04_181045) do
   create_table "capitals", force: :cascade do |t|
     t.integer "sum"
     t.bigint "user"
-    t.boolean "local", default: false
-    t.boolean "deleted", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "sign", default: false
+    t.boolean "deleted", default: false
   end
 
   create_table "debts", force: :cascade do |t|

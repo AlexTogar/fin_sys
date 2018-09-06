@@ -1,22 +1,45 @@
 <div class="page-header">
 
-  <h3>Set aside</h3>
-<h2>Savings:</h2>
-<% if @savings_users_sum.size >= 1 %>
-  <% @savings_users_sum.each do |x| %>
-    <h3><%= x[0] %>:<%= x[1] %></h3>
-  <% end %>
-    </div>
-
-<% else %>
-  <h3>No savings</h3>
-<% end %>
+  <h3>Deposit or withdraw</h3>
+</div>
 
 <form action="../base/create_deposit" method="get" class="my-form">
   <%= my_input_tag("Sum", "sum", "text", "") %>
+  <%= my_toggle_tag(toggle_name: "Sign", toggle_name_html: "sign", name_one: "Deposit", name_two: "Withdraw", active_one: "false") %>
 
   <input type="submit" value="Set aside" class="form-control btn btn-primary gradient">
 </form>
 
+<div class="table-responsive">
+  <table class="table table-bordered table-hover main-table">
+    <thead class="thead-light">
+    <tr>
+      <th>User</th>
+      <th class="text-success">Invested</th>
+      <th class="text-danger">Withdraw</th>
+      <th class="bg-dark" colspan="2">Total</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <% @savings_users_sum.each do |usersum| %>
+      <tr>
+        <td><%= usersum[0] %></td>
+        <td class="text-success"><%= usersum[2] %></td>
+        <td class="text-danger"><%= usersum[3] %></td>
+        <td class="bg-dark"><%= usersum[1] %></td>
+      </tr>
+    <% end %>
+    <tr class="bg-dark">
+      <td>All group</td>
+      <td><%=@savings_users_sum.inject(0) {|result,elem | result + elem[2] } %></td>
+      <td><%= @savings_users_sum.inject(0) {|result, elem | result+ elem[3] } %></td>
+      <td class="total"><%= @savings_users_sum.inject(0){|result,elem| result + elem[1]} %></td>
+    </tr>
+
+    </tbody>
 
 
+  </table>
+
+</div>

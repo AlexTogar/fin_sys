@@ -287,23 +287,38 @@ class BaseController < ApplicationController
 
 
   def set_aside
-    @savings_users_sum = (family.map{|x| Capital.exists?(user: x.id) ?  [x.email, Capital.where(user: x.id, deleted: false).pluck(:sum).sum] : [x.email, 0]}).compact
-    @total = @savings_users_sum.inject(0){|result, elem | elem != nil ? result + elem[1] : result + 0}
+    @savings_users_sum = (family.map {|x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0,0,0]}).compact
+    @total = @savings_users_sum.inject(0) {|result, elem| elem != nil ? result + elem[1] : result + 0}
+    @total = 0 if @total == nil
   end
 
 
   def create_deposit
+    sign = params[:sign]
     begin
       sum = eval(params[:sum].to_s).to_i
     rescue
       sum = 0 # если не заработает html валидатор
     end
     user = current_user.id
+    savings_users_sum = (family.map {|x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0,0,0]}).compact
 
-    capitalNew = Capital.new(sum: sum, user: user, local: false, deleted: false)
-    capitalNew.save
+    current_sum = savings_users_sum.inject(0) {|result, elem| result + elem[1]}
+    if sign == "true"
+      if current_sum >= sum.to_i
+        capitalNew = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
+        capitalNew.save
+        redirect_to base_set_aside_path, notice: "#{sum} rubles successfully withdrawn"
+      else
+        redirect_to base_set_aside_path, notice: "Too much money"
+      end
+    else
 
-    redirect_to base_set_aside_path, notice: "#{sum} rubles pending successful"
+      capitalNew = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
+      capitalNew.save
+
+      redirect_to base_set_aside_path, notice: "#{sum} rubles pending successful"
+    end
 
   end
 
