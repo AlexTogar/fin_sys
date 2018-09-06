@@ -15,7 +15,7 @@
         <div class="input-group-prepend col-md-3 col-sm-4 col-4">
           <span class="input-group-text" id="">Begin date</span>
         </div>
-        <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= 1.month.ago.to_date %>" name="date_begin" id="date_begin">
+        <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= Date.today().at_beginning_of_month %>" name="date_begin" id="date_begin">
       </div>
       <div class="input-group">
         <div class="input-group-prepend col-md-3 col-sm-4 col-4">
