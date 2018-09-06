@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 2018_09_04_181045) do
   create_table "capitals", force: :cascade do |t|
     t.integer "sum"
     t.bigint "user"
-    t.boolean "local"
-    t.boolean "deleted"
+    t.boolean "local", default: false
+    t.boolean "deleted", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

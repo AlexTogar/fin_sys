@@ -27,11 +27,17 @@
               =octicon "graph"
               Graphics
 
+        %li.nav-item
+          %a.nav-link{:href => base_set_aside_path}
+            %span.icon-nav
+              =octicon "inbox"
+              Set aside
+
 
         %li.nav-item.dropdown
           %a#navbarDropdown.nav-link.dropdown-toggle.off{"aria-expanded" => "false", "aria-haspopup" => "true", "data-toggle" => "dropdown", href: "#", role: "button"}
             %span.icon-nav
-              =octicon "plus"
+              =octicon "diff-added"
               New...
           .dropdown-menu{"aria-labelledby" => "navbarDropdown"}
             %a.dropdown-item{href: base_new_reason_path} New reason

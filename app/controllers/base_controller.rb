@@ -285,4 +285,27 @@ class BaseController < ApplicationController
 
   end
 
+
+  def set_aside
+    @savings_users_sum = (family.map{|x| Capital.exists?(user: x.id) ?  [x.email, Capital.where(user: x.id, deleted: false).pluck(:sum).sum] : [x.email, 0]}).compact
+    @total = @savings_users_sum.inject(0){|result, elem | elem != nil ? result + elem[1] : result + 0}
+  end
+
+
+  def create_deposit
+    begin
+      sum = eval(params[:sum].to_s).to_i
+    rescue
+      sum = 0 # если не заработает html валидатор
+    end
+    user = current_user.id
+
+    capitalNew = Capital.new(sum: sum, user: user, local: false, deleted: false)
+    capitalNew.save
+
+    redirect_to base_set_aside_path, notice: "#{sum} rubles pending successful"
+
+  end
+
+
 end

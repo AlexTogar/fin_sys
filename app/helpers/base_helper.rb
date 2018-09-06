@@ -40,4 +40,13 @@ module BaseHelper
     s.scan(/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}/)[0]
   end
 
+  def family
+    if has_family
+      User.find_by_sql("select * from users where family = #{has_family} or id = #{current_user.id}")
+    else
+      [current_user]
+    end
+
+  end
+
 end

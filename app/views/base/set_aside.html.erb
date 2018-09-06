@@ -1,0 +1,22 @@
+<div class="page-header">
+
+  <h3>Set aside</h3>
+<h2>Savings:</h2>
+<% if @savings_users_sum.size >= 1 %>
+  <% @savings_users_sum.each do |x| %>
+    <h3><%= x[0] %>:<%= x[1] %></h3>
+  <% end %>
+    </div>
+
+<% else %>
+  <h3>No savings</h3>
+<% end %>
+
+<form action="../base/create_deposit" method="get" class="my-form">
+  <%= my_input_tag("Sum", "sum", "text", "") %>
+
+  <input type="submit" value="Set aside" class="form-control btn btn-primary gradient">
+</form>
+
+
+
