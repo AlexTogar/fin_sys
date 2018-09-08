@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get 'base/update_table'
   get 'base/set_aside'
   get 'base/create_deposit'
+  get 'base/delete_fast_transaction'
   devise_for :users
 
   root to: 'base#new_transaction'

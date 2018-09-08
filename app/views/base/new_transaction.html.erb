@@ -18,7 +18,7 @@
 
       <label for="reason" class="control-label">Reason</label>
       <select class="form-control js-input" name="reason" id="reason" required>
-        <% get_records(table_name: "reasons").each do |x| %>
+        <% @reasons.each do |x| %>
           <option value="<%= x.id %>"><%= x.reason %></option>
         <% end %>
       </select>
@@ -126,8 +126,7 @@
           <td><%= User.find(tran.user).email %></td>
           <td ><%= my_time(tran.created_at.to_s) %></td>
           <td>
-            <button id="t<%= tran.id %>" class="delete-transaction btn btn-outline-danger">
-              <span class="icon-nav">X</span></button>
+
           </td>
         </tr>
 

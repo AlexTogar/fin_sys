@@ -19,6 +19,10 @@ class BaseController < ApplicationController
 
   end
 
+  def new_fast_transaction
+    @fastTransactions = FastTransaction.where(deleted: "false", user: current_user.id)
+  end
+
 
   def join;
   end
@@ -55,6 +59,7 @@ class BaseController < ApplicationController
 
   def new_transaction
     @transactions = get_records(table_name: "transactions", add_condition: "order by transactions.created_at DESC")[0..4]
+    @reasons = get_records(table_name: "reasons", add_condition: "order by reasons.often DESC")
   end
 
   def response_on_new_transaction
@@ -74,6 +79,7 @@ class BaseController < ApplicationController
           local: params[:local],
           deleted: false
       )
+      Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
 
       newTransaction.save
 
@@ -101,6 +107,7 @@ class BaseController < ApplicationController
           local: fast_tran.local,
           deleted: false
       )
+      Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
 
       newTransaction.save
 
@@ -318,6 +325,12 @@ class BaseController < ApplicationController
       redirect_to base_set_aside_path, notice: "#{sum} rubles pending successful"
     end
 
+  end
+
+  def delete_fast_transaction
+    id = params[:id]
+    FastTransaction.update(id, deleted: true)
+    redirect_to base_new_fast_transaction_path, notice: "Fast transaciton was successfully deleted"
   end
 
 

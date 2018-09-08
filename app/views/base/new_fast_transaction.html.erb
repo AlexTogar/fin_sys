@@ -24,6 +24,38 @@
 <br><br>
 <div class="page-header">
   <h3>Fast transactions table</h3>
-  <h2>commit</h2>
-  
+
+  <div class="table-responsive">
+    <table class="table-hover table-bordered main-table table">
+      <thead class="thead-dark">
+      <tr>
+        <th>Name</th>
+        <th>Reason</th>
+        <th>Sum</th>
+        <th class="text-warning">Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @fastTransactions.size > 0 %>
+      <% @fastTransactions.each do |tran| %>
+
+        <tr>
+          <td><%= tran.name %></td>
+          <td><%= tran.reason %></td>
+          <td><%= tran.sum %></td>
+          <td>
+            <a href="<%=base_delete_fast_transaction_path %>?id=<%=tran.id %>"  class="delete-fast-transaction btn btn-outline-danger">
+              <span class="icon-nav">X</span></a>
+          </td>
+        </tr>
+      <% end %>
+        <%else %>
+        <tr>
+          <td colspan="4" class="no-tran">No fast transactions</td>
+        </tr>
+        <%end %>
+
+      </tbody>
+    </table>
+  </div>
 </div>
