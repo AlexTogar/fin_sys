@@ -220,8 +220,6 @@ class BaseController < ApplicationController
     sign = params[:sign] # all, exspense, profit
 
     delete_condition = "transactions.deleted = false"
-    # has_family ? family_condition = "users.family = #{current_user.family}" : family_condition = "transactions.user = #{current_user.id}"
-    # users_array = User.find_by_sql("select id from users where #{"id = " + user) if user != "all"} #{ ("or family =" + (current_user.family == nil ? "NULL" : current_user.family)) if user == "all"}").map{|x| x.id}
 
     records = []
     start_records = Transaction
