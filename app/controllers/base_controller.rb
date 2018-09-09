@@ -311,7 +311,8 @@ class BaseController < ApplicationController
                   description: (tran.description == "" ? "Empty" : tran.description),
                   date: my_time(tran.created_at.to_s),
                   sign: Reason.find(tran.reason).sign,
-                  size: records.size}
+                  size: records.size,
+                  col_sum: records.inject(0) {|result, elem | Reason.find(tran.reason).sign == true ? result + elem.sum : result - elem.sum }}
       i = i + 1
     end
 

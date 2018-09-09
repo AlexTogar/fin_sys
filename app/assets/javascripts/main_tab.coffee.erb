@@ -8,6 +8,7 @@ $ ->
     dataType: "json",
     type: "GET",
     success: (data) ->
+      $(".col_sum").html "Σ = #{data[0].col_sum} ₽"
       if data[0] != undefined
         n = data[0].size
         for i in [0..n]
