@@ -10,7 +10,7 @@ $ ->
     success: (data) ->
       console.log data
       if data[0] != undefined
-        $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = #{data[0].col_sum})</span>"
+        $("#sum").html "Sum <span style = 'display:block; width: 100px'>( Σ = #{data[0].col_sum})</span>"
         n = data[0].size
         for i in [0..n]
           $(".main-table").trigger("update")
@@ -38,7 +38,7 @@ $ ->
       success: (data) ->
         $(".main-table tbody").empty()
         if data[0] != undefined
-          $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = #{data[0].col_sum})</span>"
+          $("#sum").html "Sum <span style = 'display:block; width: 100px'>( Σ = #{data[0].col_sum})</span>"
           n = data[0].size
           for i in [0..n]
             $(".main-table").trigger("update")
