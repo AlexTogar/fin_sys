@@ -366,4 +366,65 @@ class BaseController < ApplicationController
   end
 
 
+
+
+  def update_graph
+    date_begin = params[:date_begin].to_time
+    date_end = params[:date_end].to_time
+    user = params[:user] # all или id пользователя
+    sign = params[:sign] # balance, all, exspense, profit
+
+    delete_condition = "transactions.deleted = false"
+
+    records = []
+    start_records = Transaction
+                        .where(created_at: (date_begin..date_end + 1.day))
+                        .where(delete_condition)
+                        .order(created_at: "desc")
+    start_records.each do |x|
+      flag = true
+      if user == "all"
+        if has_family
+          flag = false if User.find(x.user).family != has_family
+        else
+          flag = false if x.user != current_user.id
+        end
+
+      else
+        flag = false if x.user.to_s != user
+      end
+
+      case sign
+      when "expense"
+        flag = false if Reason.find(x.reason).sign == false
+      when "profit"
+        flag = false if Reason.find(x.reason).sign == true
+      end
+
+
+      records << x if flag
+
+    end
+
+    i = 0
+    @data = Hash.new()
+    records.each do |tran|
+      @data[i] = {id: tran.id,
+                  sum: tran.sum,
+                  user: User.find(tran.user).email,
+                  reason: Reason.find(tran.reason).reason,
+                  description: (tran.description == "" ? "Empty" : tran.description),
+                  date: my_time(tran.created_at.to_s),
+                  sign: Reason.find(tran.reason).sign,
+                  size: records.size}
+      i = i + 1
+    end
+
+    respond_to do |x|
+      x.json {render json: @data}
+    end
+
+  end
+
+
 end

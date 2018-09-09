@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  resources :balance_chenges
   resources :debts
   resources :families
   resources :reasons
@@ -12,7 +13,10 @@ Rails.application.routes.draw do
   resources :transactions
   default_url_options host: 'localhost:3000'
   get 'base/test_action'
+
   get 'base/graph'
+  get 'base/update_graph'
+
   get 'base/main_tab'
   get 'base/join'
   get 'base/_navbar'
