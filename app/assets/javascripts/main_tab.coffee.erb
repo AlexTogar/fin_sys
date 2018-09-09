@@ -8,8 +8,9 @@ $ ->
     dataType: "json",
     type: "GET",
     success: (data) ->
-      $(".col_sum").html "Σ = #{data[0].col_sum} ₽"
+      console.log data
       if data[0] != undefined
+        $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = #{data[0].col_sum})</span>"
         n = data[0].size
         for i in [0..n]
           $(".main-table").trigger("update")
@@ -21,6 +22,7 @@ $ ->
           $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
       else
         $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
+        $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = 0)</span>"
 
 
 
@@ -36,6 +38,7 @@ $ ->
       success: (data) ->
         $(".main-table tbody").empty()
         if data[0] != undefined
+          $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = #{data[0].col_sum})</span>"
           n = data[0].size
           for i in [0..n]
             $(".main-table").trigger("update")
@@ -47,3 +50,4 @@ $ ->
             $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
         else
           $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
+          $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = 0)</span>"

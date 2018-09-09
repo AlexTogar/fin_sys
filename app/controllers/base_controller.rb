@@ -263,7 +263,7 @@ class BaseController < ApplicationController
     start_records = Transaction
                         .where(created_at: (date_begin..date_end + 1.day))
                         .where(delete_condition)
-                        .order(:created_at => "desc")
+                        .order(created_at: "desc")
     start_records.each do |x|
       flag = true
       if user == "all"
@@ -299,7 +299,7 @@ class BaseController < ApplicationController
       records << x if flag
 
     end
-
+    col_sum = records.inject(0) {|result, elem| Reason.find(elem.reason).sign == false ? result + elem.sum : result - elem.sum }
 
     i = 0
     @data = Hash.new()
@@ -312,7 +312,7 @@ class BaseController < ApplicationController
                   date: my_time(tran.created_at.to_s),
                   sign: Reason.find(tran.reason).sign,
                   size: records.size,
-                  col_sum: records.inject(0) {|result, elem | Reason.find(tran.reason).sign == true ? result + elem.sum : result - elem.sum }}
+                  col_sum: col_sum}
       i = i + 1
     end
 

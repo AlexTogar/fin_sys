@@ -162,11 +162,8 @@
           <td><%= Reason.find(tran.reason).reason %></td>
           <td><%= User.find(tran.user).email %></td>
           <td ><%= my_time(tran.created_at.to_s) %></td>
-          <td>
-
-          </td>
+          <td><button id="t<%=tran.id %>" class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td>
         </tr>
-
       <% end %>
 
     <% else %>
