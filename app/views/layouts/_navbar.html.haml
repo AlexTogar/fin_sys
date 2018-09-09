@@ -70,6 +70,15 @@
               %span.you You:
               = current_user.email
 
+
+          %li.nav-item
+            %a.nav-link.off.no-hover{:href => base_main_tab_path}
+              %span.icon-nav
+                =octicon "law"
+              %span.you Balance:
+              = balance[:total]
+              &#8381;
+
           %li.nav-item
             %a.nav-link{"data-method" => "delete", :href => destroy_user_session_path}
               %span.icon-nav

@@ -92,7 +92,7 @@
         <% if @my_debts.size > 0 %>
           <% @my_debts.each do |debt| %>
 
-            <tr <%=color(!debt.sign, "success", "warning")%>>
+            <tr <%=color(debt.sign, "success", "warning")%>>
               <td><%= debt.you_debtor == false ? "No" : "Yes" %></td>
               <td><%= debt.sum %></td>
               <td><%= debt.debtor %></td>
