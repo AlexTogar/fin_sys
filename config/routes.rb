@@ -16,20 +16,31 @@ Rails.application.routes.draw do
   get 'base/main_tab'
   get 'base/join'
   get 'base/_navbar'
+
+  get 'base/delete_transaction'
   get 'base/new_transaction'
   get 'base/response_on_new_transaction'
-  get 'base/new_family'
+
+
   get 'base/new_reason'
+  get 'base/delete_reason'
   get 'base/create_new_reason'
+
+  get 'base/new_family'
   get 'base/leave_the_group'
-  get 'base/delete_transaction'
+
   get 'base/new_debt'
+  get 'base/delete_debt'
+
+  get 'base/delete_fast_transaction'
   get 'base/new_fast_transaction'
   get 'base/create_new_fast_transaction'
+
   get 'base/update_table'
+
   get 'base/set_aside'
   get 'base/create_deposit'
-  get 'base/delete_fast_transaction'
+
   devise_for :users
 
   root to: 'base#new_transaction'

@@ -60,7 +60,22 @@ class BaseController < ApplicationController
   def new_transaction
     @transactions = get_records(table_name: "transactions", add_condition: "order by transactions.created_at DESC")[0..4]
     @reasons = get_records(table_name: "reasons", add_condition: "order by reasons.often DESC")
+
+    @my_debts = Debt.where(deleted: false, user: current_user.id).order("created_at desc")
+
   end
+
+  def delete_debt
+    id = params[:id]
+    begin
+      Debt.update(id, deleted: true)
+      redirect_to base_new_transaction_path, notice: "Debt was successfully deleted"
+    rescue
+      redirect_to base_new_transaction_path, notice: "Debt can not be deleted"
+    end
+
+  end
+
 
   def response_on_new_transaction
     fast_tran = params[:fast_tran]
@@ -123,6 +138,21 @@ class BaseController < ApplicationController
         x.json {render json: @data.to_json}
       end
 
+    end
+
+  end
+
+  def new_reason
+    @my_reasons = Reason.where(deleted: "false", user: current_user.id).order(:created_at)
+  end
+
+  def delete_reason
+    id = params[:id]
+    begin
+      Reason.update(id, deleted: "true")
+      redirect_to base_new_reason_path, notice: "Reason was successfully deleted"
+    rescue
+      redirect_to base_new_reason_path, notice: "Reason can not be deleted"
     end
 
   end
@@ -201,6 +231,7 @@ class BaseController < ApplicationController
 
     begin
       you_debtor = params[:you_debtor]
+      you_debtor == "false" ? you_debtor = false : you_debtor = true
       debtor = params[:debtor]
       reason = params[:reason]
       description = params[:description]

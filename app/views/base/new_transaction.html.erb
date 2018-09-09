@@ -63,7 +63,7 @@
   <form action="../base/new_debt" class="my-form" method="get">
     <%= my_toggle_tag(toggle_name: "You debtor?", toggle_name_html: "you_debtor", name_one: "No", name_two: "Yes",active_one: "false") %>
     <%= my_input_tag("Name", "debtor", "text", "") %>
-    <%= my_input_tag("Sum", "debt_sum", "text", "") %>
+    <%= my_input_tag("Sum", "sum", "text", "") %>
 
     <div class="btn-details">Details
       <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
@@ -74,8 +74,45 @@
     </div>
     <input type="submit" class="btn btn-primary gradient form-control" value="Add">
   </form>
-</div>
+  <br><br>
+  <div class="page-header">
+    <h3>Debts table</h3>
 
+    <div class="table-responsive">
+      <table class="table-hover table-bordered main-table table">
+        <thead class="thead-dark">
+        <tr>
+          <th>You debt</th>
+          <th>Sum</th>
+          <th>Person</th>
+          <th class="text-warning">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @my_debts.size > 0 %>
+          <% @my_debts.each do |debt| %>
+
+            <tr <%=color(!debt.sign, "success", "warning")%>>
+              <td><%= debt.you_debtor == false ? "No" : "Yes" %></td>
+              <td><%= debt.sum %></td>
+              <td><%= debt.debtor %></td>
+              <td>
+                <a href="<%= base_delete_debt_path %>?id=<%=debt.id %>"  class="delete-debt btn btn-outline-danger">
+                  <span class="icon-nav">X</span></a>
+              </td>
+            </tr>
+          <% end %>
+        <%else %>
+          <tr>
+            <td colspan="4" class="no-tran">No debts</td>
+          </tr>
+        <%end %>
+
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>
 
 <div class="fast-tran disp_none">
   <form action="../base/response_on_new_transaction" class="my-form" method="get">

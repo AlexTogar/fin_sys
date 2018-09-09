@@ -49,4 +49,10 @@ module BaseHelper
 
   end
 
+  def color (bool_perem, color_true, color_false)
+    bool_perem = false if bool_perem == "false"
+    bool_perem = true if bool_perem == "true"
+    "class = table-#{bool_perem ? color_true : color_false}"
+  end
+
 end
