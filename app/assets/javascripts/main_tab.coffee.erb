@@ -1,42 +1,15 @@
 $ ->
+  if location.href.includes "main_tab"
 
 
-  $form = $(".update-table")
-  $.ajax
-    url: "../base/update_table",
-    data: $form.serialize(),
-    dataType: "json",
-    type: "GET",
-    success: (data) ->
-      console.log data
-      if data[0] != undefined
-        $("#sum").html "Sum <span style = 'display:block; width: 100px'>( Σ = #{data[0].col_sum})</span>"
-        n = data[0].size
-        for i in [0..n]
-          $(".main-table").trigger("update")
-          tr = data[i]
-          if tr.sign == false
-            tr_sign = "table-success"
-          else
-            tr_sign = "table-warning"
-          $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
-      else
-        $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
-        $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = 0)</span>"
-
-
-
-
-
-  $(".update-table input, select").change (e) ->
-    e.preventDefault()
+    $form = $(".update-table")
     $.ajax
       url: "../base/update_table",
       data: $form.serialize(),
       dataType: "json",
       type: "GET",
       success: (data) ->
-        $(".main-table tbody").empty()
+        console.log data
         if data[0] != undefined
           $("#sum").html "Sum <span style = 'display:block; width: 100px'>( Σ = #{data[0].col_sum})</span>"
           n = data[0].size
@@ -51,3 +24,31 @@ $ ->
         else
           $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
           $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = 0)</span>"
+
+
+
+
+
+    $(".update-table input, select").change (e) ->
+      e.preventDefault()
+      $.ajax
+        url: "../base/update_table",
+        data: $form.serialize(),
+        dataType: "json",
+        type: "GET",
+        success: (data) ->
+          $(".main-table tbody").empty()
+          if data[0] != undefined
+            $("#sum").html "Sum <span style = 'display:block; width: 100px'>( Σ = #{data[0].col_sum})</span>"
+            n = data[0].size
+            for i in [0..n]
+              $(".main-table").trigger("update")
+              tr = data[i]
+              if tr.sign == false
+                tr_sign = "table-success"
+              else
+                tr_sign = "table-warning"
+              $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+          else
+            $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
+            $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = 0)</span>"
