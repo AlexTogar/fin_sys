@@ -1,4 +1,3 @@
-
 class BaseController < ApplicationController
   before_action :authenticate_user!
   include BaseHelper
@@ -9,16 +8,67 @@ class BaseController < ApplicationController
   end
 
   def graph
-    @data = Transaction.all.map { |x| [x.created_at, x.sum] }
+     params[:date_begin] != nil ? date_begin = params[:date_begin].to_time : date_begin = Date.today().at_beginning_of_month
+     params[:date_end] != nil ?  date_end = params[:date_end].to_time : date_end = Date.today()
+     params[:user] != nil ? user = params[:user] : user = "all" # all или id пользователя
+     params[:sign] != nil ? sign = params[:sign] : sign = "balance" # balance, all, exspense, profit
+
+    delete_condition = 'transactions.deleted = false'
+
+    records = []
+    start_records = Transaction
+                        .where(created_at: (date_begin..date_end + 1.day))
+                        .where(delete_condition)
+                        .order(created_at: 'desc')
+    if sign != "balance_ne_rabotaet_poka" # balance
+      @balance = false
+      start_records.each do |x|
+        flag = true
+        if user == 'all'
+          if has_family
+            flag = false if User.find(x.user).family != has_family
+          else
+            flag = false if x.user != current_user.id
+          end
+
+        else
+          flag = false if x.user.to_s != user
+        end
+
+        case sign
+        when 'expense'
+          flag = false if Reason.find(x.reason).sign == false
+        when 'profit'
+          flag = false if Reason.find(x.reason).sign == true
+        end
+
+        records << x if flag
+      end
+      #find information from records
+
+      names = records.map {|elem| {id: elem.user, name: User.find(elem.user).email}}.uniq
+
+      names.each do |name|
+        data = records.map {|tran|  Reason.find(tran.reason).sign == false ? {sum: tran.sum, date: my_time(tran.created_at.to_s)} : {sum: 0 - tran.sum, date: my_time(tran.created_at.to_s)} if tran.user == name[:id]}
+        name[:data] = data.compact
+      end
+      @data = names
+
+    else
+      @balance = true
+    end
   end
 
-  def main_tab; end
+
+  def main_tab;
+  end
 
   def new_fast_transaction
     @fastTransactions = FastTransaction.where(deleted: 'false', user: current_user.id)
   end
 
-  def join; end
+  def join;
+  end
 
   def new_family
     name = params[:name]
@@ -78,53 +128,52 @@ class BaseController < ApplicationController
         sum = 0 # если не заработает html валидатор
       end
       newTransaction = Transaction.new(
-        sum: sum,
-        description: params[:description],
-        reason: params[:reason],
-        user: current_user.id,
-        local: params[:local],
-        deleted: false
+          sum: sum,
+          description: params[:description],
+          reason: params[:reason],
+          user: current_user.id,
+          local: params[:local],
+          deleted: false
       )
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
       newTransaction.save
       BalanceChenge.new(sum: balance[:total]).save
 
-      @data = { sum: sum,
-                reason: Reason.find(params[:reason]).reason,
-                user: current_user.email,
-                date: my_time(newTransaction.created_at.to_s),
-                sign: Reason.find(params[:reason]).sign,
-                id: newTransaction.id }
+      @data = {sum: sum,
+               reason: Reason.find(params[:reason]).reason,
+               user: current_user.email,
+               date: my_time(newTransaction.created_at.to_s),
+               sign: Reason.find(params[:reason]).sign,
+               id: newTransaction.id}
 
       respond_to do |x|
-        x.json { render json: @data.to_json }
+        x.json {render json: @data.to_json}
       end
 
     else # if fast_tran != nil
       fast_tran = FastTransaction.find(fast_tran)
 
       newTransaction = Transaction.new(
-        sum: fast_tran.sum,
-        description: '',
-        reason: fast_tran.reason,
-        user: fast_tran.user,
-        local: fast_tran.local,
-        deleted: false
+          sum: fast_tran.sum,
+          description: '',
+          reason: fast_tran.reason,
+          user: fast_tran.user,
+          local: fast_tran.local,
+          deleted: false
       )
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
-
       newTransaction.save
       BalanceChenge.new(sum: balance[:total]).save
 
-      @data = { sum: fast_tran.sum,
-                reason: Reason.find(fast_tran.reason).reason,
-                user: User.find(fast_tran.user).email,
-                date: my_time(newTransaction.created_at.to_s),
-                sign: Reason.find(fast_tran.reason).sign,
-                id: newTransaction.id }
+      @data = {sum: fast_tran.sum,
+               reason: Reason.find(fast_tran.reason).reason,
+               user: User.find(fast_tran.user).email,
+               date: my_time(newTransaction.created_at.to_s),
+               sign: Reason.find(fast_tran.reason).sign,
+               id: newTransaction.id}
 
       respond_to do |x|
-        x.json { render json: @data.to_json }
+        x.json {render json: @data.to_json}
       end
 
     end
@@ -242,9 +291,9 @@ class BaseController < ApplicationController
 
     records = []
     start_records = Transaction
-                    .where(created_at: (date_begin..date_end + 1.day))
-                    .where(delete_condition)
-                    .order(created_at: 'desc')
+                        .where(created_at: (date_begin..date_end + 1.day))
+                        .where(delete_condition)
+                        .order(created_at: 'desc')
     start_records.each do |x|
       flag = true
       if user == 'all'
@@ -278,31 +327,31 @@ class BaseController < ApplicationController
 
       records << x if flag
     end
-    col_sum = records.inject(0) { |result, elem| Reason.find(elem.reason).sign == false ? result + elem.sum : result - elem.sum }
+    col_sum = records.inject(0) {|result, elem| Reason.find(elem.reason).sign == false ? result + elem.sum : result - elem.sum}
 
     i = 0
     @data = {}
     records.each do |tran|
-      @data[i] = { id: tran.id,
-                   sum: tran.sum,
-                   user: User.find(tran.user).email,
-                   reason: Reason.find(tran.reason).reason,
-                   description: (tran.description == '' ? 'Empty' : tran.description),
-                   date: my_time(tran.created_at.to_s),
-                   sign: Reason.find(tran.reason).sign,
-                   size: records.size,
-                   col_sum: col_sum }
+      @data[i] = {id: tran.id,
+                  sum: tran.sum,
+                  user: User.find(tran.user).email,
+                  reason: Reason.find(tran.reason).reason,
+                  description: (tran.description == '' ? 'Empty' : tran.description),
+                  date: my_time(tran.created_at.to_s),
+                  sign: Reason.find(tran.reason).sign,
+                  size: records.size,
+                  col_sum: col_sum}
       i += 1
     end
 
     respond_to do |x|
-      x.json { render json: @data }
+      x.json {render json: @data}
     end
   end
 
   def set_aside
-    @savings_users_sum = (family.map { |x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0] }).compact
-    @total = @savings_users_sum.inject(0) { |result, elem| !elem.nil? ? result + elem[1] : result + 0 }
+    @savings_users_sum = (family.map {|x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0]}).compact
+    @total = @savings_users_sum.inject(0) {|result, elem| !elem.nil? ? result + elem[1] : result + 0}
     @total = 0 if @total.nil?
   end
 
@@ -314,9 +363,9 @@ class BaseController < ApplicationController
       sum = 0 # если не заработает html валидатор
     end
     user = current_user.id
-    savings_users_sum = (family.map { |x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0] }).compact
+    savings_users_sum = (family.map {|x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0]}).compact
 
-    current_sum = savings_users_sum.inject(0) { |result, elem| result + elem[1] }
+    current_sum = savings_users_sum.inject(0) {|result, elem| result + elem[1]}
     if sign == 'true'
       if current_sum >= sum.to_i
         capitalNew = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
@@ -344,54 +393,6 @@ class BaseController < ApplicationController
   end
 
   def update_graph
-    date_begin = params[:date_begin].to_time
-    date_end = params[:date_end].to_time
-    user = params[:user] # all или id пользователя
-    sign = params[:sign] # balance, all, exspense, profit
 
-    delete_condition = 'transactions.deleted = false'
-
-    records = []
-    start_records = Transaction
-                    .where(created_at: (date_begin..date_end + 1.day))
-                    .where(delete_condition)
-                    .order(created_at: 'desc')
-    if sign != 'b' # balanse
-      start_records.each do |x|
-        flag = true
-        if user == 'all'
-          if has_family
-            flag = false if User.find(x.user).family != has_family
-          else
-            flag = false if x.user != current_user.id
-          end
-
-        else
-          flag = false if x.user.to_s != user
-        end
-
-        case sign
-        when 'expense'
-          flag = false if Reason.find(x.reason).sign == false
-        when 'profit'
-          flag = false if Reason.find(x.reason).sign == true
-        end
-
-        records << x if flag
-      end
-
-      names = records.map { |elem| { id: elem.user, name: User.find(elem.user).email } }.uniq
-
-      names.each do |name|
-        data = records.map { |tran| { sum: tran.sum, sign: Reason.find(tran.reason).sign } if tran.user == name[:id] }
-        name[:data] = data
-      end
-      @data = names
-
-    end
-
-    respond_to do |x|
-      x.json { render json: @data }
-    end
   end
 end

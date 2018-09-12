@@ -2,7 +2,7 @@
   <h3>Graph builder</h3>
 </div>
 
-<form action="../base/update_graph" method="get" class="my-form update-graph">
+<form action="../base/graph" method="get" class="my-form update-graph">
   <div class="btn-details">Selection settings
     <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
   </div>
@@ -47,11 +47,14 @@
       </select>
     </div>
 
+    <input type="submit" class="btn btn-primary gradient form-control" value="Build graph">
+
   </div>
 
 </form>
 
 <div class="result">
 
-<%= @alal %>
+  <%= line_chart  @data.map{ |x| { name: x[:name], data: x[:data].map{|tran| [tran[:date], tran[:sum]]} } } , download: "Graph_#{Date.today()}"%>
+
 </div>
