@@ -121,7 +121,7 @@
       <label for="fast_tran">Fast transaction</label>
 
       <select name="fast_tran" id="fast_tran" class="form-control">
-        <% get_records(table_name: "fast_transactions").each do |x| %>
+        <% @my_fast_transactions.each do |x| %>
           <option value="<%= x.id %>"><%= x.name %></option>
         <% end %>
       </select>

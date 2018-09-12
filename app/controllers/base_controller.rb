@@ -8,10 +8,10 @@ class BaseController < ApplicationController
   end
 
   def graph
-     params[:date_begin] != nil ? date_begin = params[:date_begin].to_time : date_begin = Date.today().at_beginning_of_month
-     params[:date_end] != nil ?  date_end = params[:date_end].to_time : date_end = Date.today()
-     params[:user] != nil ? user = params[:user] : user = "all" # all или id пользователя
-     params[:sign] != nil ? sign = params[:sign] : sign = "balance" # balance, all, exspense, profit
+    params[:date_begin] != nil ? date_begin = params[:date_begin].to_time : date_begin = Date.today().at_beginning_of_month
+    params[:date_end] != nil ?  date_end = params[:date_end].to_time : date_end = Date.today()
+    params[:user] != nil ? user = params[:user] : user = "all" # all или id пользователя
+    params[:sign] != nil ? sign = params[:sign] : sign = "balance" # balance, all, exspense, profit
 
     delete_condition = 'transactions.deleted = false'
 
@@ -105,6 +105,8 @@ class BaseController < ApplicationController
     @transactions = get_records(table_name: 'transactions', add_condition: 'order by transactions.created_at DESC')[0..4]
     @reasons = get_records(table_name: 'reasons', add_condition: 'order by reasons.often DESC')
     @my_debts = Debt.where(deleted: false, user: current_user.id).order('created_at desc')
+    @my_fast_transactions  = get_records(table_name: "fast_transactions")
+
   end
 
   def delete_debt
