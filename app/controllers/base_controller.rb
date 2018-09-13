@@ -57,7 +57,7 @@ class BaseController < ApplicationController
 
     else
       @balance = true
-      @data = BalanceChenge.find_by_sql("select b.created_at, b.sum from balance_chenges b , users u where u.family = #{has_family} and b.user = u.id order by b.created_at" ).map{|x| [x.created_at, x.sum]}
+      @data = BalanceChenge.where(created_at: (date_begin..date_end + 1.day)).find_by_sql("select b.created_at, b.sum from balance_chenges b , users u where u.family = #{has_family} and b.user = u.id  order by b.created_at" ).map{|x| [x.created_at, x.sum]}
     end
   end
 
