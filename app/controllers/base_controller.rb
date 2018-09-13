@@ -82,7 +82,7 @@ class BaseController < ApplicationController
         new_Family = Family.new(name: name, connect: connect, user: user, deleted: deleted)
         new_Family.save
         User.update(current_user.id, family: new_Family.id)
-        BalanceChenge.new(sum: balance[:total]).save
+        BalanceChenge.new(sum: balance[:total], user: current_user.id).save
         redirect_to base_join_path, notice: 'The group was created successfully'
       else
         redirect_to base_join_path, notice: 'This name is already taken, choose another'
@@ -92,7 +92,7 @@ class BaseController < ApplicationController
       if Family.exists?(name: name, connect: connect)
         family_connect = Family.find_by_sql("select * from families where name = '#{name}' and connect = '#{connect}' ")[0]
         User.update(current_user.id, family: family_connect.id)
-        BalanceChenge.new(sum: balance[:total]).save
+        BalanceChenge.new(sum: balance[:total], user: current_user.id).save
         redirect_to base_join_path, notice: 'The connection successfully completed'
       else
         redirect_to base_join_path, notice: 'Invalid name or connection password'
@@ -113,7 +113,7 @@ class BaseController < ApplicationController
     id = params[:id]
     begin
       Debt.update(id, deleted: true)
-      BalanceChenge.new(sum: balance[:total]).save
+      BalanceChenge.new(sum: balance[:total], user: current_user.id).save
       redirect_to base_new_transaction_path, notice: 'Debt was successfully deleted'
     rescue StandardError
       redirect_to base_new_transaction_path, notice: 'Debt can not be deleted'
@@ -139,7 +139,7 @@ class BaseController < ApplicationController
       )
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
       newTransaction.save
-      BalanceChenge.new(sum: balance[:total]).save
+      BalanceChenge.new(sum: balance[:total], user: current_user.id).save
 
       @data = {sum: sum,
                reason: Reason.find(params[:reason]).reason,
@@ -165,7 +165,7 @@ class BaseController < ApplicationController
       )
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
       newTransaction.save
-      BalanceChenge.new(sum: balance[:total]).save
+      BalanceChenge.new(sum: balance[:total], user: current_user.id).save
 
       @data = {sum: fast_tran.sum,
                reason: Reason.find(fast_tran.reason).reason,
@@ -222,14 +222,14 @@ class BaseController < ApplicationController
     unless User.exists?(family: current_family)
       Family.find(current_user.family).destroy
     end
-    BalanceChenge.new(sum: balance[:total]).save
+    BalanceChenge.new(sum: balance[:total], user: current_user.id).save
     redirect_to base_join_path, notice: 'You have successfully exited the group'
   end
 
   def delete_transaction
     tran_id = params[:tran_id]
     Transaction.update(tran_id, deleted: 'true')
-    BalanceChenge.new(sum: balance[:total]).save
+    BalanceChenge.new(sum: balance[:total], user: current_user.id).save
   end
 
   def create_new_fast_transaction
@@ -273,7 +273,7 @@ class BaseController < ApplicationController
       sign = you_debtor ? true : false
       debtNew = Debt.new(sum: sum, you_debtor: you_debtor, debtor: debtor, description: description, user: user, local: local, deleted: deleted, sign: sign)
       debtNew.save
-      BalanceChenge.new(sum: balance[:total]).save
+      BalanceChenge.new(sum: balance[:total], user: current_user.id).save
 
       redirect_to base_new_transaction_path, notice: 'Debt was successfully created'
     rescue StandardError
@@ -372,7 +372,7 @@ class BaseController < ApplicationController
       if current_sum >= sum.to_i
         capitalNew = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
         capitalNew.save
-        BalanceChenge.new(sum: balance[:total]).save
+        BalanceChenge.new(sum: balance[:total], user: current_user.id).save
 
         redirect_to base_set_aside_path, notice: "#{sum} rubles successfully withdrawn"
       else
@@ -382,7 +382,7 @@ class BaseController < ApplicationController
 
       capitalNew = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
       capitalNew.save
-      BalanceChenge.new(sum: balance[:total]).save
+      BalanceChenge.new(sum: balance[:total], user: current_user.id).save
 
       redirect_to base_set_aside_path, notice: "#{sum} rubles pending successful"
     end
