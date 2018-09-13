@@ -63,4 +63,6 @@ module BaseHelper
     return {transactions_sum: transactions_sum, debt_sum: debt_sum, capital_sum: capital_sum, total: total}
   end
 
+
+
 end

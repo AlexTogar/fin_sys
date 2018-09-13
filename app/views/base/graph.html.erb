@@ -46,6 +46,10 @@
         <option value="profit">Profit</option>
       </select>
     </div>
+    <div class="row my-toggle">
+      <%=my_toggle_tag(toggle_name: "Points", toggle_name_html: "points", name_one: "Set", name_two: "Remove", toggle_class: "col-6 my_toggle") %>
+      <%=my_toggle_tag(toggle_name: "Curve", toggle_name_html: "curve", name_one: "Smooth", name_two: "Actue", toggle_class: "col-6 my_toggle") %>
+    </div>
 
     <input type="submit" class="btn btn-primary gradient form-control" value="Build graph">
 
@@ -54,7 +58,24 @@
 </form>
 
 <div class="result">
+  <% if @balance == false %>
 
-  <%= line_chart  @data.map{ |x| { name: x[:name], data: x[:data].map{|tran| [tran[:date], tran[:sum]]} } } , download: "Graph_#{Date.today()}"%>
+    <%= line_chart @data.map {|x| {name: x[:name], data: x[:data].map {|tran| [tran[:date], tran[:sum]]}}},
+                   download: "Graph_#{Date.today()}",
+                   suffix: "₽", thousands: " ",
+                   xtitle: "Time", ytitle: "Sum",
+                   curve: @curve,
+                   points: @points %>
 
+  <% else %>
+
+    <%= line_chart [{name: "Balance", data: @data}], download: "Graph_balance_#{Date.today()}",
+                   suffix: "₽",
+                   thousands: " ",
+                   xtitle: "Time",
+                   ytitle: "Balance sum",
+                   curve: @curve,
+                   points: @points %>
+
+  <% end %>
 </div>

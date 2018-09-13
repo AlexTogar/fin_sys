@@ -16,7 +16,7 @@
     <div class="form-group">
 
 
-      <label for="reason" class="control-label">Reason</label>
+      <label for="reason" class="control-label">Reason  <a href="<%=base_new_reason_path %>">new reason -></a></label>
       <select class="form-control js-input" name="reason" id="reason" required>
         <% @reasons.each do |x| %>
           <option value="<%= x.id %>"><%= x.reason %></option>

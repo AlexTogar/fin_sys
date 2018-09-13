@@ -12,7 +12,8 @@ class BaseController < ApplicationController
     params[:date_end] != nil ?  date_end = params[:date_end].to_time : date_end = Date.today()
     params[:user] != nil ? user = params[:user] : user = "all" # all или id пользователя
     params[:sign] != nil ? sign = params[:sign] : sign = "balance" # balance, all, exspense, profit
-
+    params[:points] != nil ? @points = (params[:points] == "false" ? false : true) : @points = true
+    params[:curve] != nil ? @curve = (params[:curve] == "false" ? false : true) : @curve = true
     delete_condition = 'transactions.deleted = false'
 
     records = []
@@ -20,7 +21,7 @@ class BaseController < ApplicationController
                         .where(created_at: (date_begin..date_end + 1.day))
                         .where(delete_condition)
                         .order(created_at: 'desc')
-    if sign != "balance_ne_rabotaet_poka" # balance
+    if sign != "balance" # balance
       @balance = false
       start_records.each do |x|
         flag = true
@@ -49,13 +50,14 @@ class BaseController < ApplicationController
       names = records.map {|elem| {id: elem.user, name: User.find(elem.user).email}}.uniq
 
       names.each do |name|
-        data = records.map {|tran|  Reason.find(tran.reason).sign == false ? {sum: tran.sum, date: my_time(tran.created_at.to_s)} : {sum: 0 - tran.sum, date: my_time(tran.created_at.to_s)} if tran.user == name[:id]}
+        data = records.map {|tran|  Reason.find(tran.reason).sign == false ? {sum: tran.sum, date: my_time(tran.created_at.to_s)} : {sum: 0 - tran.sum, date: tran.created_at} if tran.user == name[:id]}
         name[:data] = data.compact
       end
       @data = names
 
     else
       @balance = true
+      @data = BalanceChenge.find_by_sql("select b.created_at, b.sum from balance_chenges b , users u where u.family = #{has_family} and b.user = u.id order by b.created_at" ).map{|x| [x.created_at, x.sum]}
     end
   end
 
