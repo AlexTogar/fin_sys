@@ -65,12 +65,12 @@ $ ->
       success: (data) ->
         $("#no-tran").remove()
         $("#sum").val "#{data.sum}"
-        $("tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td><td><button id='t#{data.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+        $(".table-five tbody").prepend("<tr class = '#{"table-success" if data.sign == false } #{"table-warning" if data.sign == true}' id='prepend'><td>#{data.sum}</td><td>#{data.reason}</td><td>#{data.user}</td><td>#{data.date}</td><td><button id='t#{data.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
         $("#prepend").css("display", "none")
         $("#prepend").fadeIn()
-        if $("tbody").find("tr").length > 5
-          $("tbody tr").last().fadeOut(delay)
-          setTimeout ( -> $("tbody tr").last().remove()), delay
+        if $(".table-five tbody").find("tr").length > 5
+          $(".table-five tbody tr").last().fadeOut(delay)
+          setTimeout ( -> $(".table-five tbody tr").last().remove()), delay
         $(".table-five").trigger("update")
 
 
