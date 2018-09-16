@@ -81,7 +81,11 @@ class BaseController < ApplicationController
     @fastTransactions = FastTransaction.where(deleted: 'false', user: current_user.id)
   end
 
-  def join; end
+  def join
+    @group = User.where(family: has_family)
+    @data_profit = @group.map{|user| [user.email, Transaction.where(user: user.id).select{|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result,tran| result + tran.sum}]}
+    @data_expense = @group.map{|user| [user.email, Transaction.where(user: user.id).select{|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result,tran| result + tran.sum  }]}
+  end
 
   def new_family
     name = params[:name]
