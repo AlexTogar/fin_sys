@@ -3,8 +3,8 @@
 </div>
 
 <form action="../base/create_new_fast_transaction" class="my-form" method="get">
-  <%=my_input_tag("Name","name","text","") %>
-  <%=my_input_tag("Sum","sum","text","") %>
+  <%=my_input_tag("Name","name","text","",required: true) %>
+  <%=my_input_tag("Sum","sum","text","",pattern: '([0-9]* *\/*\**\+*-*\(*\)*\.*)*")') %>
   <div class="form-group">
 
 
@@ -42,7 +42,7 @@
 
         <tr>
           <td><%= tran.name %></td>
-          <td><%= tran.reason %></td>
+          <td><%= Reason.find(tran.reason).reason %></td>
           <td><%= tran.sum %></td>
           <td>
             <a href="<%=base_delete_fast_transaction_path %>?id=<%=tran.id %>"  class="delete-fast-transaction btn btn-outline-danger">
