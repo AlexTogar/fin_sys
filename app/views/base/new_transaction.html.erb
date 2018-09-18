@@ -16,7 +16,7 @@
     <div class="form-group">
 
 
-      <label for="reason" class="control-label">Reason</label>
+      <label for="reason" class="control-label">Reason  <a href="<%=base_new_reason_path %>">new reason -></a></label>
       <select class="form-control js-input" name="reason" id="reason" required>
         <% @reasons.each do |x| %>
           <option value="<%= x.id %>"><%= x.reason %></option>
@@ -40,18 +40,18 @@
         <input type="text" class="form-control js-input" name="description" id="description" placeholder="Description">
       </div>
 
-      <div class="form-group">
-        <label for="local" class="control-label">Local</label>
-        <div class="btn-group" data-toggle="buttons">
-          <label class="btn btn-primary active local_p">
-            <input type="radio" name="local" id="local_p" autocomplete="off" value="true" checked>Personal
-          </label>
-          <label class="btn btn-outline-primary local_j">
-            <input type="radio" name="local" id="local_j" autocomplete="off" value="false">Joint
-          </label>
-        </div>
+<!--      <div class="form-group">-->
+<!--        <label for="local" class="control-label">Local</label>-->
+<!--        <div class="btn-group" data-toggle="buttons">-->
+<!--          <label class="btn btn-primary active local_p">-->
+<!--            <input type="radio" name="local" id="local_p" autocomplete="off" value="true" checked>Personal-->
+<!--          </label>-->
+<!--          <label class="btn btn-outline-primary local_j">-->
+<!--            <input type="radio" name="local" id="local_j" autocomplete="off" value="false">Joint-->
+<!--          </label>-->
+<!--        </div>-->
 
-      </div>
+<!--      </div>-->
     </div>
 
     <input type="submit" class="btn btn-primary gradient submit_new_transaction" value="Add transaction">
@@ -63,7 +63,7 @@
   <form action="../base/new_debt" class="my-form" method="get">
     <%= my_toggle_tag(toggle_name: "You debtor?", toggle_name_html: "you_debtor", name_one: "No", name_two: "Yes",active_one: "false") %>
     <%= my_input_tag("Name", "debtor", "text", "") %>
-    <%= my_input_tag("Sum", "debt_sum", "text", "") %>
+    <%= my_input_tag("Sum", "sum", "text", "") %>
 
     <div class="btn-details">Details
       <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
@@ -74,8 +74,47 @@
     </div>
     <input type="submit" class="btn btn-primary gradient form-control" value="Add">
   </form>
-</div>
+  <br><br>
+  <div class="page-header">
+    <h3>Debts table</h3>
 
+    <div class="table-responsive">
+      <table class="table-hover table-bordered main-table table">
+        <thead class="thead-dark">
+        <tr>
+          <th>You debt</th>
+          <th>Sum</th>
+          <th>Person</th>
+          <th>Description</th>
+          <th class="text-warning">Delete</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% if @my_debts.size > 0 %>
+          <% @my_debts.each do |debt| %>
+
+            <tr <%=color(debt.sign, "success", "warning")%>>
+              <td><%= debt.you_debtor == false ? "No" : "Yes" %></td>
+              <td><%= debt.sum %></td>
+              <td><%= debt.debtor %></td>
+              <td><%= debt.description == "" ? "Empty" : debt.description %></td>
+              <td>
+                <a href="<%= base_delete_debt_path %>?id=<%=debt.id %>"  class="delete-debt btn btn-outline-danger">
+                  <span class="icon-nav">X</span></a>
+              </td>
+            </tr>
+          <% end %>
+        <%else %>
+          <tr>
+            <td colspan="5" class="no-tran">No debts</td>
+          </tr>
+        <%end %>
+
+        </tbody>
+      </table>
+    </div>
+</div>
+</div>
 
 <div class="fast-tran disp_none">
   <form action="../base/response_on_new_transaction" class="my-form" method="get">
@@ -84,7 +123,7 @@
       <label for="fast_tran">Fast transaction</label>
 
       <select name="fast_tran" id="fast_tran" class="form-control">
-        <% get_records(table_name: "fast_transactions").each do |x| %>
+        <% @my_fast_transactions.each do |x| %>
           <option value="<%= x.id %>"><%= x.name %></option>
         <% end %>
       </select>
@@ -125,11 +164,8 @@
           <td><%= Reason.find(tran.reason).reason %></td>
           <td><%= User.find(tran.user).email %></td>
           <td ><%= my_time(tran.created_at.to_s) %></td>
-          <td>
-
-          </td>
+          <td><button id="t<%=tran.id %>" class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td>
         </tr>
-
       <% end %>
 
     <% else %>

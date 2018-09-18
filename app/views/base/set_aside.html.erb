@@ -4,13 +4,13 @@
 </div>
 
 <form action="../base/create_deposit" method="get" class="my-form">
-  <%= my_input_tag("Sum", "sum", "text", "") %>
+  <%= my_input_tag("Sum", "sum", "text", "", pattern: '([0-9]* *\/*\**\+*-*\(*\)*\.*)*', required: true)%>
   <%= my_toggle_tag(toggle_name: "Sign", toggle_name_html: "sign", name_one: "Deposit", name_two: "Withdraw", active_one: "false") %>
 
   <input type="submit" value="Set aside" class="form-control btn btn-primary gradient">
 </form>
 
-<div class="table-responsive">
+<div class="table-responsive main-responsive">
   <table class="table table-bordered table-hover main-table">
     <thead class="thead-light">
     <tr>

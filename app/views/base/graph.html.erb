@@ -1,10 +1,8 @@
-
-
-<div class='page-header'>
-  <h3>The transaction table</h3>
+<div class="page-header">
+  <h3>Graph builder</h3>
 </div>
 
-<form action="../base/update_table" method="get" class="my-form update-table">
+<form action="../base/graph" method="get" class="my-form update-graph">
   <div class="btn-details">Selection settings
     <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
   </div>
@@ -37,55 +35,49 @@
       </select>
     </div>
 
-<!--    <div class="form-group">-->
-<!--      <label for="type">Transaction type</label>-->
-<!--      <select name="type" id="type" class="form-control">-->
-<!--        <option value="all">All transactions</option>-->
-<!--        <option value="personal">Personal transactions</option>-->
-<!--        <option value="joint">Joint transactions</option>-->
-<!--      </select>-->
-<!--    </div>-->
-
-    <div class="form-group">
-      <label for="reason">Reason</label>
-      <select name="reason" id="reason" class="form-control">
-        <option value="all">All reasons</option>
-        <% get_records(table_name: "reasons").each do |reason| %>
-          <option value="<%= reason.id %>"><%= reason.reason %></option>
-        <% end %>
-      </select>
-    </div>
 
     <%#= my_toggle_three_tag(toggle_name: "Sign of transaction", toggle_name_html: "sign", name_one:"All" , name_two: "Expense", name_three: "Profit", value_one:"1", value_two: "2", value_three: "3") %>
     <div class="form-group">
-      <label for="sign">Sign of transactions</label>
+      <label for="sign">Sign of transactions or balance</label>
       <select name="sign" id="sign" class="form-control">
+        <option value="balance">Balance</option>
         <option value="all">All signs</option>
         <option value="expense">Expense</option>
         <option value="profit">Profit</option>
       </select>
     </div>
+    <div class="row my-toggle">
+      <%= my_toggle_tag(toggle_name: "Points", toggle_name_html: "points", name_one: "Set", name_two: "Remove", toggle_class: "col-6 my_toggle") %>
+      <%= my_toggle_tag(toggle_name: "Curve", toggle_name_html: "curve", name_one: "Smooth", name_two: "Actue", toggle_class: "col-6 my_toggle") %>
+    </div>
+
+    <input type="submit" class="btn btn-primary gradient form-control" value="Build graph">
 
   </div>
+
 </form>
 
+<div class="result">
+  <% if @balance == false %>
 
-<div class="table-responsive main-responsive">
-  <table class="table table-hover table-bordered main-table tablesorter">
-    <thead class="thead-dark">
-    <tr>
-      <th id = sum>Sum</th>
-      <th>Reason</th>
-      <th>User</th>
-      <th>Description</th>
-      <th class="time">Date</th>
-      <th class="delete">Delete</th>
-    </tr>
-    </thead>
-    <tbody>
+    <%= line_chart @data.map {|x| {name: x[:name], data: x[:data].map {|tran| [tran[:date], tran[:sum]]}}},
+                   download: "Graph_#{Date.today()}",
+                   suffix: "₽", thousands: " ",
+                   xtitle: "Time", ytitle: "Sum",
+                   curve: @curve,
+                   points: @points %>
 
-    </tbody>
+  <% else %>
 
-  </table>
+    <%= line_chart [{name: "Balance", data: @data.map {|x| [x[:date], x[:sum]]}}], download: "Graph_balance_#{Date.today()}",
+                   suffix: "₽",
+                   thousands: " ",
+                   xtitle: "Time",
+                   ytitle: "Balance sum",
+                   curve: @curve,
+                   points: @points %>
+
+  <% end %>
+
 
 </div>

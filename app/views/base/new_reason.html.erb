@@ -3,8 +3,44 @@
 </div>
 
 <form action="../base/create_new_reason" method="get" class="my-form">
-  <%= my_input_tag("Reason", "reason", "text","") %>
+  <%= my_input_tag("Reason", "reason", "text","",required: true) %>
   <%= my_toggle_tag(toggle_name: "Sign", name_one: "expense", name_two: "profit", active_one: true, toggle_name_html: "sign") %>
   <%= my_toggle_tag(toggle_name: "Local" , name_one: "Personal", name_two: "Joint",active_one: true, toggle_name_html: "local") %>
   <input type="submit" value="Create new reason" class="form-control btn btn-primary gradient">
 </form>
+
+
+<br><br>
+
+
+<div class="page-header">
+  <h3>Reasons table (only personal)</h3>
+
+  <div class="table-responsive">
+    <table class="table-hover table-bordered main-table table">
+      <thead class="thead-dark">
+      <tr>
+        <th>Reason</th>
+        <th class="text-warning">Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @my_reasons.size > 0 %>
+        <% @my_reasons.each do |reason| %>
+          <tr  class = "<%=reason.sign == false ? "table-success" : "table-warning" %>">
+            <td><%= reason.reason %></td>
+            <td>
+              <a href="<%=base_delete_reason_path%>?id=<%=reason.id %>"  class="delete-reason btn btn-outline-danger">
+                <span class="icon-nav">X</span></a>
+            </td>
+          </tr>
+        <% end %>
+      <%else %>
+        <tr>
+          <td colspan="2" class="no-tran">No reasons</td>
+        </tr>
+      <%end %>
+
+      </tbody>
+    </table>
+  </div>

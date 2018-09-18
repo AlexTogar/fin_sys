@@ -1,0 +1,110 @@
+<% if current_user %>
+  <nav class="navbar navbar-expand-lg navbar-light bg-my">
+    <a class="navbar-brand my-brand" href="<%= root_path %>">
+      <span class="logo-icon">
+        <%= octicon "ruby" %>
+      </span>
+      FINSYS
+    </a>
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="<%= base_main_tab_path %>">
+            <span class="icon-nav">
+              <%= octicon "list-unordered" %>
+              Main table
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= base_join_path %>">
+            <span class="icon-nav">
+              <%= octicon "organization" %>
+              <%= has_family ? "Group" : "Join the group" %>
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= base_graph_path %>">
+            <span class="icon-nav">
+              <%= octicon "graph" %>
+              Graphics
+            </span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<%= base_set_aside_path %>">
+            <span class="icon-nav">
+              <%= octicon "inbox" %>
+              Capital
+            </span>
+          </a>
+        </li>
+        <li class="nav-item dropdown">
+          <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle off" data-toggle="dropdown" href="#" id="navbarDropdown" role="button">
+            <span class="icon-nav">
+              <%= octicon "diff-added" %>
+              New...
+            </span>
+          </a>
+          <div aria-labelledby="navbarDropdown" class="dropdown-menu">
+            <a class="dropdown-item" href="<%= base_new_reason_path %>">New reason</a>
+            <a class="dropdown-item" href="<%= base_new_fast_transaction_path %>">New fast transaction</a>
+          </div>
+        </li>
+
+      </ul>
+      <ul class="navbar-right navbar-nav">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <a class="nav-link off no-hover self" href="#">
+              <span class="icon-nav">
+                <%= octicon "person" %>
+              </span>
+              <span class="you">You:</span>
+              <%= current_user.email %>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link no-hover" href="<%= base_main_tab_path %>">
+              <span class="icon-nav">
+                <%= octicon "law" %>
+              </span>
+              <span class="you">Balance:</span>
+              <%= balance[:total] %>
+              &#8381;
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-method="delete" href="<%= destroy_user_session_path %>">
+              <span class="icon-nav">
+                <%= octicon "sign-out" %>
+                Sign out
+              </span>
+            </a>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <a class="nav-link self" href="<%= new_user_session_path %>">
+              <span class="icon-nav">
+                <%= octicon "sign-in" %>
+                Sign in
+              </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= new_user_registration_path %>">
+              <span class="icon-nav">
+                <%= octicon "person" %>
+              </span>
+              Registration
+            </a>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </nav>
+<%end %>

@@ -4,11 +4,12 @@ module ApplicationHelper
 
 
 
-  def my_input_tag(name, html_name, type, my_class)
+  def my_input_tag(name, html_name, type, my_class, pattern: "" , required: false)
+
     html = "
         <div class='form-group'>
           <label for='#{html_name}' class='control-label'>#{name.capitalize}</label>
-          <input type='#{type}' class='form-control js-input #{my_class}' name='#{html_name}' id='#{html_name}' placeholder='#{name.capitalize}'>
+          <input type='#{type}' class='form-control js-input #{my_class}' name='#{html_name}' id='#{html_name}' placeholder='#{name.capitalize}' #{"pattern = '"+pattern+"'" if pattern != ""} #{"required" if required}>
         </div>
     "
     html.html_safe

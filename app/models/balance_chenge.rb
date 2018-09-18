@@ -1,0 +1,2 @@
+class BalanceChenge < ApplicationRecord
+end

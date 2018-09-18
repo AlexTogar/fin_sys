@@ -1,0 +1,24 @@
+$ ->
+  if location.href.includes "graph"
+    console.log "slkdjflsdkfj"
+
+    $form = $(".update-graph")
+    $.ajax
+      url: "../base/update_graph",
+      data: $form.serialize(),
+      dataType: "json",
+      type: "GET",
+      success: (data) ->
+        console.log data
+
+
+
+    $(".update-graph input, select").change (e) ->
+      e.preventDefault()
+      $.ajax
+        url: "../base/update_graph",
+        data: $form.serialize(),
+        dataType: "json",
+        type: "GET",
+        success: (data) ->
+          console.log data

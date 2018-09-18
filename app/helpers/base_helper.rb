@@ -49,4 +49,20 @@ module BaseHelper
 
   end
 
+  def color (bool_perem, color_true, color_false)
+    bool_perem = false if bool_perem == "false"
+    bool_perem = true if bool_perem == "true"
+    "class = table-#{bool_perem ? color_true : color_false}"
+  end
+
+  def balance
+    transactions_sum = get_records(table_name: "transactions").inject(0) {|result,elem | Reason.find(elem.reason).sign == false ? result + elem.sum : result - elem.sum }
+    debt_sum = get_records(table_name: "debts").inject(0) {|result, elem| elem.sign == true ? result + elem.sum : result - elem.sum}
+    capital_sum = get_records(table_name: "capitals").inject(0) {|result, elem| elem.sign == false ? result + elem.sum : result - elem.sum}
+    total = transactions_sum - capital_sum + debt_sum
+    return {transactions_sum: transactions_sum, debt_sum: debt_sum, capital_sum: capital_sum, total: total}
+  end
+
+
+
 end

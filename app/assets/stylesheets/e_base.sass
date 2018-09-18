@@ -43,6 +43,15 @@ body
   //background-color: #f1f1f1
   height: 100%
 
+  .my_toggle
+    &:first-child
+      padding-right: 5px
+    &:last-child
+      padding-left: 5px
+
+  .result
+    margin-top: 30px
+
   nav
     .nav-link
       color: $my-black-brand-primary !important
@@ -118,7 +127,7 @@ body
     margin-bottom: 10px
 
   .you
-    font-weight: 900 !important
+    font-weight: bold !important
 
   .no-hover:hover
 
@@ -306,7 +315,7 @@ body
   .span-you
     margin-left: 30%
 
-  .delete-transaction, .delete-fast-transaction
+  .delete-transaction, .delete-fast-transaction, .delete-reason, .delete-debt
     font-family: Sans-Serif
     font-weight: bold
     width: 100%
@@ -331,11 +340,14 @@ body
 
 
   .main-table
-    margin-top: 50px
+    margin-top: 0px
     .bg-dark
       color: white
     .total
       font-weight: bold
+  .main-responsive
+    .main-table
+      margin-top: 50px
 
 //.my-table
   //
