@@ -27,10 +27,10 @@
     <br><br>
 
     <div class="page-header">
-      <h4>Profit chart</h4>
+      <h4>Profit chart (current month)</h4>
       <%= pie_chart @data_profit, download: "Profit_chart_#{Date.today()}", colors: ["#218359", "#408AD2","#FFA640","#408AD2"] %>
       <br><br>
-      <h4>Expense chart</h4>
+      <h4>Expense chart (current month)</h4>
       <%= pie_chart @data_expense, download: "Expense_chart_#{Date.today()}", colors: ["#BF5930", "#AD2B4E","#67237F","#A62F00"] %>
     </div>
 

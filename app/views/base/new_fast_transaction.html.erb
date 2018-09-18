@@ -40,7 +40,7 @@
       <% if @fastTransactions.size > 0 %>
       <% @fastTransactions.each do |tran| %>
 
-        <tr>
+        <tr  class = "<%=Reason.find(tran.reason).sign == false ? "table-success" : "table-warning" %>">
           <td><%= tran.name %></td>
           <td><%= Reason.find(tran.reason).reason %></td>
           <td><%= tran.sum %></td>

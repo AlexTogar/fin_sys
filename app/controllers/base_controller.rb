@@ -59,9 +59,9 @@ class BaseController < ApplicationController
 
     else
       @balance = true
-      transactions = Transaction.where(created_at: (date_begin..date_end + 1.day), deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
-      debts = Debt.where(created_at: (date_begin..date_end + 1.day), deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
-      capitals = Capital.where(created_at: (date_begin..date_end + 1.day), deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
+      transactions = Transaction.where( deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
+      debts = Debt.where(deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
+      capitals = Capital.where(deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
 
       transactions = transactions.map {|x| {date: x.created_at, sum: (Reason.find(x.reason).sign == false ? x.sum : -x.sum)}}
       debts = debts.map {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
@@ -70,7 +70,7 @@ class BaseController < ApplicationController
       mass = (transactions + debts + capitals).sort_by {|x| x[:date]}
       i = 0
       @data = []
-      mass.each {|x| @data << {date: x[:date], sum: mass.map {|x| x[:sum]}[0..i].sum}; i += 1}
+      mass.each {|x| (@data << {date: x[:date], sum: mass.map {|x| x[:sum]}[0..i].sum}) if x[:date] > date_begin and x[:date] < date_end + 1.day; i += 1}
 
     end
   end
@@ -84,8 +84,8 @@ class BaseController < ApplicationController
 
   def join
     @group = User.where(family: has_family)
-    @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
-    @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
+    @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (Date.today.at_beginning_of_month..Date.today+1.day)).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
+    @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (Date.today.at_beginning_of_month..Date.today+1.day)).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
   end
 
   def new_family
