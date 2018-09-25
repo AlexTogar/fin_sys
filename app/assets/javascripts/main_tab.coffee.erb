@@ -20,7 +20,7 @@ $ ->
               tr_sign = "table-success"
             else
               tr_sign = "table-warning"
-            $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+            $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td><span class = 'str_num'>##{i+1} </span>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
         else
           $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
           $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = 0)</span>"
@@ -48,7 +48,7 @@ $ ->
                 tr_sign = "table-success"
               else
                 tr_sign = "table-warning"
-              $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
+              $(".main-table tbody").append("<tr class = '#{tr_sign}' id='prepend'><td><span class = 'str_num'>##{i+1} </span>#{tr.sum}</td><td>#{tr.reason}</td><td>#{tr.user}</td><td>#{tr.description}</td><td>#{tr.date}</td><td><button id='t#{tr.id}' class = 'delete-transaction btn btn-outline-danger'><span class='icon-nav'>X</span></button></td></tr>")
           else
             $(".main-table tbody").append("<tr><th colspan='6' class='no-tran'>No transactions</th></tr>")
             $("#sum").html "Sum <span style = 'display:block; width: 90px'>( Σ = 0)</span>"
