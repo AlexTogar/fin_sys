@@ -63,15 +63,21 @@ class BaseController < ApplicationController
       debts = Debt.where(deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
       capitals = Capital.where(deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
 
-      transactions = transactions.map {|x| {date: x.created_at, sum: (Reason.find(x.reason).sign == false ? x.sum : -x.sum)}}
-      debts = debts.map {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
-      capitals = capitals.map {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
+      transactions.map! {|x| {date: x.created_at, sum: (Reason.find(x.reason).sign == false ? x.sum : -x.sum)}}
+      debts.map! {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
+      capitals.map! {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
 
      # mass = (transactions + debts + capitals).sort_by {|x| x[:date]} #balance будет равен free money (caital учитывается)
       mass = (transactions + debts) #balance != free money (capital не учитывается)
       i = 0
       @data = []
-      mass.each {|x| (@data << {date: x[:date], sum: mass.map {|x| x[:sum]}[0..i].sum}) if x[:date] > date_begin and x[:date] < date_end + 1.day; i += 1}
+
+      mass.each do |x|
+        if x[:date] >= date_begin and x[:date] <= date_end + 1.day
+          @data << {date: x[:date], sum: mass.map {|x| x[:sum]}[0..i].sum}
+        end
+        i += 1
+      end
 
     end
   end
@@ -90,20 +96,20 @@ class BaseController < ApplicationController
     @group = User.where(family: has_family)
 
     params[:date_begin] != nil ? date_begin = params[:date_begin] : date_begin = Date.today().at_beginning_of_month
-    params[:date_end] != nil ? date_end = params[:date_end] : date_end = Date.today
+    params[:date_end] != nil ? date_end = params[:date_end].to_time + 1.day : date_end = Date.today + 1.day
     params[:reason_p] != nil ? reason_p = params[:reason_p] : reason_p = "all"
     params[:reason_e] != nil ? reason_e = params[:reason_e] : reason_e = "all"
 
     if reason_p == "all"
       @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
     else
-      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason == reason_p}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason.to_s == reason_p}.inject(0) {|result, tran| result + tran.sum}]}
     end
 
     if reason_e == "all"
       @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
     else
-      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason == reason_e}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason.to_s == reason_e}.inject(0) {|result, tran| result + tran.sum}]}
 
     end
 

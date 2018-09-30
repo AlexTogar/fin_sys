@@ -25,39 +25,45 @@
       </form>
     </div>
     <br><br>
+    <div class="page-header">
+      <h4>Charts</h4>
+    </div>
 
-
-      <form action="../base/join" method="get" class="my-form update-graph">
-
-          <div class="form-group">
-            <label for="">Date interval</label>
-            <div class="input-group">
-              <div class="input-group-prepend col-md-3 col-sm-4 col-4">
-                <span class="input-group-text" id="">Begin date</span>
-              </div>
-              <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= Date.today().at_beginning_of_month %>" name="date_begin" id="date_begin">
+    <form action="../base/join" method="get" class="my-form update-graph">
+      <div class="btn-details">Selection settings
+        <span class="icon-nav down"><%= octicon "triangle-down" %></span><span class="icon-nav up"><%= octicon "triangle-up" %></span>
+      </div>
+      <!--  <div class="detail nado izmenit kak tolko dodelau)))">-->
+      <div class="details">
+        <div class="form-group">
+          <label for="">Date interval</label>
+          <div class="input-group">
+            <div class="input-group-prepend col-md-3 col-sm-4 col-4">
+              <span class="input-group-text" id="">Begin date</span>
             </div>
-            <div class="input-group">
-              <div class="input-group-prepend col-md-3 col-sm-4 col-4">
-                <span class="input-group-text" id="">End date</span>
-              </div>
-              <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= Date.today() %>" name="date_end" id="date_end">
+            <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= Date.today().at_beginning_of_month %>" name="date_begin" id="date_begin">
+          </div>
+          <div class="input-group">
+            <div class="input-group-prepend col-md-3 col-sm-4 col-4">
+              <span class="input-group-text" id="">End date</span>
             </div>
+            <input type="date" class="form-control col-md-9 col-sm-8 col-8" value="<%= Date.today() %>" name="date_end" id="date_end">
           </div>
+        </div>
 
-          <div class="form-group">
-            <lable for="">Reason <span class="chart-num">#1</span>
-              <svg width="20" height="20">
-                <rect class="rect1" />
-              </svg>
-            </lable>
-            <select name="reason_p" id="reason_p" class="form-control">
-              <option value="all">all profit</option>
-              <%@reasons_profit.each do |reason| %>
-                <option value="<%=reason.id %>"><%= reason.reason %></option>
-              <%end %>
-            </select>
-          </div>
+        <div class="form-group">
+          <lable for="">Reason <span class="chart-num">#1</span>
+            <svg width="20" height="20">
+              <rect class="rect1"/>
+            </svg>
+          </lable>
+          <select name="reason_p" id="reason_p" class="form-control">
+            <option value="all">all profit</option>
+            <% @reasons_profit.each do |reason| %>
+              <option value="<%= reason.id %>"><%= reason.reason %></option>
+            <% end %>
+          </select>
+        </div>
 
         <div class="form-group">
           <lable for="">Reason <span class="chart-num">#2</span>
@@ -67,27 +73,27 @@
           </lable>
           <select name="reason_e" id="reason_e" class="form-control">
             <option value="all">all expence</option>
-            <%@reasons_expence.each do |reason| %>
-              <option value="<%=reason.id %>"><%= reason.reason %></option>
-            <%end %>
+            <% @reasons_expence.each do |reason| %>
+              <option value="<%= reason.id %>"><%= reason.reason %></option>
+            <% end %>
           </select>
         </div>
 
-          <input type="submit" class="btn btn-primary gradient form-control" value="Build pie charts">
-
-      </form>
-      <br>
+        <input type="submit" class="btn btn-primary gradient form-control" value="Build pie charts">
+      </div>
+    </form>
+    <br>
     <div class="page-header">
       <h4>Profit chart</h4>
     </div>
 
-      <%= pie_chart @data_profit, download: "Profit_chart_#{Date.today()}", colors: ["#218359", "#408AD2","#FFA640","#408AD2"] %>
-      <br><br>
+    <%= pie_chart @data_profit, download: "Profit_chart_#{Date.today()}", colors: ["#218359", "#408AD2", "#FFA640", "#408AD2"] %>
+    <br><br>
     <div class="page-header">
       <h4>Expence chart</h4>
     </div>
 
-      <%= pie_chart @data_expense, download: "Expense_chart_#{Date.today()}", colors: ["#BF5930", "#AD2B4E","#67237F","#A62F00"] %>
+    <%= pie_chart @data_expense, download: "Expense_chart_#{Date.today()}", colors: ["#BF5930", "#AD2B4E", "#67237F", "#A62F00"] %>
 
 
   <% else %>
