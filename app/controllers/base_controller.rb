@@ -68,7 +68,7 @@ class BaseController < ApplicationController
       capitals.map! {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
 
      # mass = (transactions + debts + capitals).sort_by {|x| x[:date]} #balance будет равен free money (caital учитывается)
-      mass = (transactions + debts) #balance != free money (capital не учитывается)
+      mass = (transactions + debts).sort_by{|x| x[:date]} #balance != free money (capital не учитывается)
       i = 0
       @data = []
 
