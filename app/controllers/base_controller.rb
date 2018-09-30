@@ -67,7 +67,8 @@ class BaseController < ApplicationController
       debts = debts.map {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
       capitals = capitals.map {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
 
-      mass = (transactions + debts + capitals).sort_by {|x| x[:date]}
+     # mass = (transactions + debts + capitals).sort_by {|x| x[:date]} #balance будет равен free money (caital учитывается)
+      mass = (transactions + debts) #balance != free money (capital не учитывается)
       i = 0
       @data = []
       mass.each {|x| (@data << {date: x[:date], sum: mass.map {|x| x[:sum]}[0..i].sum}) if x[:date] > date_begin and x[:date] < date_end + 1.day; i += 1}
@@ -83,9 +84,30 @@ class BaseController < ApplicationController
   end
 
   def join
+
+    @reasons_profit = get_records(table_name: 'reasons', add_condition: "and reasons.sign = false and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
+    @reasons_expence = get_records(table_name: 'reasons', add_condition: "and reasons.sign = true and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
     @group = User.where(family: has_family)
-    @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (Date.today.at_beginning_of_month..Date.today+1.day)).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
-    @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (Date.today.at_beginning_of_month..Date.today+1.day)).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
+
+    params[:date_begin] != nil ? date_begin = params[:date_begin] : date_begin = Date.today().at_beginning_of_month
+    params[:date_end] != nil ? date_end = params[:date_end] : date_end = Date.today
+    params[:reason_p] != nil ? reason_p = params[:reason_p] : reason_p = "all"
+    params[:reason_e] != nil ? reason_e = params[:reason_e] : reason_e = "all"
+
+    if reason_p == "all"
+      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
+    else
+      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason == reason_p}.inject(0) {|result, tran| result + tran.sum}]}
+    end
+
+    if reason_e == "all"
+      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
+    else
+      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason == reason_e}.inject(0) {|result, tran| result + tran.sum}]}
+
+    end
+
+
   end
 
   def new_family
@@ -124,13 +146,19 @@ class BaseController < ApplicationController
     @my_fast_transactions = get_records(table_name: 'fast_transactions', add_condition: "and (fast_transactions.local = false or fast_transactions.user = #{current_user.id})")
   end
 
+  def debts
+    @my_debts = get_records(table_name: 'debts', add_condition: "and (debts.local = false or debts.user = #{current_user.id})")
+
+  end
+
   def delete_debt
     id = params[:id]
+    href = params[:href]
     begin
       Debt.update(id, deleted: true)
-      redirect_to base_new_transaction_path, notice: 'Debt was successfully deleted'
+      redirect_to href, notice: 'Debt was successfully deleted'
     rescue StandardError
-      redirect_to base_new_transaction_path, notice: 'Debt can not be deleted'
+      redirect_to href, notice: 'Debt can not be deleted'
     end
   end
 

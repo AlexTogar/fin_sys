@@ -1,0 +1,42 @@
+
+
+<div class="page-header">
+  <h3>Debts table</h3>
+  <br><br>
+
+  <div class="table-responsive">
+    <table class="table-hover table-bordered main-table table">
+      <thead class="thead-dark">
+      <tr>
+        <th>You debt</th>
+        <th>Sum</th>
+        <th>Person</th>
+        <th>Description</th>
+        <th class="text-warning">Delete</th>
+      </tr>
+      </thead>
+      <tbody>
+      <% if @my_debts.size > 0 %>
+        <% @my_debts.each do |debt| %>
+
+          <tr <%=color(debt.sign, "success", "warning")%>>
+            <td><%= debt.you_debtor == false ? "No" : "Yes" %></td>
+            <td><%= debt.sum %></td>
+            <td><%= debt.debtor %></td>
+            <td><%= debt.description == "" ? "Empty" : debt.description %></td>
+            <td>
+              <a href="<%= base_delete_debt_path %>?id=<%=debt.id %>&href=<%=base_debts_path%>"  class="delete-debt btn btn-outline-danger">
+                <span class="icon-nav">X</span></a>
+            </td>
+          </tr>
+        <% end %>
+      <%else %>
+        <tr>
+          <td colspan="5" class="no-tran">No debts</td>
+        </tr>
+      <%end %>
+
+      </tbody>
+    </table>
+  </div>
+</div>

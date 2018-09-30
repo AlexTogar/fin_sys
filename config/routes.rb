@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   get 'base/new_debt'
   get 'base/delete_debt'
+  get 'base/debts'
 
   get 'base/delete_fast_transaction'
   get 'base/new_fast_transaction'

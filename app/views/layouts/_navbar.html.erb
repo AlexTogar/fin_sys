@@ -35,14 +35,14 @@
             </span>
           </a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="<%= base_set_aside_path %>">
-            <span class="icon-nav">
-              <%= octicon "inbox" %>
-              Capital
-            </span>
-          </a>
-        </li>
+<!--        <li class="nav-item">-->
+<!--          <a class="nav-link" href="<%#= base_set_aside_path %>">-->
+<!--            <span class="icon-nav">-->
+              <%#= octicon "inbox" %>
+<!--              Capital-->
+<!--            </span>-->
+<!--          </a>-->
+<!--        </li>-->
         <li class="nav-item dropdown">
           <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle off" data-toggle="dropdown" href="#" id="navbarDropdown" role="button">
             <span class="icon-nav">
@@ -73,11 +73,43 @@
               <span class="icon-nav">
                 <%= octicon "law" %>
               </span>
-              <span class="you">Balance:</span>
+              <span class="you">Free money:</span>
               <%= balance[:total] %>
               &#8381;
             </a>
+
+
+
           </li>
+          <li class="nav-item">
+            <a class="nav-link no-hover" href="<%= base_set_aside_path %>">
+              <span class="icon-nav">
+                <%= octicon "inbox" %>
+              </span>
+              <span class="you">Capital:</span>
+              <span class="text-success">
+                <%= balance[:capital_sum] %>
+                &#8381;
+                </span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link no-hover" href="<%= base_debts_path%>">
+              <span class="icon-nav">
+                <%= octicon "bug" %>
+              </span>
+              <span class="you">Debts:</span>
+              <span class="<%=balance[:debt_sum] >= 0 ? 'text-success' : 'text-danger' %>">
+                <%= balance[:debt_sum] %>
+
+                &#8381;
+                </span>
+            </a>
+          </li>
+
+
+
+
           <li class="nav-item">
             <a class="nav-link" data-method="delete" href="<%= destroy_user_session_path %>">
               <span class="icon-nav">
