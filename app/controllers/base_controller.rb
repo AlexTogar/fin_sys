@@ -209,7 +209,7 @@ class BaseController < ApplicationController
       #test telegram bot
       token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
       Telegram::Bot::Client.run(token) do |bot|
-        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{sum}\nReason: #{Reason.find(params[:reason]).reason}\nTime: #{Time.now.to_s.split("+")[0]} ")
+        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{sum}\nReason: #{Reason.find(params[:reason]).reason}\nTime: #{Time.now.to_s.split("+")[0]}\n Description: #{params[:description].nil? ? 'Empty' : params[:description]} ")
       end
 
       @data = {sum: sum,
@@ -239,7 +239,7 @@ class BaseController < ApplicationController
       #test telegram bot
       token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
       Telegram::Bot::Client.run(token) do |bot|
-        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{fast_tran.sum}\nReason: #{Reason.find(fast_tran.reason).reason}\nTime: #{Time.now.to_s.split("+")[0]} ")
+        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{fast_tran.sum}\nReason: #{Reason.find(fast_tran.reason).reason}\nTime: #{Time.now.to_s.split("+")[0]}\n Description: Empty")
       end
       @data = {sum: fast_tran.sum,
                reason: Reason.find(fast_tran.reason).reason,
