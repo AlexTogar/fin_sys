@@ -1,13 +1,32 @@
 # frozen_string_literal: true
+#
 
 class BaseController < ApplicationController
   before_action :authenticate_user!
   include BaseHelper
 
-  def test_action
-    @data = params
-    render json: @data
+  require 'telegram/bot'
+
+  token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
+
+  Telegram::Bot::Client.run(token) do |bot|
+    # bot.listen do |message|
+    #   case message.text
+    #   when '/start'
+    #     bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}")
+    #   when '/stop'
+    #     bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
+    #   end
+    # end
   end
+
+
+
+
+  # def test_action
+  #   @data = params
+  #   render json: @data
+  # end
 
   def graph
     !params[:date_begin].nil? ? date_begin = params[:date_begin].to_time : date_begin = Date.today.at_beginning_of_month

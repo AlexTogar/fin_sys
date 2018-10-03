@@ -1,3 +1,4 @@
+
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
@@ -20,6 +21,7 @@ gem 'octicons', '~> 8.0'
 gem 'octicons_helper'
 gem 'record_tag_helper', '~> 1.0'
 gem 'sass-rails', '~> 5.0'
+gem 'telegram-bot-ruby'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
