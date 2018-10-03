@@ -7,9 +7,9 @@ class BaseController < ApplicationController
 
   require 'telegram/bot'
 
-  token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
+  # token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
 
-  Telegram::Bot::Client.run(token) do |bot|
+  # Telegram::Bot::Client.run(token) do |bot|
     # bot.listen do |message|
     #   case message.text
     #   when '/start'
@@ -18,7 +18,7 @@ class BaseController < ApplicationController
     #     bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
     #   end
     # end
-  end
+  # end
 
 
 
@@ -206,6 +206,11 @@ class BaseController < ApplicationController
       )
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
       newTransaction.save
+      #test telegram bot
+      token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
+      Telegram::Bot::Client.run(token) do |bot|
+        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{sum}\nReason: #{Reason.find(params[:reason]).reason}\nTime: #{Time.now.to_s.split("+")[0]} ")
+      end
 
       @data = {sum: sum,
                reason: Reason.find(params[:reason]).reason,
@@ -231,7 +236,11 @@ class BaseController < ApplicationController
       )
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
       newTransaction.save
-
+      #test telegram bot
+      token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
+      Telegram::Bot::Client.run(token) do |bot|
+        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{fast_tran.sum}\nReason: #{Reason.find(fast_tran.reason).reason}\nTime: #{Time.now.to_s.split("+")[0]} ")
+      end
       @data = {sum: fast_tran.sum,
                reason: Reason.find(fast_tran.reason).reason,
                user: current_user.email,
