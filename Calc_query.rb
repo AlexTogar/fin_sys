@@ -31,7 +31,7 @@ module Calculate
           @input = translate
         else
           url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
-          response = Nokogiri::HTML(open(url)).search('plaintext').select{|x| x.gsub(/[0-9]*/,"") == ""}.content.to_i
+          response = Nokogiri::HTML(open(url)).search('plaintext').select{|x| x.content.gsub(/[0-9]*/,"") == ""}[0].content.to_i
         end
       else
         @input.to_i
