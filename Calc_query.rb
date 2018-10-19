@@ -32,7 +32,7 @@ module Calculate
         end
         @input.gsub!("+","%2B")
         url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
-        response = Nokogiri::HTML(open(url)).search('plaintext').select {|x| x.content.gsub(/[0-9]*/, "") == ""}[0]
+        response = Nokogiri::HTML(open(url)).search('plaintext').select {|x| x.content[0..10].gsub(/[0-9]*/, "") == "" or x.content[0..10].gsub(/[0-9]*/, "") == "."}[0]
         response.content.to_i
 
       else
