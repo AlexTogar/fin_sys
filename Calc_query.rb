@@ -29,10 +29,12 @@ module Calculate
 
         if @input.gsub(/[а-я]*/, "").size != @input.size
           @input = translate
+          url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
+          response = Nokogiri::HTML(open(url)).search('plaintext')[1].content
+        else
+          url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
+          response = Nokogiri::HTML(open(url)).search('plaintext')[2].content
         end
-
-        url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
-        response = Nokogiri::HTML(open(url)).search('plaintext')[1].content
         begin
           response = response.to_i
         rescue
