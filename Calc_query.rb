@@ -20,7 +20,7 @@ module Calculate
       url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=#{@yandex_key}&text=#{@input}&lang=ru-en"
       response = Net::HTTP.get_response(URI.parse(url))
       json_response = JSON.parse(response.body)
-      json_response['text'][0]
+      @input = json_response['text'][0]
     end
 
     def send
@@ -28,11 +28,11 @@ module Calculate
       if @input.gsub(/[0-9]*/, "") != ""
 
         if @input.gsub(/[а-я]*/, "").size != @input.size #если содержит кириллицу
-          @input = translate
-        else
-          url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
-          response = Nokogiri::HTML(open(url)).search('plaintext').select{|x| x.content.gsub(/[0-9]*/,"") == ""}[0].content.to_i
+          translate
         end
+        url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
+        response = Nokogiri::HTML(open(url)).search('plaintext').select {|x| x.content.gsub(/[0-9]*/, "") == ""}[0].content.to_i
+
       else
         @input.to_i
       end
