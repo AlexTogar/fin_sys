@@ -15,8 +15,12 @@ module Calculate
       @input = input
     end
 
-    def translate
+    def encode_input
       @input = URI.encode(@input)
+    end
+
+    def translate
+      encode_input
       url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=#{@yandex_key}&text=#{@input}&lang=ru-en"
       response = Net::HTTP.get_response(URI.parse(url))
       json_response = JSON.parse(response.body)
@@ -24,11 +28,13 @@ module Calculate
     end
 
     def send
+
       reg = /[а-я]*/
       if @input.gsub(reg, "").size != @input.size
         @input = translate
       end
 
+      encode_input
       url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
       response = Nokogiri::HTML(open(url)).search('plaintext')[1].content
       begin
