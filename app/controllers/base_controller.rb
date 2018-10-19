@@ -4,9 +4,9 @@
 class BaseController < ApplicationController
   before_action :authenticate_user!
   include BaseHelper
-
   require 'telegram/bot'
-
+  require_relative '../../Calc_query.rb'
+  include Calculate
   # token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
 
   # Telegram::Bot::Client.run(token) do |bot|
@@ -192,7 +192,8 @@ class BaseController < ApplicationController
     if fast_tran.nil?
 
       begin
-        sum = eval(params[:sum].to_s).to_i
+        query = Calc_query.new(input: params[:sum])
+        sum = query.send
       rescue StandardError
         sum = 0 # если не заработает html валидатор
       end
