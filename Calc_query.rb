@@ -15,32 +15,31 @@ module Calculate
       @input = input
     end
 
-    def encode_input
-      @input = URI.encode(@input)
-    end
-
     def translate
-      encode_input
+      @input = URI.encode(@input)
       url = "https://translate.yandex.net/api/v1.5/tr.json/translate?key=#{@yandex_key}&text=#{@input}&lang=ru-en"
       response = Net::HTTP.get_response(URI.parse(url))
       json_response = JSON.parse(response.body)
-      json_response['text']
+      json_response['text'][0]
     end
 
     def send
 
-      reg = /[а-я]*/
-      if @input.gsub(reg, "").size != @input.size
-        @input = translate
-      end
+      if @input.gsub(/[0-9]*/, "") != ""
 
-      encode_input
-      url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
-      response = Nokogiri::HTML(open(url)).search('plaintext')[1].content
-      begin
-        response = response.to_i
-      rescue
-        return 0
+        if @input.gsub(/[а-я]*/, "").size != @input.size
+          @input = translate
+        end
+
+        url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
+        response = Nokogiri::HTML(open(url)).search('plaintext')[1].content
+        begin
+          response = response.to_i
+        rescue
+          return 0
+        end
+      else
+        @input.to_i
       end
 
     end

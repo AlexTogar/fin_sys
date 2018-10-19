@@ -191,12 +191,12 @@ class BaseController < ApplicationController
     fast_tran = params[:fast_tran]
     if fast_tran.nil?
 
-      begin
+      # begin
         query = Calc_query.new(input: params[:sum])
         sum = query.send
-      rescue StandardError
-        sum = 0 # если не заработает html валидатор
-      end
+      # rescue StandardError
+      #   sum = 404 # если не заработает html валидатор
+      # end
       newTransaction = Transaction.new(
           sum: sum,
           description: params[:description],
