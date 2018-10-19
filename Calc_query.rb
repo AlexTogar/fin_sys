@@ -36,9 +36,13 @@ module Calculate
           response = Nokogiri::HTML(open(url)).search('plaintext')[2].content
         end
         begin
-          response = response.to_i
+          response.to_i
         rescue
-          return 0
+          begin
+            Nokogiri::HTML(open(url)).search('plaintext')[1].content.to_i
+          rescue
+            0
+          end
         end
       else
         @input.to_i
