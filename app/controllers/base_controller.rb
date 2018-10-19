@@ -120,15 +120,15 @@ class BaseController < ApplicationController
     params[:reason_e] != nil ? reason_e = params[:reason_e] : reason_e = "all"
 
     if reason_p == "all"
-      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
     else
-      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason.to_s == reason_p}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| tran.reason.to_s == reason_p}.inject(0) {|result, tran| result + tran.sum}]}
     end
 
     if reason_e == "all"
-      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
     else
-      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end)).select {|tran| tran.reason.to_s == reason_e}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| tran.reason.to_s == reason_e}.inject(0) {|result, tran| result + tran.sum}]}
 
     end
 
