@@ -30,8 +30,10 @@ module Calculate
         if @input.gsub(/[а-я]*/, "").size != @input.size #если содержит кириллицу
           translate
         end
+        @input.gsub!("+","%2B")
         url = "http://api.wolframalpha.com/v2/query?input=#{@input}&appid=#{@appid}"
-        response = Nokogiri::HTML(open(url)).search('plaintext').select {|x| x.content.gsub(/[0-9]*/, "") == ""}[0].content.to_i
+        response = Nokogiri::HTML(open(url)).search('plaintext').select {|x| x.content.gsub(/[0-9]*/, "") == ""}[0]
+        response.content.to_i
 
       else
         @input.to_i
