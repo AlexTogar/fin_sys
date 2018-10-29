@@ -8,7 +8,7 @@ module My_telegram
     attr_accessor :token, :enable, :teammates, :chat_id, :current_user, :sum, :reason, :description
     def initialize(token: '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg',
        enable: false,
-       teammates: User.all.where(family: Family.find_by(user: @current_user).id) - [User.find(current_user)],
+       teammates: [],
        chat_id: 479039553,
        current_user: ,
        sum: 0,
