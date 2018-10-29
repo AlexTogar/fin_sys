@@ -190,7 +190,7 @@ class BaseController < ApplicationController
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
       newTransaction.save
       #test telegram bot
-      Message.new(sum: sum, description: params[:description], reason: Reason.find(params[:reason]).reason, enable: true).send
+      Message.new(sum: sum, current_user: current_user, description: params[:description], reason: Reason.find(params[:reason]).reason, enable: true).send
 
 
       @data = {sum: sum,
@@ -218,7 +218,7 @@ class BaseController < ApplicationController
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
       newTransaction.save
       #test telegram bot
-      Message.new(sum: fast_tran.sum, reason: Reason.find(fast_tran.reason).reason, enable: true).send
+      Message.new(sum: fast_tran.sum, current_user: current_user, reason: Reason.find(fast_tran.reason).reason, enable: true).send
 
       @data = {sum: fast_tran.sum,
                reason: Reason.find(fast_tran.reason).reason,

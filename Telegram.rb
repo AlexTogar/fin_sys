@@ -34,9 +34,6 @@ module My_telegram
 
   end
 
-  #usage:
-  #msg = Message.new(enable: true, current_user: 1, sum: 100, reason: "just", description: "alal")
-  #msg.send
 end
 
 
