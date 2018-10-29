@@ -1,32 +1,14 @@
-# frozen_string_literal: true
-#
-
 class BaseController < ApplicationController
   before_action :authenticate_user!
   include BaseHelper
   require 'telegram/bot'
   require_relative '../../Calc_query.rb'
   include Calculate
-  # token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
-
-  # Telegram::Bot::Client.run(token) do |bot|
-    # bot.listen do |message|
-    #   case message.text
-    #   when '/start'
-    #     bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}")
-    #   when '/stop'
-    #     bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
-    #   end
-    # end
-  # end
+  require_relative '../../Telegram.rb'
+  include My_telegram
 
 
 
-
-  # def test_action
-  #   @data = params
-  #   render json: @data
-  # end
 
   def graph
     !params[:date_begin].nil? ? date_begin = params[:date_begin].to_time : date_begin = Date.today.at_beginning_of_month
@@ -208,10 +190,8 @@ class BaseController < ApplicationController
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
       newTransaction.save
       #test telegram bot
-      token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
-      Telegram::Bot::Client.run(token) do |bot|
-        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{sum}\nReason: #{Reason.find(params[:reason]).reason}\nTime: #{(Time.now+3.hour).to_s.split("+")[0]}\nDescription: #{(params[:description].nil? or params[:description] == "") ? 'Empty' : params[:description]} ")
-      end
+      Message.new(sum: sum, description: params[:description], reason: Reason.find(params[:reason]).reason, enable: true).send
+
 
       @data = {sum: sum,
                reason: Reason.find(params[:reason]).reason,
@@ -238,10 +218,8 @@ class BaseController < ApplicationController
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
       newTransaction.save
       #test telegram bot
-      token = '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg'
-      Telegram::Bot::Client.run(token) do |bot|
-        bot.api.send_message(chat_id: 479039553, text: "Created transaction:\nUser: #{current_user.email}\nSum: #{fast_tran.sum}\nReason: #{Reason.find(fast_tran.reason).reason}\nTime: #{(Time.now+3.hour).to_s.split("+")[0]}\nDescription: Empty")
-      end
+      Message.new(sum: fast_tran.sum, reason: Reason.find(fast_tran.reason).reason, enable: true).send
+
       @data = {sum: fast_tran.sum,
                reason: Reason.find(fast_tran.reason).reason,
                user: current_user.email,
