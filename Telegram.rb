@@ -1,4 +1,6 @@
 require 'telegram/bot'
+require_relative 'app/models/family.rb'
+require_relative 'app/models/user.rb'
 #require 'модуль, содержащий User, Family и др'
 
 module My_telegram
