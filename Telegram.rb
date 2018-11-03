@@ -23,11 +23,11 @@ module My_telegram
         Telegram::Bot::Client.run(@token) do |bot|
           bot.api.send_message(chat_id: @chat_id,
                                text:"Created transaction:
-                                    User: #{@current_user.email}
-                                    Sum: #{@sum}
-                                    Reason: #{@reason}
-                                    Time: #{(Time.now + 3.hour).to_s.split("+")[0]}
-                                    Description: #{@description == '' ? 'Empty' : @description}"
+User: #{@current_user.email}
+Sum: #{@sum}
+Reason: #{@reason}
+Time: #{(Time.now + 3.hour).to_s.split("+")[0]}
+Description: #{@description == '' ? 'Empty' : @description}"
           )
         end
       end
