@@ -10,12 +10,33 @@ class BaseController < ApplicationController
   include My_telegram
 
   def graph
-    !params[:date_begin].nil? ? date_begin = params[:date_begin].to_time : date_begin = Date.today.at_beginning_of_month
-    !params[:date_end].nil? ? date_end = params[:date_end].to_time : date_end = Date.today
-    user = !params[:user].nil? ? params[:user] : 'all' # all или id пользователя
-    sign = !params[:sign].nil? ? params[:sign] : 'balance' # balance, all, exspense, profit
-    @points = !params[:points].nil? ? params[:points] != 'false' : true
-    @curve = !params[:curve].nil? ? params[:curve] != 'false' : true
+    if params[:date_begin].nil?
+      date_begin = Date.today.at_beginning_of_month
+    else
+      date_begin = params[:date_begin].to_time
+    end
+
+    if params[:date_end].nil?
+      date_end = Date.today
+    else
+      date_end = params[:date_end].to_time
+    end
+
+    user = params[:user] || 'all' # all или id пользователя
+    sign = params[:sign] || 'balance' # balance, all, exspense, profit
+
+    if params[:points].nil?
+      @points = true
+    else
+      @points = to_bool(str: params[:points]) #str 'false' to fasle (FalseClass)
+    end
+
+    if params[:curve].nil?
+      @curve = true
+    else
+      @curve = to_bool(str: params[:curve]) #str 'false' to fasle (FalseClass)
+    end
+
     delete_condition = 'transactions.deleted = false'
 
     records = []
@@ -93,10 +114,20 @@ class BaseController < ApplicationController
     @reasons_expence = get_records(table_name: 'reasons', add_condition: "and reasons.sign = true and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
     @group = User.where(family: has_family)
 
-    !params[:date_begin].nil? ? date_begin = params[:date_begin] : date_begin = Date.today.at_beginning_of_month
-    !params[:date_end].nil? ? date_end = params[:date_end].to_time + 1.day : date_end = Date.today + 1.day
-    reason_p = !params[:reason_p].nil? ? params[:reason_p] : 'all'
-    reason_e = !params[:reason_e].nil? ? params[:reason_e] : 'all'
+    if params[:date_begin].nil?
+      date_begin = Date.today.at_beginning_of_month
+    else
+      date_begin = params[:date_begin].to_time
+    end
+
+    if params[:date_end].nil?
+      date_end = Date.today + 1.day
+    else
+      date_end = params[:date_end].to_time + 1.day
+    end
+
+    reason_p = params[:reason_p] || 'all'
+    reason_e = params[:reason_e] || 'all'
 
     if reason_p == 'all'
       @data_profit = @group.map { |user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select { |tran| Reason.find(tran.reason).sign == false }.inject(0) { |result, tran| result + tran.sum }] }
@@ -121,9 +152,9 @@ class BaseController < ApplicationController
     if action == 'true'
 
       if family_size = Family.find_by_sql("select * from families where name = '#{name}' ").empty?
-        new_Family = Family.new(name: name, connect: connect, user: user, deleted: deleted)
-        new_Family.save
-        User.update(current_user.id, family: new_Family.id)
+        new_family = Family.new(name: name, connect: connect, user: user, deleted: deleted)
+        new_family.save
+        User.update(current_user.id, family: new_family.id)
         redirect_to base_join_path, notice: 'The group was created successfully'
       else
         redirect_to base_join_path, notice: 'This name is already taken, choose another'
@@ -173,7 +204,7 @@ class BaseController < ApplicationController
       # rescue StandardError
       #   sum = 404 # если не заработает html валидатор
       # end
-      newTransaction = Transaction.new(
+      new_transaction = Transaction.new(
         sum: sum,
         description: params[:description],
         reason: params[:reason],
@@ -182,16 +213,16 @@ class BaseController < ApplicationController
         deleted: false
       )
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
-      newTransaction.save
+      new_transaction.save
       # test telegram bot
       Message.new(sum: sum, current_user: current_user, description: params[:description], reason: Reason.find(params[:reason]).reason, enable: true).send
 
       @data = { sum: sum,
                 reason: Reason.find(params[:reason]).reason,
                 user: current_user.email,
-                date: my_time(newTransaction.created_at.to_s),
+                date: my_time(new_transaction.created_at.to_s),
                 sign: Reason.find(params[:reason]).sign,
-                id: newTransaction.id }
+                id: new_transaction.id }
 
       respond_to do |x|
         x.json { render json: @data.to_json }
@@ -200,7 +231,7 @@ class BaseController < ApplicationController
     else # if fast_tran != nil
       fast_tran = FastTransaction.find(fast_tran)
 
-      newTransaction = Transaction.new(
+      new_transaction = Transaction.new(
         sum: fast_tran.sum,
         description: '',
         reason: fast_tran.reason,
@@ -209,16 +240,16 @@ class BaseController < ApplicationController
         deleted: false
       )
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
-      newTransaction.save
+      new_transaction.save
       # test telegram bot
       Message.new(sum: fast_tran.sum, current_user: current_user, reason: Reason.find(fast_tran.reason).reason, enable: true).send
 
       @data = { sum: fast_tran.sum,
                 reason: Reason.find(fast_tran.reason).reason,
                 user: current_user.email,
-                date: my_time(newTransaction.created_at.to_s),
+                date: my_time(new_transaction.created_at.to_s),
                 sign: Reason.find(fast_tran.reason).sign,
-                id: newTransaction.id }
+                id: new_transaction.id }
 
       respond_to do |x|
         x.json { render json: @data.to_json }
@@ -249,11 +280,11 @@ class BaseController < ApplicationController
     user = current_user.id
     deleted = false
 
-    newReason = Reason.new(reason: reason, sign: sign, often: often, local: local, user: user, deleted: deleted)
+    new_reason = Reason.new(reason: reason, sign: sign, often: often, local: local, user: user, deleted: deleted)
     if Reason.exists?(reason: reason, user: user)
       redirect_to base_new_reason_path, notice: 'Reason already exists'
     else
-      newReason.save
+      new_reason.save
       redirect_to base_new_reason_path, notice: 'Reason was successfully created.'
     end
   rescue StandardError
@@ -317,8 +348,8 @@ class BaseController < ApplicationController
       local = params[:local]
       deleted = false
       sign = you_debtor ? true : false
-      debtNew = Debt.new(sum: sum, you_debtor: you_debtor, debtor: debtor, description: description, user: user, local: local, deleted: deleted, sign: sign)
-      debtNew.save
+      debt_new = Debt.new(sum: sum, you_debtor: you_debtor, debtor: debtor, description: description, user: user, local: local, deleted: deleted, sign: sign)
+      debt_new.save
 
       redirect_to base_new_transaction_path, notice: 'Debt was successfully created'
     rescue StandardError

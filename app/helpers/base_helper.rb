@@ -63,6 +63,31 @@ module BaseHelper
     return {transactions_sum: transactions_sum, debt_sum: debt_sum, capital_sum: capital_sum, total: total}
   end
 
+  def to_bool(str: 'true')
+    case str
+    when 'true'
+      true
+    when 'false'
+      false
+    end
+  end
+
+  def set_date_begin(default: Date.today.at_beginning_of_month, alternative: ,param_date_nil: true)
+    if param_date_nil
+      default
+    else
+      alternative
+    end
+  end
+
+  def set_date_end(default: Date.today + 1.day, alternative: , params_date_nil: true)
+    if params_date_nil
+      default
+    else
+      alternative
+    end
+  end
+
 
 
 end
