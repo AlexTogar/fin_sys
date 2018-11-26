@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class DebtsController < ApplicationController
-  before_action :set_debt, only: [:show, :edit, :update, :destroy]
+  before_action :set_debt, only: %i[show edit update destroy]
 
   # GET /debts
   # GET /debts.json
@@ -9,8 +11,7 @@ class DebtsController < ApplicationController
 
   # GET /debts/1
   # GET /debts/1.json
-  def show
-  end
+  def show; end
 
   # GET /debts/new
   def new
@@ -18,8 +19,7 @@ class DebtsController < ApplicationController
   end
 
   # GET /debts/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /debts
   # POST /debts.json
@@ -62,13 +62,14 @@ class DebtsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_debt
-      @debt = Debt.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def debt_params
-      params.require(:debt).permit(:you_debtor, :user, :sum, :sign, :debtor, :description, :local, :deleted)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_debt
+    @debt = Debt.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def debt_params
+    params.require(:debt).permit(:you_debtor, :user, :sum, :sign, :debtor, :description, :local, :deleted)
+  end
 end

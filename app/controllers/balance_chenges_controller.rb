@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class BalanceChengesController < ApplicationController
-  before_action :set_balance_chenge, only: [:show, :edit, :update, :destroy]
+  before_action :set_balance_chenge, only: %i[show edit update destroy]
 
   # GET /balance_chenges
   # GET /balance_chenges.json
@@ -9,8 +11,7 @@ class BalanceChengesController < ApplicationController
 
   # GET /balance_chenges/1
   # GET /balance_chenges/1.json
-  def show
-  end
+  def show; end
 
   # GET /balance_chenges/new
   def new
@@ -18,8 +19,7 @@ class BalanceChengesController < ApplicationController
   end
 
   # GET /balance_chenges/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /balance_chenges
   # POST /balance_chenges.json
@@ -62,13 +62,14 @@ class BalanceChengesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_balance_chenge
-      @balance_chenge = BalanceChenge.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def balance_chenge_params
-      params.require(:balance_chenge).permit(:sum)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_balance_chenge
+    @balance_chenge = BalanceChenge.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def balance_chenge_params
+    params.require(:balance_chenge).permit(:sum)
+  end
 end

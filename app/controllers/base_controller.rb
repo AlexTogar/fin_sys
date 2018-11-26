@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class BaseController < ApplicationController
   before_action :authenticate_user!
   include BaseHelper
@@ -6,9 +8,6 @@ class BaseController < ApplicationController
   include Calculate
   require_relative '../../Telegram.rb'
   include My_telegram
-
-
-
 
   def graph
     !params[:date_begin].nil? ? date_begin = params[:date_begin].to_time : date_begin = Date.today.at_beginning_of_month
@@ -21,9 +20,9 @@ class BaseController < ApplicationController
 
     records = []
     start_records = Transaction
-                        .where(created_at: (date_begin..date_end + 1.day))
-                        .where(delete_condition)
-                        .order(created_at: 'desc')
+                    .where(created_at: (date_begin..date_end + 1.day))
+                    .where(delete_condition)
+                    .order(created_at: 'desc')
     if sign != 'balance' # balance
       @balance = false
       start_records.each do |x|
@@ -50,32 +49,32 @@ class BaseController < ApplicationController
       end
       # find information from records
 
-      names = records.map {|elem| {id: elem.user, name: User.find(elem.user).email}}.uniq
+      names = records.map { |elem| { id: elem.user, name: User.find(elem.user).email } }.uniq
 
       names.each do |name|
-        data = records.map {|tran| Reason.find(tran.reason).sign == false ? {sum: tran.sum, date: my_time(tran.created_at.to_s)} : {sum: 0 - tran.sum, date: tran.created_at} if tran.user == name[:id]}
+        data = records.map { |tran| Reason.find(tran.reason).sign == false ? { sum: tran.sum, date: my_time(tran.created_at.to_s) } : { sum: 0 - tran.sum, date: tran.created_at } if tran.user == name[:id] }
         name[:data] = data.compact
       end
       @data = names
 
     else
       @balance = true
-      transactions = Transaction.where( deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
-      debts = Debt.where(deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
-      capitals = Capital.where(deleted: false).select {|x| x.user.in? User.where(family: current_user.family).map(&:id)}
+      transactions = Transaction.where(deleted: false).select { |x| x.user.in? User.where(family: current_user.family).map(&:id) }
+      debts = Debt.where(deleted: false).select { |x| x.user.in? User.where(family: current_user.family).map(&:id) }
+      capitals = Capital.where(deleted: false).select { |x| x.user.in? User.where(family: current_user.family).map(&:id) }
 
-      transactions.map! {|x| {date: x.created_at, sum: (Reason.find(x.reason).sign == false ? x.sum : -x.sum)}}
-      debts.map! {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
-      capitals.map! {|x| {date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum)}}
+      transactions.map! { |x| { date: x.created_at, sum: (Reason.find(x.reason).sign == false ? x.sum : -x.sum) } }
+      debts.map! { |x| { date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum) } }
+      capitals.map! { |x| { date: x.created_at, sum: (x.sign == false ? -x.sum : x.sum) } }
 
-     # mass = (transactions + debts + capitals).sort_by {|x| x[:date]} #balance будет равен free money (caital учитывается)
-      mass = (transactions + debts).sort_by{|x| x[:date]} #balance != free money (capital не учитывается)
+      # mass = (transactions + debts + capitals).sort_by {|x| x[:date]} #balance будет равен free money (caital учитывается)
+      mass = (transactions + debts).sort_by { |x| x[:date] } # balance != free money (capital не учитывается)
       i = 0
       @data = []
 
       mass.each do |x|
-        if x[:date] >= date_begin and x[:date] <= date_end + 1.day
-          @data << {date: x[:date], sum: mass.map {|x| x[:sum]}[0..i].sum}
+        if (x[:date] >= date_begin) && (x[:date] <= date_end + 1.day)
+          @data << { date: x[:date], sum: mass.map { |x| x[:sum] }[0..i].sum }
         end
         i += 1
       end
@@ -83,38 +82,34 @@ class BaseController < ApplicationController
     end
   end
 
-  def main_tab;
-  end
+  def main_tab; end
 
   def new_fast_transaction
     @fastTransactions = FastTransaction.where(deleted: 'false', user: current_user.id)
   end
 
   def join
-
     @reasons_profit = get_records(table_name: 'reasons', add_condition: "and reasons.sign = false and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
     @reasons_expence = get_records(table_name: 'reasons', add_condition: "and reasons.sign = true and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
     @group = User.where(family: has_family)
 
-    params[:date_begin] != nil ? date_begin = params[:date_begin] : date_begin = Date.today().at_beginning_of_month
-    params[:date_end] != nil ? date_end = params[:date_end].to_time + 1.day : date_end = Date.today + 1.day
-    params[:reason_p] != nil ? reason_p = params[:reason_p] : reason_p = "all"
-    params[:reason_e] != nil ? reason_e = params[:reason_e] : reason_e = "all"
+    !params[:date_begin].nil? ? date_begin = params[:date_begin] : date_begin = Date.today.at_beginning_of_month
+    !params[:date_end].nil? ? date_end = params[:date_end].to_time + 1.day : date_end = Date.today + 1.day
+    reason_p = !params[:reason_p].nil? ? params[:reason_p] : 'all'
+    reason_e = !params[:reason_e].nil? ? params[:reason_e] : 'all'
 
-    if reason_p == "all"
-      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| Reason.find(tran.reason).sign == false}.inject(0) {|result, tran| result + tran.sum}]}
+    if reason_p == 'all'
+      @data_profit = @group.map { |user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select { |tran| Reason.find(tran.reason).sign == false }.inject(0) { |result, tran| result + tran.sum }] }
     else
-      @data_profit = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| tran.reason.to_s == reason_p}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_profit = @group.map { |user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select { |tran| tran.reason.to_s == reason_p }.inject(0) { |result, tran| result + tran.sum }] }
     end
 
-    if reason_e == "all"
-      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| Reason.find(tran.reason).sign == true}.inject(0) {|result, tran| result + tran.sum}]}
+    if reason_e == 'all'
+      @data_expense = @group.map { |user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select { |tran| Reason.find(tran.reason).sign == true }.inject(0) { |result, tran| result + tran.sum }] }
     else
-      @data_expense = @group.map {|user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select {|tran| tran.reason.to_s == reason_e}.inject(0) {|result, tran| result + tran.sum}]}
+      @data_expense = @group.map { |user| [user.email, Transaction.where(user: user.id, created_at: (date_begin..date_end), deleted: false).select { |tran| tran.reason.to_s == reason_e }.inject(0) { |result, tran| result + tran.sum }] }
 
     end
-
-
   end
 
   def new_family
@@ -155,7 +150,6 @@ class BaseController < ApplicationController
 
   def debts
     @my_debts = get_records(table_name: 'debts', add_condition: "and (debts.local = false or debts.user = #{current_user.id})")
-
   end
 
   def delete_debt
@@ -174,61 +168,60 @@ class BaseController < ApplicationController
     if fast_tran.nil?
 
       # begin
-        query = Calc_query.new(input: params[:sum])
-        sum = query.send
+      query = Calc_query.new(input: params[:sum])
+      sum = query.send
       # rescue StandardError
       #   sum = 404 # если не заработает html валидатор
       # end
       newTransaction = Transaction.new(
-          sum: sum,
-          description: params[:description],
-          reason: params[:reason],
-          user: current_user.id,
-          local: (params[:local].nil? ? "true" : params[:local]),
-          deleted: false
+        sum: sum,
+        description: params[:description],
+        reason: params[:reason],
+        user: current_user.id,
+        local: (params[:local].nil? ? 'true' : params[:local]),
+        deleted: false
       )
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
       newTransaction.save
-      #test telegram bot
+      # test telegram bot
       Message.new(sum: sum, current_user: current_user, description: params[:description], reason: Reason.find(params[:reason]).reason, enable: true).send
 
-
-      @data = {sum: sum,
-               reason: Reason.find(params[:reason]).reason,
-               user: current_user.email,
-               date: my_time(newTransaction.created_at.to_s),
-               sign: Reason.find(params[:reason]).sign,
-               id: newTransaction.id}
+      @data = { sum: sum,
+                reason: Reason.find(params[:reason]).reason,
+                user: current_user.email,
+                date: my_time(newTransaction.created_at.to_s),
+                sign: Reason.find(params[:reason]).sign,
+                id: newTransaction.id }
 
       respond_to do |x|
-        x.json {render json: @data.to_json}
+        x.json { render json: @data.to_json }
       end
 
     else # if fast_tran != nil
       fast_tran = FastTransaction.find(fast_tran)
 
       newTransaction = Transaction.new(
-          sum: fast_tran.sum,
-          description: '',
-          reason: fast_tran.reason,
-          user: current_user.id,
-          local: true,
-          deleted: false
+        sum: fast_tran.sum,
+        description: '',
+        reason: fast_tran.reason,
+        user: current_user.id,
+        local: true,
+        deleted: false
       )
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
       newTransaction.save
-      #test telegram bot
+      # test telegram bot
       Message.new(sum: fast_tran.sum, current_user: current_user, reason: Reason.find(fast_tran.reason).reason, enable: true).send
 
-      @data = {sum: fast_tran.sum,
-               reason: Reason.find(fast_tran.reason).reason,
-               user: current_user.email,
-               date: my_time(newTransaction.created_at.to_s),
-               sign: Reason.find(fast_tran.reason).sign,
-               id: newTransaction.id}
+      @data = { sum: fast_tran.sum,
+                reason: Reason.find(fast_tran.reason).reason,
+                user: current_user.email,
+                date: my_time(newTransaction.created_at.to_s),
+                sign: Reason.find(fast_tran.reason).sign,
+                id: newTransaction.id }
 
       respond_to do |x|
-        x.json {render json: @data.to_json}
+        x.json { render json: @data.to_json }
       end
 
     end
@@ -337,7 +330,7 @@ class BaseController < ApplicationController
     date_begin = params[:date_begin].to_time
     date_end = params[:date_end].to_time
     user = params[:user] # all или id пользователя
-    params[:type] != "" ? type = params[:type] : type = "all" # all/personal/joint
+    type = params[:type] != '' ? params[:type] : 'all' # all/personal/joint
     reason = params[:reason] # all или id причины
     sign = params[:sign] # all, exspense, profit
 
@@ -345,9 +338,9 @@ class BaseController < ApplicationController
 
     records = []
     start_records = Transaction
-                        .where(created_at: (date_begin..date_end + 1.day))
-                        .where(delete_condition)
-                        .order(created_at: 'desc')
+                    .where(created_at: (date_begin..date_end + 1.day))
+                    .where(delete_condition)
+                    .order(created_at: 'desc')
     start_records.each do |x|
       flag = true
       if user == 'all'
@@ -381,31 +374,31 @@ class BaseController < ApplicationController
 
       records << x if flag
     end
-    col_sum = records.inject(0) {|result, elem| Reason.find(elem.reason).sign == false ? result + elem.sum : result - elem.sum}
+    col_sum = records.inject(0) { |result, elem| Reason.find(elem.reason).sign == false ? result + elem.sum : result - elem.sum }
 
     i = 0
     @data = {}
     records.each do |tran|
-      @data[i] = {id: tran.id,
-                  sum: tran.sum,
-                  user: User.find(tran.user).email,
-                  reason: Reason.find(tran.reason).reason,
-                  description: (tran.description == '' ? 'Empty' : tran.description),
-                  date: my_time(tran.created_at.to_s),
-                  sign: Reason.find(tran.reason).sign,
-                  size: records.size,
-                  col_sum: col_sum}
+      @data[i] = { id: tran.id,
+                   sum: tran.sum,
+                   user: User.find(tran.user).email,
+                   reason: Reason.find(tran.reason).reason,
+                   description: (tran.description == '' ? 'Empty' : tran.description),
+                   date: my_time(tran.created_at.to_s),
+                   sign: Reason.find(tran.reason).sign,
+                   size: records.size,
+                   col_sum: col_sum }
       i += 1
     end
 
     respond_to do |x|
-      x.json {render json: @data}
+      x.json { render json: @data }
     end
   end
 
   def set_aside
-    @savings_users_sum = (family.map {|x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0]}).compact
-    @total = @savings_users_sum.inject(0) {|result, elem| !elem.nil? ? result + elem[1] : result + 0}
+    @savings_users_sum = (family.map { |x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0] }).compact
+    @total = @savings_users_sum.inject(0) { |result, elem| !elem.nil? ? result + elem[1] : result + 0 }
     @total = 0 if @total.nil?
   end
 
@@ -417,33 +410,34 @@ class BaseController < ApplicationController
       sum = 0 # если не заработает html валидатор
     end
     user = current_user.id
-    savings_users_sum = (family.map {|x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0]}).compact
+    savings_users_sum = (family.map { |x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0] }).compact
 
-    current_sum = savings_users_sum.inject(0) {|result, elem| result + elem[1]}
+    current_sum = savings_users_sum.inject(0) { |result, elem| result + elem[1] }
     if sign == 'true'
       if current_sum >= sum.to_i
-        capitalNew = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
-        capitalNew.save
-
-        redirect_to base_set_aside_path, notice: "#{sum} rubles successfully withdrawn"
+        capital_new = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
+        capital_new.save
+        notice = "#{sum} rubles successfully withdrawn"
+        redirect_to base_set_aside_path, notice: notice
       else
-        redirect_to base_set_aside_path, notice: 'Too much money'
+        notice = 'Too much money'
+        redirect_to base_set_aside_path, notice: notice
       end
     else
 
-      capitalNew = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
-      capitalNew.save
-
-      redirect_to base_set_aside_path, notice: "#{sum} rubles pending successful"
+      capital_new = Capital.new(sum: sum, user: user, deleted: false, sign: sign)
+      capital_new.save
+      notice = "#{sum} rubles pending successful"
+      redirect_to base_set_aside_path, notice: notice
     end
   end
 
   def delete_fast_transaction
     id = params[:id]
     FastTransaction.update(id, deleted: true)
-    redirect_to base_new_fast_transaction_path, notice: 'Fast transaciton was successfully deleted'
+    notice = 'Fast transaciton was successfully deleted'
+    redirect_to base_new_fast_transaction_path, notice: notice
   end
 
-  def update_graph;
-  end
+  def update_graph; end
 end
