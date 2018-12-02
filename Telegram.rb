@@ -8,7 +8,7 @@ require_relative 'app/models/user.rb'
 module My_telegram
   class Message
     attr_accessor :token, :enable, :teammates, :chat_id, :current_user, :sum, :reason, :description
-    def initialize(token: '649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg',
+    def initialize(token: ENV["telegram_token"],
                    enable: false,
                    teammates: [],
                    chat_id: 479_039_553,
