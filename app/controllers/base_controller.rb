@@ -10,36 +10,36 @@ class BaseController < ApplicationController
   include My_telegram
 
   def check_telegram
-    render json: ENV["telegram_token"]
+    render json: ENV['telegram_token']
   end
 
   def graph
-    if params[:date_begin].nil?
-      date_begin = Date.today.at_beginning_of_month
-    else
-      date_begin = params[:date_begin].to_time
-    end
+    date_begin = if params[:date_begin].nil?
+                   Date.today.at_beginning_of_month
+                 else
+                   params[:date_begin].to_time
+                 end
 
-    if params[:date_end].nil?
-      date_end = Date.today
-    else
-      date_end = params[:date_end].to_time
-    end
+    date_end = if params[:date_end].nil?
+                 Date.today
+               else
+                 params[:date_end].to_time
+               end
 
     user = params[:user] || 'all' # all или id пользователя
     sign = params[:sign] || 'balance' # balance, all, exspense, profit
 
-    if params[:points].nil?
-      @points = true
-    else
-      @points = to_bool(str: params[:points]) #str 'false' to fasle (FalseClass)
-    end
+    @points = if params[:points].nil?
+                true
+              else
+                to_bool(str: params[:points]) # str 'false' to fasle (FalseClass)
+              end
 
-    if params[:curve].nil?
-      @curve = true
-    else
-      @curve = to_bool(str: params[:curve]) #str 'false' to fasle (FalseClass)
-    end
+    @curve = if params[:curve].nil?
+               true
+             else
+               to_bool(str: params[:curve]) # str 'false' to fasle (FalseClass)
+             end
 
     delete_condition = 'transactions.deleted = false'
 
@@ -118,17 +118,17 @@ class BaseController < ApplicationController
     @reasons_expence = get_records(table_name: 'reasons', add_condition: "and reasons.sign = true and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
     @group = User.where(family: has_family)
 
-    if params[:date_begin].nil?
-      date_begin = Date.today.at_beginning_of_month
-    else
-      date_begin = params[:date_begin].to_time
-    end
+    date_begin = if params[:date_begin].nil?
+                   Date.today.at_beginning_of_month
+                 else
+                   params[:date_begin].to_time
+                 end
 
-    if params[:date_end].nil?
-      date_end = Date.today + 1.day
-    else
-      date_end = params[:date_end].to_time + 1.day
-    end
+    date_end = if params[:date_end].nil?
+                 Date.today + 1.day
+               else
+                 params[:date_end].to_time + 1.day
+               end
 
     reason_p = params[:reason_p] || 'all'
     reason_e = params[:reason_e] || 'all'
