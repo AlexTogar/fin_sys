@@ -9,6 +9,10 @@ class BaseController < ApplicationController
   require_relative '../../Telegram.rb'
   include My_telegram
 
+  def check_telegram
+    render json: ENV["telegram_token"]
+  end
+
   def graph
     if params[:date_begin].nil?
       date_begin = Date.today.at_beginning_of_month
