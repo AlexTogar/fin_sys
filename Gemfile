@@ -12,6 +12,7 @@ gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 
+gem 'reek'
 gem 'bootstrap-generators'
 gem 'chartkick'
 gem 'devise'

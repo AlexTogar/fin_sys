@@ -14,8 +14,6 @@ Rails.application.routes.draw do
   default_url_options host: 'localhost:3000'
   get 'base/test_action'
 
-  get 'base/check_telegram'
-
   get 'base/graph'
   get 'base/update_graph'
 

@@ -6,6 +6,7 @@ require_relative 'app/models/user.rb'
 # require 'модуль, содержащий User, Family и др'
 
 module My_telegram
+  #класс для расслыки сообщений о совершении транзакций
   class Message
     attr_accessor :token, :enable, :teammates, :chat_id, :current_user, :sum, :reason, :description
     def initialize(token: ENV["telegram_token"],

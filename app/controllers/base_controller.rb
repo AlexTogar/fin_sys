@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class BaseController < ApplicationController
   before_action :authenticate_user!
   include BaseHelper
@@ -9,9 +7,6 @@ class BaseController < ApplicationController
   require_relative '../../Telegram.rb'
   include My_telegram
 
-  def check_telegram
-    render json: ENV['telegram_token']
-  end
 
   def graph
     date_begin = if params[:date_begin].nil?
@@ -62,12 +57,12 @@ class BaseController < ApplicationController
         else
           flag = false if x.user.to_s != user
         end
-
+        reason_sign = Reason.find(x.reason).sign
         case sign
         when 'expense'
-          flag = false if Reason.find(x.reason).sign == false
+          flag = false if !reason_sign
         when 'profit'
-          flag = false if Reason.find(x.reason).sign == true
+          flag = false if reason_sign
         end
 
         records << x if flag
@@ -77,7 +72,13 @@ class BaseController < ApplicationController
       names = records.map { |elem| { id: elem.user, name: User.find(elem.user).email } }.uniq
 
       names.each do |name|
-        data = records.map { |tran| Reason.find(tran.reason).sign == false ? { sum: tran.sum, date: my_time(tran.created_at.to_s) } : { sum: 0 - tran.sum, date: tran.created_at } if tran.user == name[:id] }
+        data = records.map do |tran|
+          if Reason.find(tran.reason).sign == false
+            { sum: tran.sum, date: my_time(tran.created_at.to_s) }
+          else
+            { sum: 0 - tran.sum, date: tran.created_at } if tran.user == name[:id]
+          end
+        end
         name[:data] = data.compact
       end
       @data = names
@@ -245,7 +246,7 @@ class BaseController < ApplicationController
       )
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
       new_transaction.save
-      # test telegram bot
+      #отправка сообщения о транзакции
       Message.new(sum: fast_tran.sum, current_user: current_user, reason: Reason.find(fast_tran.reason).reason, enable: true).send
 
       @data = { sum: fast_tran.sum,
@@ -432,9 +433,13 @@ class BaseController < ApplicationController
   end
 
   def set_aside
-    @savings_users_sum = (family.map { |x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0] }).compact
+    @savings_users_sum = (family.map { |x| Capital.exists?(user: x.id) ? [x.email, capitals(sign:false, user: x.id) - capitals(sign:true, user: x.id), capitals(sign:false, user: x.id), capitals(sign:true, user: x.id)] : [x.email, 0, 0, 0] }).compact
     @total = @savings_users_sum.inject(0) { |result, elem| !elem.nil? ? result + elem[1] : result + 0 }
     @total = 0 if @total.nil?
+  end
+
+  def capitals(sign:, user:)
+    Capital.where(user: user, deleted: false, sign: sign).pluck(:sum).sum
   end
 
   def create_deposit
@@ -445,7 +450,7 @@ class BaseController < ApplicationController
       sum = 0 # если не заработает html валидатор
     end
     user = current_user.id
-    savings_users_sum = (family.map { |x| Capital.exists?(user: x.id) ? [x.email, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum - Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: false).pluck(:sum).sum, Capital.where(user: x.id, deleted: false, sign: true).pluck(:sum).sum] : [x.email, 0, 0, 0] }).compact
+    savings_users_sum = (family.map  { |x| Capital.exists?(user: x.id) ? [x.email, capitals(sign:false, user: x.id) - capitals(sign:true, user: x.id), capitals(sign:false, user: x.id), capitals(sign:true, user: x.id)] : [x.email, 0, 0, 0] }).compact
 
     current_sum = savings_users_sum.inject(0) { |result, elem| result + elem[1] }
     if sign == 'true'
