@@ -1,6 +1,5 @@
-# frozen_string_literal: true
-require_relative 'app/models/reason.rb'
-require_relative 'app/models/transaction.rb'
+# require_relative '../../app/models/reason.rb'
+# require_relative '../../app/models/transaction.rb'
 require 'test_helper'
 
 class BaseControllerTest < ActionDispatch::IntegrationTest
@@ -20,11 +19,15 @@ class BaseControllerTest < ActionDispatch::IntegrationTest
   end
 
   #проверка работы метода response_on_new_transaction контроллера
-  test 'create_new_tran' do
-    get '/base/response_on_new_transaction.json?sum=10&reason=55&user=8'
+  test 'create new tran' do
+    get '/base/response_on_new_transaction.json?sum=10&reason=55&user=8' #тестовая причина и пользователь
+    response_type = @response.type
     response_sum = @response.sum
     response_reason = @response.reason
     response_user = "test@mail.ru"
+
+    #проверка типа
+    assert_equal response_type, "json"
 
     #проверка ответа
     assert_equal response_reason, Reason.find(55).reason
@@ -34,4 +37,6 @@ class BaseControllerTest < ActionDispatch::IntegrationTest
     Transaction.last.delete
 
   end
+
+
 end

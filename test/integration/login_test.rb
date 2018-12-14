@@ -24,7 +24,7 @@ class LoginTest < ActionDispatch::IntegrationTest
     assert_equal request.original_url, base_new_transaction_url
   end
 
-  test "registration" do #тест перенаправления на форму login при попытке доступа к странице
+  test "redirect_check" do #тест перенаправления на форму login при попытке доступа к странице
     get '/base/graph'
     assert_response :redirect
     follow_redirect!
