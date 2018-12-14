@@ -1,4 +1,3 @@
-# require_relative "../../app/models/transaction.rb"
 require 'test_helper'
 
 class TransactionTest < ActiveSupport::TestCase

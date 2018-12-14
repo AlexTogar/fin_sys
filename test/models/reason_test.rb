@@ -1,4 +1,3 @@
-# require_relative "../../app/models/reason.rb"
 require 'test_helper'
 
 class ReasonTest < ActiveSupport::TestCase
