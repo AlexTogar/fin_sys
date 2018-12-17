@@ -59,6 +59,25 @@ class BaseControllerTest < ActionDispatch::IntegrationTest
     assert_select "h3", "New transaction"
   end
 
+  test 'get transactions table' do
+    #добавление транзакции
+    get '/base/response_on_new_transaction.json?sum=10&reason=55&user=8' #тестовая причина и пользователь
+    transaction = Transaction.last
+    #получение json для заполнения таблицы
+    get "base/table_update?user=8&date_begin=#{Date.today}&date_end=#{Date.today}&reason=all&sign=all"
+    expected_json = {
+        id:transaction.id,
+        sum: transaction.sum,
+        user: "test@mail.ru",
+        sign: false,
+        reason:"plus_test",
+        description: "Empty",
+        date: transaction.created_at}
+
+    assert_equal expected_json, @response
+
+  end
+
 
 
 end
