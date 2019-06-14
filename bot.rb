@@ -5,8 +5,8 @@ include Calculate
 require_relative 'Telegram.rb'
 include My_telegram
 
-# require 'fuzzystringmatch'
-# require 'unicode'
+require 'fuzzystringmatch'
+require 'unicode'
 
 #==========================================#точно работающий код - начало#==========================================#
 # require 'telegram/bot'
@@ -34,12 +34,13 @@ include My_telegram
 
 
 token = ENV["telegram_token"]
-token = "649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg"
+# token = "649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg"
 
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
     #debug
     Message.new().send_text("Я что-то услышал: #{message.text}")
+    bot.api.send_message(chat_id: message.chat.id, text: "hello, #{message.from.first_name}")
     #/debug
 
     #блок обработки ошибок (чтобы не ломался)
