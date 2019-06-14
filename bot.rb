@@ -5,8 +5,8 @@ include Calculate
 require_relative 'Telegram.rb'
 include My_telegram
 
-require 'fuzzystringmatch'
-require 'unicode'
+# require 'fuzzystringmatch'
+# require 'unicode'
 
 #==========================================#точно работающий код - начало#==========================================#
 # require 'telegram/bot'
