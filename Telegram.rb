@@ -13,7 +13,7 @@ module My_telegram
                    enable: false,
                    teammates: [],
                    chat_id: 479_039_553,
-                   current_user:,
+                   current_user:2,
                    sum: 0,
                    reason: '',
                    description: '')
