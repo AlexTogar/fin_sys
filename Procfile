@@ -1,0 +1,1 @@
+bot: ruby telegram_add_tran.rb
