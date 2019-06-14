@@ -182,6 +182,8 @@ class BaseController < ApplicationController
     @reasons = get_records(table_name: 'reasons', add_condition: "and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
     @my_debts = get_records(table_name: 'debts', add_condition: "and (debts.local = false or debts.user = #{current_user.id})")
     @my_fast_transactions = get_records(table_name: 'fast_transactions', add_condition: "and (fast_transactions.local = false or fast_transactions.user = #{current_user.id})")
+    puts 'alalal'
+    return 'returned'
   end
 
   def debts
