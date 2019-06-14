@@ -24,6 +24,8 @@ gem 'octicons_helper'
 gem 'record_tag_helper', '~> 1.0'
 gem 'sass-rails', '~> 5.0'
 gem 'telegram-bot-ruby'
+gem 'unicode', '~> 0.4.4.2'
+gem 'fuzzy-string-match', '~> 1.0', '>= 1.0.1'
 
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
