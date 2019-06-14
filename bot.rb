@@ -1,12 +1,12 @@
 #точно работающий код
 require 'telegram/bot'
-require_relative 'Calc_query.rb'
-include Calculate
-require_relative 'Telegram.rb'
-include My_telegram
+# require_relative 'Calc_query.rb'
+# include Calculate
+# require_relative 'Telegram.rb'
+# include My_telegram
 
-require 'fuzzystringmatch'
-require 'unicode'
+# require 'fuzzystringmatch'
+# require 'unicode'
 
 #==========================================#точно работающий код - начало#==========================================#
 
