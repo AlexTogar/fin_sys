@@ -14,6 +14,7 @@ token = ENV["telegram_token"]
 
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
+    Message.new().send_text("Я что-то услышал: #{message.text}")
     hash_message = telegram_message_parse(message.text)
     if hash_message != nil
         chat_id = message.chat.id

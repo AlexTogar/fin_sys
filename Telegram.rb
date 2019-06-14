@@ -48,5 +48,12 @@ Description: #{@description == '' ? 'Empty' : @description}")
       end
     end
 
+    def send_text(text)
+      Telegram::Bot::Client.run(@token) do |bot|
+        bot.api.send_message(chat_id: @chat_id, text: text)
+      end
+    end
+
+
   end
 end
