@@ -11,51 +11,59 @@ require 'unicode'
 
 
 token = ENV["telegram_token"]
+token = "649747818:AAHWX2voEkXHRzLPo0oG7VB2rhlhnrLHuFg"
 
 Telegram::Bot::Client.run(token) do |bot|
   bot.listen do |message|
+    #debug
     Message.new().send_text("Я что-то услышал: #{message.text}")
-    hash_message = telegram_message_parse(message.text)
-    if hash_message != nil
-        chat_id = message.chat.id
-        case chat_id
-        when 479_039_553 #alex chat
-            user_id = 2 #check database
-            reason_id = get_id_reason_after_parse(hash_message[:reason], chat_id)
-            new_transaction = Transaction.new(
-                sum: hash_message[:sum],
-                description: hash_message[:description],
-                reason: reason_id,
-                user: user_id,
-                local: true,
-                deleted: false
-              )
-              Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
-              new_transaction.save
+    #/debug
 
-              #send message to alex
-              Message.new(sum: hash_message[:sum], current_user: user_id, description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
+    #блок обработки ошибок (чтобы не ломалась программа)
+    begin
+        hash_message = telegram_message_parse(message.text)
+        if hash_message != nil
+            chat_id = message.chat.id
+            case chat_id
+            when 479_039_553 #alex chat
+                user_id = 2 #check database
+                reason_id = get_id_reason_after_parse(hash_message[:reason], chat_id)
+                new_transaction = Transaction.new(
+                    sum: hash_message[:sum],
+                    description: hash_message[:description],
+                    reason: reason_id,
+                    user: user_id,
+                    local: true,
+                    deleted: false
+                )
+                Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
+                new_transaction.save
 
-        when 299_454_049 #miha chat
-            user_id = 1 #check database
-            reason_id = get_id_reason_after_parse(hash_message[:reason])
-            new_transaction = Transaction.new(
-                sum: hash_message[:sum],
-                description: hash_message[:description],
-                reason: reason_id,
-                user: user_id,
-                local: true,
-                deleted: false
-              )
-              Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
-              new_transaction.save
+                #send message to alex
+                Message.new(sum: hash_message[:sum], current_user: user_id, description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
 
-              #send message to miha (chat_id)
-              Message.new(sum: hash_message[:sum], chat_id: chat_id, current_user: user_id, description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
-    else
-        parse_error()
+            when 299_454_049 #miha chat
+                user_id = 1 #check database
+                reason_id = get_id_reason_after_parse(hash_message[:reason])
+                new_transaction = Transaction.new(
+                    sum: hash_message[:sum],
+                    description: hash_message[:description],
+                    reason: reason_id,
+                    user: user_id,
+                    local: true,
+                    deleted: false
+                )
+                Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
+                new_transaction.save
+
+                #send message to miha (chat_id)
+                Message.new(sum: hash_message[:sum], chat_id: chat_id, current_user: user_id, description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
+        else
+            parse_error()
+        end
+    rescue
+
     end
-
   end
 end
 

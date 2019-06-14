@@ -1,1 +1,1 @@
-bot: ruby telegram_add_tran.rb
+bot: ruby bot.rb
