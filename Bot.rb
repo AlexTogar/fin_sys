@@ -1,39 +1,14 @@
-#точно работающий код
 
-<<<<<<< HEAD
-require_relative "Calc_query"
-require_relative "Telegram"
-require 'telegram/bot'
-include Calculate
-include My_telegram
-
-
-#==========================================#точно работающий код - начало#==========================================#
-
-token = ENV["telegram_token"]
-
-Telegram::Bot::Client.run(token) do |bot|
-  bot.listen do |message|
-    case message.text
-    when '/start'
-      bot.api.send_message(chat_id: message.chat.id, text: "Hello, #{message.from.first_name}")
-    when '/stop'
-      bot.api.send_message(chat_id: message.chat.id, text: "Bye, #{message.from.first_name}")
-    when '/info'
-      bot.api.send_message(chat_id: message.chat.id, text: "INFO:\nChat id: #{message.chat.id}\nTime: #{Date.today}\nYour text: #{message.text}")
-    when '/commands'
-      bot.api.send_message(chat_id: message.chat.id, text: "Commands:\n/start\n/stop\n/info\n/commands")
-    else
-      bot.api.send_message(chat_id: message.chat.id, text: "Don't understand, but you can use command /commands")
-=======
-# require_relative 'Calc_query.rb'
-# include Calculate
-# require_relative 'Telegram.rb'
-# include My_telegram
 module My_bot
+  require_relative "Calc_query"
+  require_relative "Telegram"
+  require 'telegram/bot'
+  include Calculate
+  include My_telegram
+
 
   #==========================================#точно работающий код - начало#==========================================#
-  require 'telegram/bot'
+
   token = ENV["telegram_token"]
 
   Telegram::Bot::Client.run(token) do |bot|
@@ -51,7 +26,6 @@ module My_bot
         bot.api.send_message(chat_id: message.chat.id, text: "Don't understand, but you can use command /commands")
       end
 
->>>>>>> c49ec234bfcfd8edb4019aaf02c97c7b0d386141
     end
   end
   #==========================================#точно работающий код - конец#==========================================#
@@ -76,7 +50,7 @@ module My_bot
   #             case chat_id
   #             when 479_039_553 #alex chat
   #                 user_id = 2 #check database
-  #                 reason_id = get_id_reason_after_parse(hash_message[:reason], chat_id, user_id)
+  #                 reason_id = get_id_reason_after_parse(hash_message[:reason], chat_id)
   #                 new_transaction = Transaction.new(
   #                     sum: hash_message[:sum],
   #                     description: hash_message[:description],
@@ -93,7 +67,7 @@ module My_bot
 
   #             when 299_454_049 #miha chat
   #                 user_id = 1 #check database
-  #                 reason_id = get_id_reason_after_parse(hash_message[:reason], chat_id, user_id)
+  #                 reason_id = get_id_reason_after_parse(hash_message[:reason])
   #                 new_transaction = Transaction.new(
   #                     sum: hash_message[:sum],
   #                     description: hash_message[:description],
@@ -122,11 +96,11 @@ module My_bot
   #==============================ДАЛЕЕ ИДУТ НЕОБХОДИМЫЕ ФУНКЦИИ=================================================
 
   #получение хэша причины, указанной пользователем вида {reason: "Зарплата", id: 34}
-  def get_id_reason_after_parse(input_word, chat_id, user_id)
+  def get_id_reason_after_parse(input_word, chat_id)
       jarow = FuzzyStringMatch::JaroWinkler.create()
       input_word = Unicode::downcase(input_word)
       #заполнить хэш id-шниками всех причин по id семьи и Reason.all (и сами причины) и сразу сделать Unicode::downcase("")
-      reasons_records = get_records(table_name: 'reasons', add_condition: "and (reasons.local = false or reasons.user = #{user_id}) order by reasons.often DESC")
+      reasons_records = get_records(table_name: 'reasons', add_condition: "and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
       reasons = reasons_records.map{|x| {reason: Unicode::downcase(x.reason), id: x.id}}
       max_diff = 0
       result_reason = {reason: "", id: nil}
@@ -188,6 +162,5 @@ module My_bot
   def parse_error(chat_id)
       Message.new(chat_id: chat_id).send_error_message
   end
-
 
 end
