@@ -1,13 +1,14 @@
 #точно работающий код
 
-# require_relative 'Calc_query.rb'
-# include Calculate
-# require_relative 'Telegram.rb'
-# include My_telegram
+require_relative "Calc_query"
+require_relative "Telegram"
+require 'telegram/bot'
+include Calculate
+include My_telegram
 
 
 #==========================================#точно работающий код - начало#==========================================#
-require 'telegram/bot'
+
 token = ENV["telegram_token"]
 
 Telegram::Bot::Client.run(token) do |bot|
