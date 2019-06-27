@@ -3,6 +3,8 @@ module My_bot
   require_relative "Telegram"
   require_relative 'app/models/reason.rb'
   require_relative 'app/models/transaction.rb'
+  require_relative 'app/models/family'
+  require_relative 'app/models/user'
   require 'telegram/bot'
   include Calculate
   include My_telegram
@@ -90,7 +92,7 @@ module My_bot
       # rescue
       #   parse_error()
       # end
-      
+
     end
   end
 
