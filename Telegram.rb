@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 module My_telegram
 require 'telegram/bot'
-require_relative 'app/models/family.rb'
-require_relative 'app/models/user.rb'
+# require_relative 'app/models/family.rb'
+# require_relative 'app/models/user.rb'
 # require 'модуль, содержащий User, Family и др'
 
 
