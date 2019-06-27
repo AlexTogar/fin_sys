@@ -1,4 +1,3 @@
-
 module My_bot
   require_relative "Calc_query"
   require_relative "Telegram"
@@ -88,10 +87,11 @@ module My_bot
               parse_error()
           end
       rescue
-
+        parse_error()
       end
     end
   end
+
 
 
 
