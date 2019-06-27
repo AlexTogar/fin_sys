@@ -1,8 +1,8 @@
 module My_bot
   require_relative "Calc_query"
   require_relative "Telegram"
-  # require_relative 'app/models/reason.rb'
-  # require_relative 'app/models/transaction.rb'
+  require_relative 'app/models/reason.rb'
+  require_relative 'app/models/transaction.rb'
 
   include Calculate
   include My_telegram
