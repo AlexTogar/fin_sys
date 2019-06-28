@@ -1,8 +1,8 @@
-module My_bot
+# module My_bot
   require_relative "Calc_query"
   require_relative "Telegram"
-  require_relative './app/models/reason.rb'
-  require_relative './app/models/transaction.rb'
+  require_relative 'app/models/reason.rb'
+  require_relative 'app/models/transaction.rb'
 
   include Calculate
   include My_telegram
@@ -41,6 +41,7 @@ module My_bot
     bot.listen do |message|
       #debug
       Message.new().send_text("Я что-то услышал: #{message.text}")
+      Message.new().send_text("#{Reason.last.reason.to_s}")
       #/debug
 
       #блок обработки ошибок (чтобы не ломался)
@@ -167,4 +168,4 @@ module My_bot
       Message.new(chat_id: chat_id).send_error_message
   end
 
-end
+# end
