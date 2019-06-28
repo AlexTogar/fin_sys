@@ -1,7 +1,7 @@
 # module My_bot
   require_relative "Calc_query"
   require_relative "Telegram"
-  include Reason
+  require_relative "app/models/reason"
   include Calculate
   include My_telegram
 
