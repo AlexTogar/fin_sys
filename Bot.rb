@@ -54,13 +54,13 @@ def telegram_message_parse(str)
 
         first_part_size = first_part.size
 
-        sum = message[0]
+        sum = first_part[0]
         #вычисление через wolfram, если выражение хоть сколько-нибудь сложное
         query = Calc_query.new(input: sum)
         sum = query.send
         result[:sum] = sum
         #получение причины
-        if main_part_num > 1
+        if first_part_size > 1
             result[:reason] = first_part[1..first_part.size].join(" ")
         end
         #получение описания, если оно есть
@@ -95,7 +95,6 @@ end
       begin
           hash_message = telegram_message_parse(message.text)
           if hash_message != nil
-              Message.new().send_text(hash_message.to_s)
               chat_id = message.chat.id
               case chat_id
               when 479_039_553 #alex chat
