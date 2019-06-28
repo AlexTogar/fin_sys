@@ -2,9 +2,9 @@ class BaseController < ApplicationController
   before_action :authenticate_user!
   include BaseHelper
   require 'telegram/bot'
-  require 'Calc_query'
+  require_relative '../../Calc_query.rb'
   include Calculate
-  require 'Telegram'
+  require_relative '../../Telegram.rb'
   include My_telegram
 
 
