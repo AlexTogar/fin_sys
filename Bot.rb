@@ -75,7 +75,6 @@
                 Message.new().send_text("Чет пустое сообщение")
             end
       rescue Exception => e
-        Message.new().send_text("Ошибка в основной части")
         Message.new().send_text(e.message)
       end
 
