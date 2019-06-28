@@ -74,8 +74,8 @@
             else
                 Message.new().send_text("Чет пустое сообщение")
             end
-      rescue Exception => e
-        Message.new().send_text(e.message)
+      rescue StandardError => msg
+        Message.new().send_text(msg)
       end
 
     end
