@@ -2,6 +2,7 @@
   require_relative "Calc_query"
   require_relative "Telegram"
   require_relative "app/models/reason"
+  require_relative "app/models/transaction"
   include Calculate
   include My_telegram
 
