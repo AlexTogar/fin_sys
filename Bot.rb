@@ -1,7 +1,7 @@
 # module My_bot
   require_relative "Calc_query"
   require_relative "Telegram"
-
+  require_relative "app/controllers/base_controller.rb"
 
 
   include Calculate
