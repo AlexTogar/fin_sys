@@ -139,6 +139,7 @@ end
             end
       rescue StandardError => msg
         Message.new().send_text(msg)
+        Message.new().send_text(hash_message.to_s)
       end
 
     end
