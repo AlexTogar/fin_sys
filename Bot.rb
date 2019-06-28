@@ -1,10 +1,7 @@
 # module My_bot
   require_relative "Calc_query"
   require_relative "Telegram"
-#   require 'reason.rb'
-#   require 'transaction.rb'
-  require File.expand_path(File.dirname(__FILE__) + '/app/models/reason')
-  require File.expand_path(File.dirname(__FILE__) + '/app/models/transaction')
+
 
 
   include Calculate
@@ -44,7 +41,11 @@
     bot.listen do |message|
       #debug
       Message.new().send_text("Я что-то услышал: #{message.text}")
-      Message.new().send_text("#{Reason.last.reason.to_s}")
+      begin
+        Message.new().send_text("#{Reason.last.reason.to_s}")
+      rescue
+        Message.new().send_text("Reason does not avalible")
+      end
       #/debug
 
       #блок обработки ошибок (чтобы не ломался)
