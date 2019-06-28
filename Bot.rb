@@ -77,7 +77,6 @@
       rescue Exception => e
         Message.new().send_text("Ошибка в основной части")
         Message.new().send_text(e.message)
-        Message.new().send_text(e.backtrace.inspect)
       end
 
     end
