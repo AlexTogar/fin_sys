@@ -1,4 +1,4 @@
-# module My_bot
+
   require_relative "Calc_query"
   require_relative "Telegram"
 
@@ -74,8 +74,10 @@
             else
                 Message.new().send_text("Чет пустое сообщение")
             end
-      rescue
+      rescue Exception => e
         Message.new().send_text("Ошибка в основной части")
+        Message.new().send_text(e.message)
+        Message.new().send_text(e.backtrace.inspect)
       end
 
     end
@@ -150,9 +152,3 @@
 
   end
 
-  #вывод об ошибке в телеграм, если парсинг дал nil
-  def parse_error(chat_id)
-      Message.new(chat_id: chat_id).send_error_message
-  end
-
-# end
