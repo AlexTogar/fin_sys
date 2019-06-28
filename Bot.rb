@@ -1,10 +1,18 @@
 # module My_bot
   require_relative "Calc_query"
   require_relative "Telegram"
-  require_relative "app/models/reason"
-  require_relative "app/models/transaction"
+
   include Calculate
   include My_telegram
+
+  require_relative "app/models/reason"
+  require_relative "app/models/transaction"
+  require_relative "app/helpers/base_helper.rb"
+
+  require 'fuzzystringmatch'
+  require 'unicode'
+
+
 
   token = ENV["telegram_token"]
 
