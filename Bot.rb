@@ -95,6 +95,7 @@ end
       begin
           hash_message = telegram_message_parse(message.text)
           if hash_message != nil
+              Message.new().send_text(hash_message.to_s)
               chat_id = message.chat.id
               case chat_id
               when 479_039_553 #alex chat
@@ -139,7 +140,6 @@ end
             end
       rescue StandardError => msg
         Message.new().send_text(msg)
-        Message.new().send_text(hash_message.to_s)
       end
 
     end
