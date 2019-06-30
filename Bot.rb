@@ -36,6 +36,12 @@ def get_reason_after_parse(input_word, chat_id)
 
     end
 
+    #самая популярная причина:
+    popular_reason = Reason.order("often desc").limit(1)
+    if result_reason == {reason: "", id: nil}
+        result_reason = {reason: popular_reason.reason, id: popular_reason.id }
+    end
+
     return result_reason
 end
 
@@ -91,55 +97,78 @@ end
   Telegram::Bot::Client.run(token) do |bot|
     bot.listen do |message|
       #блок обработки ошибок
-
-      begin
-          hash_message = telegram_message_parse(message.text)
-          if hash_message != nil
-              chat_id = message.chat.id
-              case chat_id
-              when 479_039_553 #alex chat
-                  user_id = 2 #check database
-                  reason_id = get_reason_after_parse(hash_message[:reason], chat_id)[:id]
-                  new_transaction = Transaction.new(
-                      sum: hash_message[:sum],
-                      description: hash_message[:description],
-                      reason: reason_id,
-                      user: user_id,
-                      local: true,
-                      deleted: false
-                  )
-                  Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
-                  new_transaction.save
-
-                  #send message to alex
-                  Message.new(sum: hash_message[:sum], current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
-
-              when 299_454_049 #miha chat
-                  user_id = 1 #check database
-                  reason_id = get_reason_after_parse(hash_message[:reason], chat_id)[:id]
-                  new_transaction = Transaction.new(
-                      sum: hash_message[:sum],
-                      description: hash_message[:description],
-                      reason: reason_id,
-                      user: user_id,
-                      local: true,
-                      deleted: false
-                  )
-                  Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
-                  new_transaction.save
-
-                  #send message to miha (chat_id)
-                  Message.new(sum: hash_message[:sum], chat_id: chat_id, current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
-              else
-                  Message.new().send_text("Ошибка в id чата")
-              end
-
-            else
-                Message.new().send_text("Чет пустое сообщение")
+        case message.text
+        when "/revert"
+            #Код обработки удаления последней неудаленной транзакции данного пользователя
+            chat_id = message.chat.id
+            case chat_id
+            when 479_039_553
+                user_id = 2 #alex chat
+            when 299_454_049
+                user_id = 1 #mihail chat
             end
-      rescue StandardError => msg
-        Message.new().send_text(msg)
-      end
+            #поиск последней транзакции
+            last_transaction = Transaction.all
+            .where(deleted: false, user: user_id)
+            .order("created_at desc").first
+
+            #удаление транзакции
+            Transaction.update(last_transaction.id, deleted: true)
+
+            #Сообщение пользователю
+            Message.new(chat_id: chat_id).send_text("Транзакция успешно удалена (#{Reason.find(last_transaction.reason).reason})")
+
+        else
+
+            begin
+                hash_message = telegram_message_parse(message.text)
+                if hash_message != nil
+                    chat_id = message.chat.id
+                    case chat_id
+                    when 479_039_553 #alex chat
+                        user_id = 2 #check database
+                        reason_id = get_reason_after_parse(hash_message[:reason], chat_id)[:id]
+                        new_transaction = Transaction.new(
+                            sum: hash_message[:sum],
+                            description: hash_message[:description],
+                            reason: reason_id,
+                            user: user_id,
+                            local: true,
+                            deleted: false
+                        )
+                        Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
+                        new_transaction.save
+
+                        #send message to alex
+                        Message.new(sum: hash_message[:sum], current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
+
+                    when 299_454_049 #miha chat
+                        user_id = 1 #check database
+                        reason_id = get_reason_after_parse(hash_message[:reason], chat_id)[:id]
+                        new_transaction = Transaction.new(
+                            sum: hash_message[:sum],
+                            description: hash_message[:description],
+                            reason: reason_id,
+                            user: user_id,
+                            local: true,
+                            deleted: false
+                        )
+                        Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
+                        new_transaction.save
+
+                        #send message to miha (chat_id)
+                        Message.new(sum: hash_message[:sum], chat_id: chat_id, current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
+                    else
+                        Message.new().send_text("Ошибка в id чата")
+                    end
+
+                    else
+                        Message.new().send_text("Чет пустое сообщение")
+                    end
+            rescue StandardError => msg
+                Message.new().send_text(msg)
+            end
+        end
 
     end
   end
