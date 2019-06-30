@@ -41,7 +41,7 @@ def get_reason_after_parse(input_word, chat_id)
 end
 
 def get_reasons()
-    return Reason.find_by_sql("select * from users, reasons where users.family = true 
+    return Reason.find_by_sql("select * from users, reasons where users.family = #{User.find(2).family} 
         and reasons.user = users.id 
         and reasons.deleted = false 
         and (reasons.local = false or reasons.user = #{1}) 
