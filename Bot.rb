@@ -8,6 +8,7 @@
 
   require_relative "app/models/reason"
   require_relative "app/models/transaction"
+  require_relative "app/models/user"
 #   require_relative "app/helpers/base_helper.rb"
 
   require 'fuzzystringmatch'
@@ -31,8 +32,6 @@ def get_reason_after_parse(input_word, chat_id)
         if diff > max_diff and diff >= 0.3
             max_diff = diff
             result_reason = reason
-        else
-            Message.new().send_text("#{input_word} - #{reason[:reason]} - #{diff}")
         end
 
     end
@@ -113,7 +112,7 @@ end
                   new_transaction.save
 
                   #send message to alex
-                  Message.new(sum: hash_message[:sum], current_user: user_id, description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
+                  Message.new(sum: hash_message[:sum], current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
 
               when 299_454_049 #miha chat
                   user_id = 1 #check database
@@ -130,7 +129,7 @@ end
                   new_transaction.save
 
                   #send message to miha (chat_id)
-                  Message.new(sum: hash_message[:sum], chat_id: chat_id, current_user: user_id, description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
+                  Message.new(sum: hash_message[:sum], chat_id: chat_id, current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
               else
                   Message.new().send_text("Ошибка в id чата")
               end

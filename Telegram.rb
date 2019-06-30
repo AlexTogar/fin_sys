@@ -13,7 +13,7 @@ require 'telegram/bot'
                    enable: false,
                    teammates: [],
                    chat_id: 479_039_553,
-                   current_user:2,
+                   current_user:User.find(2),
                    sum: 0,
                    reason: '',
                    description: '')
