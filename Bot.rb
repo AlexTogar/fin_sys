@@ -32,7 +32,7 @@ def get_reason_after_parse(input_word, chat_id)
             max_diff = diff
             result_reason = reason
         else
-            parse_error(chat_id)
+            Message.new().send_text("нет совпадений по слову: #{input_word}")
         end
 
     end
