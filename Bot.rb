@@ -15,11 +15,11 @@
 #==============================ДАЛЕЕ ИДУТ НЕОБХОДИМЫЕ ФУНКЦИИ=================================================
 
   #получение хэша причины, указанной пользователем вида {reason: "Зарплата", id: 34}
-def get_id_reason_after_parse(input_word, chat_id)
+def get_reason_after_parse(input_word, chat_id)
     jarow = FuzzyStringMatch::JaroWinkler.create()
     input_word = Unicode::downcase(input_word)
     #заполнить хэш id-шниками всех причин по id семьи и Reason.all (и сами причины) и сразу сделать Unicode::downcase("")
-    reasons_records = get_records(table_name: 'reasons', add_condition: "and (reasons.local = false or reasons.user = #{current_user.id}) order by reasons.often DESC")
+    reasons_records = get_records(table_name: 'reasons', add_condition: "and (reasons.local = false or reasons.user = #{1}) order by reasons.often DESC") #reasons миши
     reasons = reasons_records.map{|x| {reason: Unicode::downcase(x.reason), id: x.id}}
     max_diff = 0
     result_reason = {reason: "", id: nil}
@@ -81,15 +81,6 @@ end
 
   Telegram::Bot::Client.run(token) do |bot|
     bot.listen do |message|
-      #debug
-      Message.new().send_text("Я что-то услышал: #{message.text}")
-      begin
-        Message.new().send_text("#{Reason.last.reason.to_s}")
-      rescue
-        Message.new().send_text("Reason does not avalible")
-      end
-      #/debug
-
       #блок обработки ошибок
 
       begin
@@ -99,7 +90,7 @@ end
               case chat_id
               when 479_039_553 #alex chat
                   user_id = 2 #check database
-                  reason_id = get_id_reason_after_parse(hash_message[:reason], chat_id)
+                  reason_id = get_reason_after_parse(hash_message[:reason], chat_id)[:id]
                   new_transaction = Transaction.new(
                       sum: hash_message[:sum],
                       description: hash_message[:description],
@@ -116,7 +107,7 @@ end
 
               when 299_454_049 #miha chat
                   user_id = 1 #check database
-                  reason_id = get_id_reason_after_parse(hash_message[:reason])
+                  reason_id = get_reason_after_parse(hash_message[:reason], chat_id)[:id]
                   new_transaction = Transaction.new(
                       sum: hash_message[:sum],
                       description: hash_message[:description],
