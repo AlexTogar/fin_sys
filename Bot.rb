@@ -62,10 +62,10 @@ def telegram_message_parse(str)
 
         first_part_size = first_part.size
 
-        sum = first_part[0]
+        sum = first_part[0].to_i
         #вычисление через wolfram, если выражение хоть сколько-нибудь сложное
-        query = Calc_query.new(input: sum)
-        sum = query.send
+        # query = Calc_query.new(input: sum)
+        # sum = query.send
         result[:sum] = sum
         #получение причины
         if first_part_size > 1
@@ -113,7 +113,7 @@ end
 
             #удаление транзакции
             Transaction.update(last_transaction.id, deleted: true)
-
+            Reason.update(last_transaction.reason, often: Reason.find(last_transaction.reason).often - 1)
             #Сообщение пользователю
             Message.new(chat_id: chat_id).send_text("Транзакция успешно удалена (#{Reason.find(last_transaction.reason).reason})")
 
