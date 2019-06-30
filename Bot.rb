@@ -20,7 +20,7 @@ def get_reason_after_parse(input_word, chat_id)
     jarow = FuzzyStringMatch::JaroWinkler.create()
     input_word = Unicode::downcase(input_word)
     #заполнить хэш id-шниками всех причин по id семьи и Reason.all (и сами причины) и сразу сделать Unicode::downcase("")
-    reasons_records = get_records(table_name: 'reasons', add_condition: "and (reasons.local = false or reasons.user = #{1}) order by reasons.often DESC") #reasons миши
+    reasons_records = get_reasons() #reasons миши
     reasons = reasons_records.map{|x| {reason: Unicode::downcase(x.reason), id: x.id}}
     max_diff = 0
     result_reason = {reason: "", id: nil}
@@ -39,6 +39,15 @@ def get_reason_after_parse(input_word, chat_id)
 
     return result_reason
 end
+
+def get_reasons()
+    return Reason.find_by_sql("select * from users, reasons where users.family = true 
+        and reasons.user = users.id 
+        and reasons.deleted = false 
+        and (reasons.local = false or reasons.user = #{1}) 
+        order by reasons.often DESC")
+end
+
 
 # получение хэша (сумма, причина, описание) расперсенной строки
 def telegram_message_parse(str)
