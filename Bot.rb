@@ -128,30 +128,31 @@ end
                     when 299_454_049 #miha chat
                         user_id = 1 #check database
                     else
-                        Message.new().send_text("Ошибка в id чата")
+                        Message.new().send_text("Попытка постороннего обращения: text:#{message.text}; chat_id: #{chat_id}")
                     end
 
                     reason_id = get_reason_after_parse(hash_message[:reason], chat_id)[:id]
-                        if reason_id.nil?
-                            Message.new(chat_id: chat_id).send_text("Причина введена некорректно")
-                        else
-                            new_transaction = Transaction.new(
-                                sum: hash_message[:sum],
-                                description: hash_message[:description],
-                                reason: reason_id,
-                                user: user_id,
-                                local: true,
-                                deleted: false
-                            )
-                            Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
-                            new_transaction.save
-
-                            #send message to user (alex/mihail)
-                            Message.new(sum: hash_message[:sum], current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
-
+                    if reason_id.nil?
+                        Message.new(chat_id: chat_id).send_text("Причина введена некорректно")
                     else
-                        Message.new().send_text("?"*(rand(3)+1))
+                        new_transaction = Transaction.new(
+                            sum: hash_message[:sum],
+                            description: hash_message[:description],
+                            reason: reason_id,
+                            user: user_id,
+                            local: true,
+                            deleted: false
+                        )
+                        Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
+                        new_transaction.save
+                        #send message to user (alex/mihail)
+                        Message.new(sum: hash_message[:sum], current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
                     end
+
+
+                else
+                    Message.new().send_text("?"*(rand(3)+1))
+                end
             rescue StandardError => msg
                 Message.new().send_text("Error: #{msg}")
             end
