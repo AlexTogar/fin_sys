@@ -4,11 +4,11 @@
 
   include Calculate
   include My_telegram
-  include BaseHelper
+#   include BaseHelper
 
   require_relative "app/models/reason"
   require_relative "app/models/transaction"
-  require_relative "app/helpers/base_helper.rb"
+#   require_relative "app/helpers/base_helper.rb"
 
   require 'fuzzystringmatch'
   require 'unicode'
