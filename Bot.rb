@@ -132,7 +132,7 @@ end
             Transaction.update(last_transaction.id, deleted: true)
             Reason.update(last_transaction.reason, often: Reason.find(last_transaction.reason).often - 1)
             #Сообщение пользователю
-            Message.new(chat_id: chat_id).send_text("Транзакция успешно удалена (#{Reason.find(last_transaction.reason).reason})")
+            Message.new(chat_id: chat_id).send_text("Транзакция успешно удалена (#{last_transaction.sum}р на #{Reason.find(last_transaction.reason).reason})")
 
         else
             begin
