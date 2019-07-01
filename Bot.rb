@@ -17,8 +17,8 @@
 #==============================ДАЛЕЕ ИДУТ НЕОБХОДИМЫЕ ФУНКЦИИ=================================================
 #функция определния числа
 def easy_number?(string_number: number)
-    reg = /[0-9]*/.match(number).to_s
-    if reg != number
+    reg = /[0-9]*/.match(string_number).to_s
+    if reg != string_number
         false
     else
         true
@@ -79,7 +79,7 @@ def telegram_message_parse(str)
         end
 
         result[:sum] = sum
-        
+
         #получение причины
         if first_part_size > 1
             result[:reason] = first_part[1..first_part.size].join(" ")
