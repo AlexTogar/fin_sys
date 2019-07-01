@@ -15,6 +15,15 @@
   require 'unicode'
 
 #==============================ДАЛЕЕ ИДУТ НЕОБХОДИМЫЕ ФУНКЦИИ=================================================
+#функция определния числа
+def easy_number?(string_number: number)
+    reg = /[0-9]*/.match(number).to_s
+    if reg != number
+        false
+    else
+        true
+    end
+end
 
   #получение хэша причины, указанной пользователем вида {reason: "Зарплата", id: 34}
 def get_reason_after_parse(input_word, chat_id)
@@ -50,7 +59,7 @@ end
 # получение хэша (сумма, причина, описание) расперсенной строки
 def telegram_message_parse(str)
     #регулярное выражение примерно типа {sum} [reason][,][description]
-    a = /[0-9]{1,}[\s]?([A-Za-zа-яА-Я0-9]*[\s]*)*[,]?[\s]?([A-Za-zа-яА-Я0-9]*[\s]*)*/
+    a = /[\*\/\+\-\(\)]{0,}([0-9]{1,}[\*\/\+\-\(\)]{0,})*([\s]?([A-Za-zа-яА-Я0-9]*[\s]*)*[,]?[\s]?([A-Za-zа-яА-Я0-9]*[\s]*)*)?/
 
     result = {sum: "0", reason: "", description: "Empty"} #0 - id reason of default reason
     #получение части строки, совпадающее с шаблоном - регулярным выражением
@@ -62,11 +71,15 @@ def telegram_message_parse(str)
 
         first_part_size = first_part.size
 
-        sum = first_part[0].to_i
-        #вычисление через wolfram, если выражение хоть сколько-нибудь сложное
-        # query = Calc_query.new(input: sum)
-        # sum = query.send
+        sum = first_part[0]
+        #вычисление через wolfram, если выражение - не просто число
+        if !easy_number?(string_number: sum)
+            query = Calc_query.new(input: sum)
+            sum = query.send
+        end
+
         result[:sum] = sum
+        
         #получение причины
         if first_part_size > 1
             result[:reason] = first_part[1..first_part.size].join(" ")
