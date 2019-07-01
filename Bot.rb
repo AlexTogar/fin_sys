@@ -74,8 +74,12 @@ def telegram_message_parse(str)
         sum = first_part[0]
         #вычисление через wolfram, если выражение - не просто число
         if !easy_number?(string_number: sum)
-            query = Calc_query.new(input: sum)
-            sum = query.send
+            begin
+                query = Calc_query.new(input: sum)
+                sum = query.send
+            rescue
+                return nil
+            end
         end
 
         result[:sum] = sum
