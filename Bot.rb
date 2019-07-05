@@ -12,6 +12,7 @@
 #   require_relative "app/helpers/base_helper.rb"
 
   require 'fuzzystringmatch'
+
   require 'unicode'
 
 #==============================ДАЛЕЕ ИДУТ НЕОБХОДИМЫЕ ФУНКЦИИ=================================================
