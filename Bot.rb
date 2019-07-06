@@ -78,8 +78,9 @@ def telegram_message_parse(str)
             begin
                 query = Calc_query.new(input: sum)
                 sum = query.send
-            rescue
+            rescue StandardError => msg
                 return nil
+                Message.new().send_text("Ошибка в разобре математичского выражения: #{msg}")
             end
         end
 
