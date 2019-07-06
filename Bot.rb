@@ -164,7 +164,13 @@ end
                         Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
                         new_transaction.save
                         #send message to user (alex/mihail)
-                        Message.new(chat_id: chat_id, sum: hash_message[:sum], current_user: User.find(user_id), description: hash_message[:description], reason: Reason.find(reason_id).reason, enable: true).send
+                        
+                        Message.new(chat_id: chat_id, 
+                            sum: hash_message[:sum],
+                            current_user: User.find(user_id),
+                            description: hash_message[:description], 
+                            reason: Reason.find(reason_id).reason, 
+                            enable: true).send
                     end
 
 
