@@ -1,10 +1,10 @@
 
   require_relative "Calc_query"
   require_relative "Telegram"
-  require_relative "app/helpers/base_helper.rb"
+#   require_relative "app/helpers/base_helper.rb"
   include Calculate
   include My_telegram
-  include BaseHelper
+#   include BaseHelper
 
   require_relative "app/models/reason"
   require_relative "app/models/transaction"
@@ -129,7 +129,7 @@ end
 
         when "/balance"
             #output balance
-            Message.new(chat_id: chat_id).send_text("Ваш Баланс: #{balance}")
+            Message.new(chat_id: chat_id).send_text("Ваш Баланс: #{"тут должден быть баланс"}")
         when "/revert"
             #Код обработки удаления последней неудаленной транзакции данного пользователя
             #поиск последней транзакции
