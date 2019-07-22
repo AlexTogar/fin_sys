@@ -4,7 +4,7 @@
 
   include Calculate
   include My_telegram
-#   include BaseHelper
+  include BaseHelper
 
   require_relative "app/models/reason"
   require_relative "app/models/transaction"
@@ -114,17 +114,24 @@ end
 
   Telegram::Bot::Client.run(token) do |bot|
     bot.listen do |message|
-      #блок обработки ошибок
+
+        #блок обработки ошибок
+        chat_id = message.chat.id
+
+        case chat_id
+        when 479_039_553
+            user_id = 2 #alex chat
+        when 299_454_049
+            user_id = 1 #mihail chat
+        end
+
         case message.text
+
+        when "/balance"
+            #output balance
+            Message.new(chat_id: chat_id).send_text("Ваш Баланс: #{balance}")
         when "/revert"
             #Код обработки удаления последней неудаленной транзакции данного пользователя
-            chat_id = message.chat.id
-            case chat_id
-            when 479_039_553
-                user_id = 2 #alex chat
-            when 299_454_049
-                user_id = 1 #mihail chat
-            end
             #поиск последней транзакции
             last_transaction = Transaction.all
             .where(deleted: false, user: user_id)
