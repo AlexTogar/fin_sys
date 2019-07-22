@@ -1,7 +1,7 @@
 
   require_relative "Calc_query"
   require_relative "Telegram"
-
+  require_relative "app/helpers/base_helper.rb"
   include Calculate
   include My_telegram
   include BaseHelper
