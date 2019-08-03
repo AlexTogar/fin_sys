@@ -185,7 +185,7 @@ end
                 else
                     Message.new().send_text("?"*(rand(3)+1))
                     # debug
-                    Message.new().send_text("#{message.date}")
+                    Message.new().send_text("#{message.time}")
                 end
             rescue StandardError => msg
                 Message.new().send_text("Error: #{msg}")
