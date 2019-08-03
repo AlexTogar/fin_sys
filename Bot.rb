@@ -165,9 +165,7 @@ end
                         unix_time = message.date #interger
                         date_time = DateTime.strptime(unix_time.to_s,'%s') + 3.hours  #DateTime
                         time = Time.parse(date_time.to_s).to_s.split(" +")[0] #string
-                        #debug
-                        Message.new().send_text(time)
-                        #debug
+
                         new_transaction = Transaction.new(
                             sum: hash_message[:sum],
                             description: hash_message[:description],
