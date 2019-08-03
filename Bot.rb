@@ -161,13 +161,21 @@ end
                     if reason_id.nil?
                         Message.new(chat_id: chat_id).send_text("Причина введена некорректно")
                     else
+
+                        unix_time = message.date #interger
+                        date_time = DateTime.strptime(unix_time.to_s,'%s') + 3.hours  #DateTime
+                        time = Time.parse(date_time.to_s).to_s.split(" +")[0] #string
+                        #debug
+                        Message.new().send_text(time)
+                        #debug
                         new_transaction = Transaction.new(
                             sum: hash_message[:sum],
                             description: hash_message[:description],
                             reason: reason_id,
                             user: user_id,
                             local: true,
-                            deleted: false
+                            deleted: false,
+                            created_at: time
                         )
                         Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
                         new_transaction.save
@@ -184,8 +192,6 @@ end
 
                 else
                     Message.new().send_text("?"*(rand(3)+1))
-                    # debug
-                    Message.new().send_text("#{message.time}")
                 end
             rescue StandardError => msg
                 Message.new().send_text("Error: #{msg}")
