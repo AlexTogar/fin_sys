@@ -179,7 +179,7 @@ end
                         new_transaction.save
                         #send message to user (alex/mihail)
                         
-                        Message.new(chat_id: chat_id, 
+                        Message.new(chat_id: chat_id,
                             sum: hash_message[:sum],
                             current_user: User.find(user_id),
                             description: hash_message[:description], 

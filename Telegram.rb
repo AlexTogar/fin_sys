@@ -36,7 +36,6 @@ require 'telegram/bot'
 User: #{@current_user.email}
 Sum: #{@sum}
 Reason: #{@reason}
-Time: #{(Time.now + 3.hour).to_s.split('+')[0]}
 Description: #{@description == '' ? 'Empty' : @description}")
         end
       end
