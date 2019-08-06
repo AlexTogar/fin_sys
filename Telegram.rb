@@ -17,7 +17,7 @@ require 'telegram/bot'
                    sum: 0,
                    reason: '',
                    description: '',
-                   time: Time.now().split(" +")[0])
+                   time: Time.now().to_s.split(" +")[0])
 
       @token = token
       @enable = enable
