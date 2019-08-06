@@ -8,7 +8,7 @@ require 'telegram/bot'
 
   #класс для расслыки сообщений о совершении транзакций
   class Message
-    attr_accessor :token, :enable, :teammates, :chat_id, :current_user, :sum, :reason, :description
+    attr_accessor :token, :enable, :teammates, :chat_id, :current_user, :sum, :reason, :description, :time
     def initialize(token: ENV["telegram_token"],
                    enable: false,
                    teammates: [],
@@ -16,7 +16,8 @@ require 'telegram/bot'
                    current_user:User.find(2),
                    sum: 0,
                    reason: '',
-                   description: '')
+                   description: '',
+                   time: Time.now().split(" +")[0])
 
       @token = token
       @enable = enable
@@ -26,6 +27,7 @@ require 'telegram/bot'
       @sum = sum
       @reason = reason
       @description = description
+      @time = time
     end
 
     def send
@@ -36,6 +38,7 @@ require 'telegram/bot'
 User: #{@current_user.email}
 Sum: #{@sum}
 Reason: #{@reason}
+Time: #{@time}
 Description: #{@description == '' ? 'Empty' : @description}")
         end
       end

@@ -184,6 +184,7 @@ end
                             current_user: User.find(user_id),
                             description: hash_message[:description], 
                             reason: Reason.find(reason_id).reason, 
+                            time: time, 
                             enable: true).send
                     end
 
