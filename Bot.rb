@@ -111,6 +111,8 @@ end
 # ===========================КОНЕЦ ДОПОЛНИТЕЛЬНЫХ ФУНКЦИЙ==================================
 
   token = ENV["telegram_token"]
+  mihail_chat_id = 299_454_049
+  alex_chat_id = 479_039_553
 
   Telegram::Bot::Client.run(token) do |bot|
     bot.listen do |message|
@@ -119,9 +121,9 @@ end
         chat_id = message.chat.id
 
         case chat_id
-        when 479_039_553
+        when alex_chat_id
             user_id = 2 #alex chat
-        when 299_454_049
+        when mihail_chat_id
             user_id = 1 #mihail chat
         end
 
@@ -177,15 +179,18 @@ end
                         )
                         Reason.update(reason_id, often: Reason.find(reason_id).often + 1)
                         new_transaction.save
-                        #send message to user (alex/mihail)
+                        #send message to both users (alex, mihail)
                         
-                        Message.new(chat_id: chat_id,
-                            sum: hash_message[:sum],
-                            current_user: User.find(user_id),
-                            description: hash_message[:description], 
-                            reason: Reason.find(reason_id).reason, 
-                            time: time, 
-                            enable: true).send
+                        [alex_chat_id, mihail_chat_id].each do |id|
+                            Message.new(chat_id: id,
+                                sum: hash_message[:sum],
+                                current_user: User.find(user_id),
+                                description: hash_message[:description], 
+                                reason: Reason.find(reason_id).reason, 
+                                time: time, 
+                                enable: true).send
+                        end
+
                     end
 
 
