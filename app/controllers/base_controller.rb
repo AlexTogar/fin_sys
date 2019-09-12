@@ -7,6 +7,8 @@ class BaseController < ApplicationController
   require_relative '../../Telegram.rb'
   include My_telegram
 
+  mihail_chat_id = 299_454_049
+  alex_chat_id = 479_039_553
 
   def graph
     date_begin = if params[:date_begin].nil?
@@ -219,8 +221,10 @@ class BaseController < ApplicationController
       )
       Reason.update(params[:reason], often: Reason.find(params[:reason]).often + 1)
       new_transaction.save
-      # test telegram bot
-      Message.new(sum: sum, current_user: current_user, description: params[:description], reason: Reason.find(params[:reason]).reason, enable: true).send
+      # отправка сообщения о транзакции (если заносится вручную)
+      [alex_chat_id, mihail_chat_id].each do |id|
+        Message.new(chat_id: id, sum: sum, current_user: current_user, description: params[:description], reason: Reason.find(params[:reason]).reason, enable: true).send
+      end
 
       @data = { sum: sum,
                 reason: Reason.find(params[:reason]).reason,
@@ -246,7 +250,7 @@ class BaseController < ApplicationController
       )
       Reason.update(fast_tran.reason, often: Reason.find(fast_tran.reason).often + 1)
       new_transaction.save
-      #отправка сообщения о транзакции
+      #отправка сообщения о транзакции (если заносится через быструю транзакцию)
       Message.new(sum: fast_tran.sum, current_user: current_user, reason: Reason.find(fast_tran.reason).reason, enable: true).send
 
       @data = { sum: fast_tran.sum,
