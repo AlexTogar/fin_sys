@@ -195,7 +195,7 @@ end
 
 
                 else
-                    Message.new().send_text("?"*(rand(3)+1))
+                    Message.new(chat_id: message.chat.id).send_text("?"*(rand(3)+1))
                 end
             rescue StandardError => msg
                 Message.new().send_text("Error: #{msg}")
