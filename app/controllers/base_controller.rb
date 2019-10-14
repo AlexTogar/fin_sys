@@ -393,7 +393,7 @@ class BaseController < ApplicationController
           flag = false if User.find(x.user).family != has_family
         rescue
           flag = false
-          puts x.id
+          puts "error here: #{x.id}"
         end
         else
           flag = false if x.user != current_user.id
