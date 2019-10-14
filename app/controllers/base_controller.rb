@@ -392,6 +392,7 @@ class BaseController < ApplicationController
         begin
           flag = false if User.find(x.user).family != has_family
         rescue
+          flag = false
           puts x
         end
         else
