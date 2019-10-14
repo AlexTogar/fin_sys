@@ -388,8 +388,12 @@ class BaseController < ApplicationController
     start_records.each do |x|
       flag = true
       if user == 'all'
-        if has_family
+        if has_family #try - catch to find error
+        begin
           flag = false if User.find(x.user).family != has_family
+        rescue
+          puts x
+        end
         else
           flag = false if x.user != current_user.id
         end
